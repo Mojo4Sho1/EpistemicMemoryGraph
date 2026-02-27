@@ -8,6 +8,7 @@ STATUS_SUMMARY:
 - Completed `emg-loop-0001` scaffold: `src/core`, `src/store`, `src/workspace`, `src/tools`, constants module, and scaffold test file.
 - Gate outcomes: smoke import check PASS; spec-conformance checks PASS.
 - Gate outcomes: `pytest`, `mypy`, and `ruff` UNKNOWN (modules not installed/configured yet).
+- Added root `environment.yml` with baseline Python tooling dependencies for this repo.
 BLOCKERS: NONE
 DECISIONS_LOCKED:
 - Keep single primary task per loop.
@@ -15,7 +16,7 @@ DECISIONS_LOCKED:
 - Use strict spec-aligned constants; do not add extra belief states or edge types.
 - Update both handoff docs at end of each substantive loop.
 DECISIONS_PENDING:
-- Choose minimal Python tooling setup approach for tests/type-check/lint in next loop.
+- Initialize local `emg` conda environment and verify quality gates run inside it.
 RISKS_ACTIVE:
 - Gate reliability remains limited until local tooling is configured.
 - Expanding too much beyond tooling bootstrap in next loop may cause scope drift.
@@ -27,6 +28,7 @@ REQUIRED_REFERENCES:
 3. `docs/specs/03_policy_and_state_machine.md`
 4. `docs/specs/02_data_model.md`
 5. `docs/DOCS_GUIDE.md`
+6. `environment.yml`
 ASSUMPTIONS:
 - Python runtime remains available for local command execution.
 - Next loop will introduce only minimal tooling required for gate completeness.

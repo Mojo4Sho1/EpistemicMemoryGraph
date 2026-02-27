@@ -100,3 +100,17 @@ PRIMARY_DOC: docs/handoff/NEXT_TASK.md
 RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/specs/10_checklists_and_dod.md
 SOURCE_SECTIONS: N/A (operational handoff document)
 WHEN_TO_READ: read second in every fresh session to execute one scoped task loop with fixed quality gates, then update handoff docs.
+
+KEYWORDS: conda environment, environment setup, environment.yml, pytest, mypy, ruff
+CANONICAL_TOPIC: python_environment_setup
+PRIMARY_DOC: README.md
+RELATED_DOCS: docs/DOCS_GUIDE.md, AGENTS.md
+SOURCE_SECTIONS: N/A (operational developer setup)
+WHEN_TO_READ: use for human-oriented project setup and environment creation before running repository tooling.
+
+KEYWORDS: agent startup, handoff loop, task id continuity, quality gates, conda run
+CANONICAL_TOPIC: agent_runtime_workflow
+PRIMARY_DOC: AGENTS.md
+RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/handoff/NEXT_TASK.md, docs/DOCS_GUIDE.md
+SOURCE_SECTIONS: N/A (operational project policy)
+WHEN_TO_READ: use for fresh-agent execution workflow, handoff continuity rules, and cycle closeout checks.
