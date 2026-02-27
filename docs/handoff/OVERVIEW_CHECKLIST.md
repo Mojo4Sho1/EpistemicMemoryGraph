@@ -27,9 +27,9 @@ PROJECT_PHASE: implementation
 
 ### M3: Implement in-memory workspace object
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-session-observation-index-v0
+- OWNER_TASK_ID: workspace-intake-index-update-path-v0
 - EXIT_CRITERIA: workspace intake path records observations and returns deterministic result
-- EVIDENCE: `src/workspace/intake.py`, `tests/test_workspace_intake.py`, `docs/handoff/NEXT_TASK.md` (active task)
+- EVIDENCE: `src/workspace/intake.py`, `src/workspace/state.py`, `tests/test_workspace_intake.py`, `tests/test_workspace_state.py`, `docs/handoff/NEXT_TASK.md` (active task)
 - SOURCE: MASTER_DOC 7.2, 13.1, 15.3(3)
 
 ### M4: Implement scoring and state transitions
@@ -106,7 +106,7 @@ PROJECT_PHASE: implementation
 
 ### Runtime architecture
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-session-observation-index-v0
+- OWNER_TASK_ID: workspace-intake-index-update-path-v0
 - EXIT_CRITERIA: tool surface, policy boundary, consolidation, retrieval/reactivation defined and partially implemented
 - EVIDENCE: `docs/specs/01_architecture_overview.md`, `docs/specs/06_tool_boundary_and_interfaces.md`
 - SOURCE: MASTER_DOC 6, 13, 14, 20

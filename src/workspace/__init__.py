@@ -5,9 +5,17 @@ from src.workspace.intake import (
     ObservationIntakeResult,
     WorkspaceObservationIntake,
 )
+from src.workspace.state import (
+    InMemoryWorkspaceObservationIndex,
+    ObservationIndexRegisterRequest,
+    ObservationIndexRegisterResult,
+)
 
 __all__ = [
     "ObservationIntakeRequest",
     "ObservationIntakeResult",
+    "ObservationIndexRegisterRequest",
+    "ObservationIndexRegisterResult",
+    "InMemoryWorkspaceObservationIndex",
     "WorkspaceObservationIntake",
 ]
