@@ -1,39 +1,38 @@
 # Current Status
 
 LAST_UPDATED: 2026-02-27
-PROJECT_PHASE: planning
-REPO_BASELINE: Documentation-first EMG repo with master spec, decomposed specs, index routing, and handoff system; runtime code has not started.
-ACTIVE_PRIMARY_OBJECTIVE: Start execution loop with one deterministic runtime bootstrap task.
+PROJECT_PHASE: implementation
+REPO_BASELINE: Repo now includes initial Python scaffold under `src/` and `tests/` with v0 belief-state and edge-type constants aligned to specs.
+ACTIVE_PRIMARY_OBJECTIVE: Prepare tooling baseline so all quality gates can run natively in the next loop.
 STATUS_SUMMARY:
-- Core docs structure is established under `docs/` with spec decomposition complete.
-- Handoff docs are now converted to strict low-token contracts for fresh agents.
-- Next cycle should begin first runtime bootstrap task with fixed quality gates.
+- Completed `emg-loop-0001` scaffold: `src/core`, `src/store`, `src/workspace`, `src/tools`, constants module, and scaffold test file.
+- Gate outcomes: smoke import check PASS; spec-conformance checks PASS.
+- Gate outcomes: `pytest`, `mypy`, and `ruff` UNKNOWN (modules not installed/configured yet).
 BLOCKERS: NONE
 DECISIONS_LOCKED:
-- Single primary task per agent cycle.
-- Fixed quality gate order: tests/smoke -> type check -> lint -> spec conformance -> docs updates.
-- No historical logs in handoff docs; rely on git history.
-- Unknown values must be written as `UNKNOWN`, not omitted.
+- Keep single primary task per loop.
+- Keep fixed quality gate order in every loop.
+- Use strict spec-aligned constants; do not add extra belief states or edge types.
+- Update both handoff docs at end of each substantive loop.
 DECISIONS_PENDING:
-- Decide initial runtime language/tooling bootstrap details only if required during task execution.
+- Choose minimal Python tooling setup approach for tests/type-check/lint in next loop.
 RISKS_ACTIVE:
-- First runtime task may expand scope if not constrained to listed target files.
-- Missing test/lint tooling may require explicit gate outcomes marked as `UNKNOWN` with rationale.
-NEXT_TASK_ID: emg-loop-0001
+- Gate reliability remains limited until local tooling is configured.
+- Expanding too much beyond tooling bootstrap in next loop may cause scope drift.
+NEXT_TASK_ID: tooling-gates-bootstrap
 NEXT_TASK_READY: YES
 REQUIRED_REFERENCES:
 1. `docs/handoff/NEXT_TASK.md`
-2. `docs/INDEX.md`
-3. `docs/specs/07_build_plan_and_milestones.md`
+2. `docs/specs/07_build_plan_and_milestones.md`
+3. `docs/specs/03_policy_and_state_machine.md`
 4. `docs/specs/02_data_model.md`
-5. `docs/specs/03_policy_and_state_machine.md`
-6. `MASTER_DOC.md`
+5. `docs/DOCS_GUIDE.md`
 ASSUMPTIONS:
-- Fresh agents will follow `NEXT_TASK.md` exactly and keep scope limited to one loop.
-- Validation command results are summarized in docs even when some gates are not yet runnable.
+- Python runtime remains available for local command execution.
+- Next loop will introduce only minimal tooling required for gate completeness.
 HANDOFF_INSTRUCTIONS:
-- Read this file first, then `docs/handoff/NEXT_TASK.md`, then listed references only.
-- Execute only the single `TASK_ID` objective for this cycle.
-- Run all quality gates in order and report pass/fail/unknown per gate.
-- Update both handoff files at cycle end with concise, factual state only.
-- Do not include long command transcripts or narrative history.
+- Read this file first, then execute `docs/handoff/NEXT_TASK.md` exactly.
+- Keep scope to one primary task and listed target files.
+- Record gate outcomes as PASS/FAIL/UNKNOWN with one-line reasons.
+- Update both handoff docs before ending the loop.
+- Keep entries concise; no narrative history or command transcripts.

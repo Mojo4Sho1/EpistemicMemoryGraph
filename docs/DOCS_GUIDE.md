@@ -63,6 +63,8 @@ Use explicit modal language:
 - Handoff docs are updated by the agent at the end of each substantive task.
 - Exactly one primary task is allowed per loop in `docs/handoff/NEXT_TASK.md`.
 - Keep strict key ordering and key names stable for parser/grep reliability.
+- Use `TASK_ID`/`NEXT_TASK_ID` for continuity; values should be short and stable
+  across a task cycle.
 - `docs/handoff/NEXT_TASK.md` must include the fixed gate sequence:
   - tests/smoke
   - type checking
