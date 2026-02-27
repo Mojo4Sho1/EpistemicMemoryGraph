@@ -101,6 +101,13 @@ RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/specs/10_checklists_and_dod.m
 SOURCE_SECTIONS: N/A (operational handoff document)
 WHEN_TO_READ: read second in every fresh session to execute one scoped task loop with fixed quality gates, then update handoff docs.
 
+KEYWORDS: overview checklist, macro progress, milestones dashboard, definition of done readiness, program tracker
+CANONICAL_TOPIC: handoff_overview_checklist
+PRIMARY_DOC: docs/handoff/OVERVIEW_CHECKLIST.md
+RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/handoff/NEXT_TASK.md, docs/specs/07_build_plan_and_milestones.md, docs/specs/10_checklists_and_dod.md
+SOURCE_SECTIONS: N/A (operational handoff document)
+WHEN_TO_READ: use before or after executing loop tasks to assess v0 milestone/checklist progress beyond the single active task.
+
 KEYWORDS: conda environment, environment setup, environment.yml, pytest, mypy, ruff
 CANONICAL_TOPIC: python_environment_setup
 PRIMARY_DOC: README.md

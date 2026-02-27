@@ -61,6 +61,8 @@ Use explicit modal language:
 - Required files:
   - `docs/handoff/CURRENT_STATUS.md`
   - `docs/handoff/NEXT_TASK.md`
+- Optional-but-recommended macro tracker:
+  - `docs/handoff/OVERVIEW_CHECKLIST.md`
 - Keep key naming stable for parser/grep reliability.
 - For operational workflow policy (execution loop, gate order, closeout), use `AGENTS.md`.
 
@@ -75,6 +77,7 @@ Use explicit modal language:
 - `rg --files docs/handoff`
 - `rg "^LAST_UPDATED:|^PROJECT_PHASE:|^REPO_BASELINE:|^NEXT_TASK_ID:|^NEXT_TASK_READY:" docs/handoff/CURRENT_STATUS.md`
 - `rg "^TASK_ID:|^OBJECTIVE:|^IMPLEMENTATION_SUBTASKS:|^QUALITY_GATES:|^ACCEPTANCE_CRITERIA:|^VALIDATION_COMMANDS:" docs/handoff/NEXT_TASK.md`
+- `rg "^# v0 Overview Checklist|^## A\\. Build Milestones|^## B\\. Master Implementation Checklist|^## C\\. Definition of Done Readiness|^## D\\. Immediate Next Actions Tracking|^## Update Rules" docs/handoff/OVERVIEW_CHECKLIST.md`
 - `rg "handoff_current_status|handoff_next_task|agent_runtime_workflow" docs/INDEX.md`
 - `rg "AGENTS.md|handoff_current_status|handoff_next_task|agent_runtime_workflow" docs/INDEX.md docs/DOCS_GUIDE.md`
 

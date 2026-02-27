@@ -10,8 +10,9 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 
 1. Read `docs/handoff/CURRENT_STATUS.md`.
 2. Read `docs/handoff/NEXT_TASK.md`.
-3. Read `docs/INDEX.md`.
-4. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
+3. Read `docs/handoff/OVERVIEW_CHECKLIST.md`.
+4. Read `docs/INDEX.md`.
+5. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
 
 ## Execution Loop Contract
 
@@ -22,14 +23,23 @@ Use this document for agent workflow rules. Human-oriented project overview and 
   3. Linting
   4. Spec conformance check
   5. Documentation + handoff updates
-- Update both handoff docs at end of cycle:
+- Update all handoff docs at end of cycle:
   - `docs/handoff/CURRENT_STATUS.md`
   - `docs/handoff/NEXT_TASK.md`
+  - `docs/handoff/OVERVIEW_CHECKLIST.md`
+- The active `docs/handoff/NEXT_TASK.md:TASK_ID` must be reflected in relevant
+  `docs/handoff/OVERVIEW_CHECKLIST.md` `OWNER_TASK_ID` rows.
 
 ## Task Continuity
 
 - `docs/handoff/NEXT_TASK.md:TASK_ID` must match `docs/handoff/CURRENT_STATUS.md:NEXT_TASK_ID`.
 - Keep task IDs short and stable during a cycle.
+
+## Checklist Continuity
+
+- `docs/handoff/NEXT_TASK.md:TASK_ID` should appear as `OWNER_TASK_ID` for at
+  least one `IN_PROGRESS` row in `docs/handoff/OVERVIEW_CHECKLIST.md`.
+- Only set `STATUS: DONE` when both `EXIT_CRITERIA` and `EVIDENCE` are satisfied.
 
 ## Environment Usage
 
@@ -48,6 +58,7 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 - Keep handoff updates brief and operational.
 - Do not add historical narrative logs to handoff docs.
 - Record gate outcomes as `PASS`, `FAIL`, or `UNKNOWN` with one-line reasons.
+- Keep overview checklist updates concise and evidence-linked; no narrative history.
 
 ## Closeout Validation
 
@@ -56,4 +67,6 @@ Run before ending a cycle:
 - `rg --files docs/handoff`
 - `rg "^LAST_UPDATED:|^PROJECT_PHASE:|^REPO_BASELINE:|^NEXT_TASK_ID:|^NEXT_TASK_READY:" docs/handoff/CURRENT_STATUS.md`
 - `rg "^TASK_ID:|^OBJECTIVE:|^IMPLEMENTATION_SUBTASKS:|^QUALITY_GATES:|^ACCEPTANCE_CRITERIA:|^VALIDATION_COMMANDS:" docs/handoff/NEXT_TASK.md`
+- `rg "^# v0 Overview Checklist|^## A\\. Build Milestones|^## B\\. Master Implementation Checklist|^## C\\. Definition of Done Readiness|^## D\\. Immediate Next Actions Tracking|^## Update Rules" docs/handoff/OVERVIEW_CHECKLIST.md`
 - `rg "handoff_current_status|handoff_next_task|agent_runtime_workflow" docs/INDEX.md`
+- `rg "handoff_overview_checklist" docs/INDEX.md`
