@@ -1,36 +1,33 @@
 # Next Task
 
-TASK_ID: tooling-gates-bootstrap
-TASK_TITLE: Establish minimal Python tooling for quality-gate completeness
-OBJECTIVE: Add a minimal local Python project configuration so unit tests, type checking, and linting can run in this repository using deterministic commands aligned with the handoff gate contract.
+TASK_ID: core-model-primitives-v0
+TASK_TITLE: Add minimal typed v0 core model primitives
+OBJECTIVE: Create minimal, spec-aligned typed model primitives for core memory objects so upcoming policy and persistence work can build on stable interfaces.
 IN_SCOPE:
-- Ensure environment-driven command path is explicit (`conda run -n emg ...`).
-- Add minimal project config for test/type/lint tooling.
-- Ensure existing scaffold test runs through configured test command.
-- Add one short docs update that records canonical gate commands.
+- Add a small `src/core/models.py` module for v0 primitives.
+- Define minimal typed structures for `Observation`, `Entity`, and `Proposition` fields required by v0 specs.
+- Add focused tests validating required fields and belief-state compatibility.
+- Keep interfaces implementation-light (no persistence or scoring logic yet).
 OUT_OF_SCOPE:
-- Implement policy engine logic beyond existing constants scaffold.
-- Add database schema or runtime service behavior.
-- Expand test coverage beyond gate-baseline needs.
+- Policy transition engine implementation.
+- Database schema/migrations.
+- Runtime orchestration, workspace flows, or tool-boundary integration.
 TARGET_FILES:
-- `environment.yml`
-- `pyproject.toml`
-- `src/core/constants.py`
-- `tests/test_scaffold_imports.py`
-- `docs/DOCS_GUIDE.md`
+- `src/core/models.py`
+- `src/core/__init__.py`
+- `tests/test_core_models.py`
 - `docs/handoff/CURRENT_STATUS.md`
 - `docs/handoff/NEXT_TASK.md`
 PREREQUISITES:
 - Review `docs/handoff/CURRENT_STATUS.md` and this file.
-- Ensure local environment exists: `conda env create -f environment.yml`.
-- Preserve fixed gate order.
-- Keep tool choices minimal and common (`pytest`, `mypy`, `ruff`).
+- Read `docs/specs/02_data_model.md` and `docs/specs/03_policy_and_state_machine.md`.
+- Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Add `pyproject.toml` with minimal configuration for `pytest`, `mypy`, and `ruff`.
-2. Ensure scaffold code/test formatting and typing are compatible with the configured tools.
-3. Run quality gates in order using `conda run -n emg ...` and capture outcomes.
-4. Update `docs/DOCS_GUIDE.md` with canonical gate commands if needed.
-5. Update both handoff docs for loop completion and define the next `TASK_ID`.
+1. Create `src/core/models.py` with minimal dataclass-style typed primitives for `Observation`, `Entity`, and `Proposition`.
+2. Export model primitives from `src/core/__init__.py`.
+3. Add `tests/test_core_models.py` for basic construction/required-field validation and belief-state-set compatibility.
+4. Run quality gates in fixed order and capture outcomes.
+5. Update both handoff docs for loop completion and next task continuity.
 QUALITY_GATES:
 1) Unit tests and/or smoke scripts
 2) Type checking
@@ -38,12 +35,12 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] `environment.yml` is present and aligned with required tooling.
-- [ ] `pyproject.toml` exists with working `pytest`, `mypy`, and `ruff` configs.
-- [ ] `conda run -n emg python -m pytest -q` runs successfully.
-- [ ] Type-check command runs and reports deterministic output.
-- [ ] Lint command runs and reports deterministic output.
-- [ ] Both handoff docs are updated for the next loop.
+- [ ] `Observation`, `Entity`, and `Proposition` primitives exist with explicit typed fields.
+- [ ] New tests validate required fields and pass under pytest.
+- [ ] `conda run -n emg python -m pytest -q` passes.
+- [ ] `conda run -n emg python -m mypy src tests` passes.
+- [ ] `conda run -n emg python -m ruff check src tests` passes.
+- [ ] Both handoff docs are updated and task IDs remain continuous.
 VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
@@ -51,10 +48,10 @@ VALIDATION_COMMANDS:
 - `rg --files src tests`
 - `git status --short`
 DONE_UPDATE_REQUIREMENTS:
-- Update `docs/handoff/CURRENT_STATUS.md` with post-task facts and gate outcomes.
+- Update `docs/handoff/CURRENT_STATUS.md` with completed-task facts and gate outcomes.
 - Update `docs/handoff/NEXT_TASK.md` with the next single-task contract.
-- Keep both files concise and free of historical narrative logs.
+- Keep both files concise and operational.
 FAILURE_PROTOCOL:
-- If tool installation/config becomes environment-blocked, record `UNKNOWN` gates with exact blocker and fallback.
-- If scope expands beyond tooling baseline, stop and reduce to minimum viable gate enablement.
+- If a gate fails, record `FAIL` with one-line cause and fix in-scope issues only.
+- If environment/tooling becomes unavailable, record `UNKNOWN` with exact blocker.
 - If unexpected repo changes appear, pause and request user direction.

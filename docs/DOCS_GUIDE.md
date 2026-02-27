@@ -90,6 +90,15 @@ Use explicit modal language:
   - `conda run -n emg python -m mypy src tests`
   - `conda run -n emg python -m ruff check src tests`
 
+## Quality Gate Order
+
+- Run gates in this fixed order for every loop:
+  1. `conda run -n emg python -m pytest -q`
+  2. `conda run -n emg python -m mypy src tests`
+  3. `conda run -n emg python -m ruff check src tests`
+  4. Spec conformance check (for current loop scope)
+  5. Documentation + handoff updates
+
 ## Docs Navigation Guidance
 
 - Prefer `rg "KEYWORDS:" docs/INDEX.md` to find topic blocks quickly.
