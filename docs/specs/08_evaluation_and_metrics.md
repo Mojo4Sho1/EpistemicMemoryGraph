@@ -64,6 +64,7 @@ Define staged evaluation methodology, baseline comparisons, ablation plan, and l
 ## Open Questions
 
 - Confidence calibration visualizations are optional in v0.1q; scalar metrics remain required.
+- Minimal smoke tests and developer probe scripts are intentionally deferred until `workspace-update-boundary-v0q-v0` is implemented.
 
 ## Traceability to `MASTER_DOC.md`
 

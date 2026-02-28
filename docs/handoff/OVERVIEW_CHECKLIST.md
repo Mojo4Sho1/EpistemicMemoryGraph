@@ -139,6 +139,7 @@ PROJECT_PHASE: implementation
 2. Split into derived docs: IN_PROGRESS
 3. Implement schema + policy boundary before higher-level behavior: IN_PROGRESS
 4. Create policy correctness micro-scenarios before full benchmark harness: IN_PROGRESS
+5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-update-boundary-v0q-v0): NOT_STARTED
 
 ## Update Rules
 - Update this file once per completed handoff loop.

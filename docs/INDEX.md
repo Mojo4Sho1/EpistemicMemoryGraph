@@ -80,6 +80,27 @@ RELATED_DOCS: configs/eval_v0q.yaml, configs/baselines_v0q.yaml, docs/specs/04_s
 SOURCE_SECTIONS: 12, 13.3, 13.4, 16, 17
 WHEN_TO_READ: use before implementing scoring/transition logic or evaluation harness behavior.
 
+
+KEYWORDS: test index, smoke tests, unit tests, test map, pytest markers
+CANONICAL_TOPIC: tests_index
+PRIMARY_DOC: tests/TEST_INDEX.md
+RELATED_DOCS: docs/handoff/NEXT_TASK.md, docs/specs/08_evaluation_and_metrics.md, AGENTS.md
+SOURCE_SECTIONS: 16, 20, 23
+WHEN_TO_READ: use when selecting test layers or deciding between unit and smoke coverage.
+
+KEYWORDS: scripts index, probe scripts, diagnostics, manual checks, developer tooling
+CANONICAL_TOPIC: scripts_index
+PRIMARY_DOC: scripts/SCRIPTS_INDEX.md
+RELATED_DOCS: docs/handoff/NEXT_TASK.md, AGENTS.md
+SOURCE_SECTIONS: 15.2, 23
+WHEN_TO_READ: use when adding or running manual probe scripts outside automated tests.
+
+KEYWORDS: config index, config registry, policy yaml, eval yaml, baselines yaml
+CANONICAL_TOPIC: config_index
+PRIMARY_DOC: configs/CONFIG_INDEX.md
+RELATED_DOCS: configs/policy_v0q.yaml, configs/eval_v0q.yaml, configs/baselines_v0q.yaml, docs/specs/04_scoring_and_trust.md, docs/specs/08_evaluation_and_metrics.md
+SOURCE_SECTIONS: 12, 16, 17, 20
+WHEN_TO_READ: use when locating and updating frozen config baselines.
 KEYWORDS: risks, failure modes, deferred features, non-goals, schema sprawl
 CANONICAL_TOPIC: risks_non_goals_deferred
 PRIMARY_DOC: docs/specs/09_risks_non_goals_deferred.md

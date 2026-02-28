@@ -9,6 +9,7 @@ Start with these project documents:
 - Canonical source spec: `MASTER_DOC.md`
 - Decomposed v0 specs: `docs/specs/`
 - Technical map: `docs/INDEX.md`
+- Directory mini-indexes for deep navigation: `tests/TEST_INDEX.md`, `scripts/SCRIPTS_INDEX.md`, `configs/CONFIG_INDEX.md`
 - Frozen v0.1q config baselines: `configs/`
   - `configs/policy_v0q.yaml`: policy/scoring thresholds and operational gate defaults
   - `configs/eval_v0q.yaml`: evaluation stage gates, fairness constraints, and claim thresholds

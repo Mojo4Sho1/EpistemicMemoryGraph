@@ -13,7 +13,8 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 3. Read `docs/handoff/OVERVIEW_CHECKLIST.md`.
 4. Read `docs/INDEX.md`.
 5. If the active task touches policy/evaluation/baselines, read relevant `configs/*.yaml` files.
-6. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
+6. If task scope enters `tests/`, `scripts/`, or `configs/`, read the corresponding mini-index (`tests/TEST_INDEX.md`, `scripts/SCRIPTS_INDEX.md`, `configs/CONFIG_INDEX.md`).
+7. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
 
 ## Execution Loop Contract
 
