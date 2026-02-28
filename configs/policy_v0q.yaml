@@ -1,0 +1,44 @@
+version: "v0.1q"
+volatility_tiers:
+  low:
+    half_life_hours: 168
+    volatility_factor: 0.5
+  medium:
+    half_life_hours: 72
+    volatility_factor: 1.0
+  high:
+    half_life_hours: 24
+    volatility_factor: 2.0
+same_group_saturation:
+  first_evidence: 0.70
+  second_increment: 0.20
+  third_or_more_increment: 0.10
+  cap: 1.00
+confidence_formula:
+  base: 0.50
+  support_weight: 0.40
+  contradiction_weight: 0.50
+  diversity_bonus_cap: 0.15
+  diversity_bonus_increment: 0.05
+  staleness_penalty_cap: 0.30
+thresholds:
+  accepted:
+    confidence_min: 0.80
+    distinct_support_groups_min: 2
+    contradiction_score_max: 0.30
+    freshness_min: 0.40
+  provisional:
+    confidence_min: 0.55
+  contested:
+    support_score_min: 0.45
+    contradiction_score_min: 0.45
+  rejected:
+    confidence_max: 0.15
+    contradiction_score_min: 0.80
+    distinct_contradict_groups_min: 2
+  deprecated:
+    freshness_max: 0.20
+    stale_half_life_multiplier: 1.0
+promotion:
+  accepted_state_required: true
+  freshness_min: 0.35

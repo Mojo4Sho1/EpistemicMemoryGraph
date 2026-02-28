@@ -12,7 +12,8 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 2. Read `docs/handoff/NEXT_TASK.md`.
 3. Read `docs/handoff/OVERVIEW_CHECKLIST.md`.
 4. Read `docs/INDEX.md`.
-5. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
+5. If the active task touches policy/evaluation/baselines, read relevant `configs/*.yaml` files.
+6. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
 
 ## Execution Loop Contract
 
@@ -53,6 +54,12 @@ Use this document for agent workflow rules. Human-oriented project overview and 
   - `conda run -n emg python -m mypy src tests`
   - `conda run -n emg python -m ruff check src tests`
 
+## Config Baselines
+
+- Policy defaults: `configs/policy_v0q.yaml` (scoring thresholds, transition constants, cadence/promotion gates)
+- Evaluation defaults: `configs/eval_v0q.yaml` (stage gates, fairness requirements, claim thresholds)
+- Baseline matrix defaults: `configs/baselines_v0q.yaml` (baseline systems and shared fairness inputs)
+
 ## Output Style Constraints
 
 - Keep handoff updates brief and operational.
@@ -70,3 +77,4 @@ Run before ending a cycle:
 - `rg "^# v0 Overview Checklist|^## A\\. Build Milestones|^## B\\. Master Implementation Checklist|^## C\\. Definition of Done Readiness|^## D\\. Immediate Next Actions Tracking|^## Update Rules" docs/handoff/OVERVIEW_CHECKLIST.md`
 - `rg "handoff_current_status|handoff_next_task|agent_runtime_workflow" docs/INDEX.md`
 - `rg "handoff_overview_checklist" docs/INDEX.md`
+- `rg "configs/" AGENTS.md README.md docs/INDEX.md`

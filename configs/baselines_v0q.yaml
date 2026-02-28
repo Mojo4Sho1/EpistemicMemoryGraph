@@ -1,0 +1,21 @@
+version: "v0.1q"
+systems:
+  context_window_only:
+    enabled: true
+  raw_text_log_retrieval:
+    enabled: true
+  summary_only_memory:
+    enabled: true
+  simple_key_value_memory:
+    enabled: true
+  graph_without_governance:
+    enabled: true
+  full_governed_system:
+    enabled: true
+fairness_defaults:
+  model_snapshot: "LOCKED_AT_RUN"
+  prompt_template_family: "LOCKED_AT_RUN"
+  tool_availability: ["LOCKED_AT_RUN"]
+  token_budget: 0
+  wall_clock_timeout_seconds: 0
+  seed_set: [101, 202, 303, 404, 505]

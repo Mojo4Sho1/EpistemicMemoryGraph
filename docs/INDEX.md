@@ -73,6 +73,13 @@ RELATED_DOCS: docs/specs/10_checklists_and_dod.md, docs/specs/07_build_plan_and_
 SOURCE_SECTIONS: 16, 17, 18, 21
 WHEN_TO_READ: use when creating tests, benchmark harnesses, and experiment artifacts.
 
+KEYWORDS: policy config, eval config, baseline config, reproducibility hash, fairness preflight
+CANONICAL_TOPIC: config_baselines
+PRIMARY_DOC: configs/policy_v0q.yaml
+RELATED_DOCS: configs/eval_v0q.yaml, configs/baselines_v0q.yaml, docs/specs/04_scoring_and_trust.md, docs/specs/08_evaluation_and_metrics.md, AGENTS.md
+SOURCE_SECTIONS: 12, 13.3, 13.4, 16, 17
+WHEN_TO_READ: use before implementing scoring/transition logic or evaluation harness behavior.
+
 KEYWORDS: risks, failure modes, deferred features, non-goals, schema sprawl
 CANONICAL_TOPIC: risks_non_goals_deferred
 PRIMARY_DOC: docs/specs/09_risks_non_goals_deferred.md

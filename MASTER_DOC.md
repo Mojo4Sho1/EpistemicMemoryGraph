@@ -191,12 +191,12 @@ Minimum relationship types for v0:
 
 Every proposition must always be in exactly one primary state.
 tentative: New proposition with insufficient support.
-provisional: Meaningful support exists, but the proposition is not yet stable enough for accepted use.
-accepted: Support crosses threshold with sufficient source diversity and no unresolved major contradiction.
-contested: Material support and contradiction are both present. The system should preserve both evidence paths.
-deprecated: The proposition was once useful, but is now stale, superseded, or no longer high value.
-rejected: The proposition has been materially undermined or failed discriminating tests.
-State transition rules are policy driven and deterministic for v0.
+provisional: Confidence >= 0.55 and the proposition does not satisfy accepted, contested, rejected, or deprecated criteria.
+accepted: Confidence >= 0.80, distinct support groups >= 2, contradiction score < 0.30, and freshness >= 0.40.
+contested: Support score >= 0.45 and contradiction score >= 0.45. The system preserves both evidence paths.
+deprecated: Prior accepted/provisional proposition with freshness < 0.20 and no new support for one half life.
+rejected: Failed discriminating test OR confidence < 0.15 with contradiction score >= 0.80 and >= 2 contradiction groups.
+State transition precedence is fixed and deterministic: rejected -> contested -> accepted -> deprecated -> provisional -> tentative.
 
 ## 10. Memory Governance Policy v0.1
 
@@ -237,11 +237,19 @@ Maintain the following aggregates per proposition:
 - Distinct source group count
 - Freshness modifier
 - Volatility modifier
-Working confidence can be derived from a simple weighted heuristic: confidence increases with support, decreases with contradiction, receives only a modest bonus from independent source diversity, and drops under staleness penalties in volatile domains.
+Quantified defaults for v0.1q:
+- Volatility tiers: low, medium, high.
+- Half-life hours by volatility tier: low=168, medium=72, high=24.
+- Volatility factors for staleness penalty: low=0.5, medium=1.0, high=2.0.
+- Same-group saturation: first evidence contributes 0.70, second adds 0.20, third and beyond adds 0.10, total capped at 1.00.
+- Freshness formula: freshness = exp(-ln(2) * age_hours / half_life_hours).
+- Diversity bonus: min(0.15, 0.05 * (distinct_support_groups - 1)).
+- Staleness penalty: min(0.30, (1 - freshness) * volatility_factor * 0.30).
+- Confidence formula: confidence = clamp01(0.50 + 0.40 * support_score - 0.50 * contradiction_score + diversity_bonus - staleness_penalty).
 Scoring constraints:
-- Repeated same source reinforcement should saturate quickly.
-- Causal propositions require stricter promotion thresholds than descriptive propositions.
-- High volatility propositions should decay faster than low volatility propositions.
+- Repeated same source reinforcement saturates quickly via the per-group cap.
+- Causal propositions use stricter promotion thresholds than descriptive propositions when task-specific class policy is enabled.
+- High volatility propositions decay faster than low volatility propositions.
 - Time alone never upgrades a weak proposition into a strong one.
 
 ## 13. Operational Flows
@@ -262,7 +270,14 @@ Scoring constraints:
 
 ### 13.3 Triggered Hypothesis Testing Flow
 
-The system invokes the hypothesis testing loop only when uncertainty matters. Trigger conditions include contradiction, novelty, cost sensitive action, repeated unresolved pattern, or multiple plausible explanations.
+The system invokes the hypothesis testing loop only when uncertainty matters. Trigger logic is fixed ordered hard rules, not open-ended weighted heuristics.
+Trigger when any condition is satisfied:
+- Action impact is high or irreversible and top-2 proposition confidence gap < 0.15.
+- A proposition remains contested for >= 2 consecutive updates.
+- Unresolved contradiction count for the same proposition is >= 2.
+- High-impact novelty with confidence in [0.45, 0.70] and < 2 independent support groups.
+Suppression rule:
+- Suppress trigger when action impact is low and estimated test cost exceeds bounded benefit score.
 1. Rank active competing propositions.
 2. Select the cheapest action that best distinguishes them.
 3. Execute the test through tools or deferred task logic.
@@ -272,10 +287,13 @@ The system invokes the hypothesis testing loop only when uncertainty matters. Tr
 ### 13.4 Consolidation Flow
 
 1. Review the workspace at task boundary or scheduled checkpoint.
-2. Promote policy compliant entities and propositions into canonical memory.
-3. Summarize the episode into a compact archival record.
-4. Retain unresolved but important items with explicit status.
-5. Discard low value transient clutter.
+2. Cadence is fixed: consolidate at task boundary plus every 25 new observations.
+3. Promote only policy compliant entities and propositions into canonical memory.
+4. Promotion eligibility requires accepted state and freshness >= 0.35.
+5. Unresolved carryover cap is fixed at 20 propositions per task; overflow is archived with reason code.
+6. Summarize the episode into a compact archival record.
+7. Retain unresolved but important items with explicit status.
+8. Discard low value transient clutter.
 
 ### 13.5 Retrieval and Reactivation Flow
 
@@ -301,6 +319,10 @@ Interface rule set:
 - Canonical memory writes happen only after validation.
 - The policy layer owns scoring, transitions, and promotion checks.
 - All durable writes must preserve provenance links.
+Validation contracts for v0.1q:
+- Proposal validation outcomes are accepted, rejected_with_reason, or transformed.
+- Rejections use fixed enum codes: INVALID_TOOL_NAME, INVALID_PAYLOAD, MISSING_PROVENANCE, POLICY_VIOLATION, DIRECT_CANONICAL_WRITE_FORBIDDEN.
+- Rejection reason strings are deterministic and machine-loggable.
 
 ## 15. Minimum Viable Build Plan
 
@@ -348,6 +370,7 @@ Test the governance policy directly with deterministic micro scenarios.
 - Decay in dynamic domains
 - Alias ambiguity handling
 - Rejection after failed discriminating test
+Stage 1 pass criterion: 100% deterministic expected transition outcomes.
 
 ### 16.2 Stage 2: Governance Stress Benchmark
 
@@ -359,6 +382,7 @@ Create a custom stress suite that targets the exact failure modes this policy is
 - Ambiguous entity references
 - Insufficient evidence requiring abstention
 - Competing propositions that require a targeted test
+Run Stage 2 with 5 fixed seeds and identical scenario bundles per compared system.
 
 ### 16.3 Stage 3: Baseline Comparison
 
@@ -369,6 +393,16 @@ Compare the governed system against simpler alternatives.
 - Simple key value memory
 - Graph memory without governance policy
 - Full governed system
+Fairness constraints for Stage 3:
+- Same model snapshot
+- Same prompt template family
+- Same tool availability
+- Same token budget
+- Same wall-clock timeout
+- Same seed set
+Minimum claim thresholds for Stage 3:
+- Governed system improves at least 10% relative on >= 3 policy metrics versus raw-log baseline.
+- Governed system does not degrade task success by more than 3 absolute percentage points.
 
 ### 16.4 Stage 4: End to End Task Study
 
@@ -377,6 +411,8 @@ Run longer tasks where memory quality materially affects outcomes.
 - Repeated planning with changing constraints
 - Synthetic tool using tasks with delayed updates
 - Assistant style workflows that depend on revision and continuity
+Long-horizon gate:
+- Interpretable benefit requires improvement on at least one governance metric and one continuity metric in the same task family.
 
 ## 17. Metrics and Logging
 
@@ -417,6 +453,16 @@ Run longer tasks where memory quality materially affects outcomes.
 - Every proposition transition should be logged with triggering evidence.
 - Every consolidation event should record what was promoted, archived, or discarded.
 - Every benchmark run should emit machine readable artifacts for later analysis.
+Required artifact directory template:
+- artifacts/{date}_{git_sha}_{system}_{seed}/
+Required files:
+- manifest.json
+- config_snapshot.yaml
+- transitions.jsonl
+- consolidation_events.jsonl
+- scenario_results.jsonl
+- metrics_summary.json
+Manifest must include model id, git SHA, seed, timestamp, config hash, scenario bundle hash, and reproducibility hash.
 
 ## 18. Baselines and Ablation Plan
 
@@ -496,7 +542,8 @@ Primary mitigation strategy: keep v0 small, deterministic, heavily logged, and e
 - The observation log, workspace, and canonical memory layers all function end to end.
 - Policy correctness tests pass on the full micro scenario suite.
 - The governance stress benchmark runs reproducibly.
-- The full system outperforms at least one naive baseline on governance quality metrics.
+- The full system outperforms at least one naive baseline on governance quality metrics by >= 10% relative on >= 3 policy metrics.
+- The full system does not degrade task success by more than 3 absolute percentage points versus raw-log baseline.
 - The system shows an interpretable benefit on at least one end to end long horizon task family.
 - The logging and artifact trail are sufficient for failure analysis and paper quality reporting.
 

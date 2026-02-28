@@ -1,0 +1,33 @@
+version: "v0.1q"
+stages:
+  order:
+    - policy_correctness
+    - governance_stress
+    - baseline_comparison
+    - long_horizon
+  policy_correctness:
+    pass_criterion_percent: 100
+  governance_stress:
+    seeds: [101, 202, 303, 404, 505]
+  baseline_comparison:
+    minimum_relative_policy_improvement_percent: 10
+    minimum_policy_metrics_improved_count: 3
+    max_task_success_absolute_drop_percent: 3
+  long_horizon:
+    requires_governance_and_continuity_improvement: true
+fairness_contract:
+  require_same_model_snapshot: true
+  require_same_prompt_template_family: true
+  require_same_tool_availability: true
+  require_same_token_budget: true
+  require_same_wall_clock_timeout: true
+  require_same_seed_set: true
+logging:
+  required_files:
+    - manifest.json
+    - config_snapshot.yaml
+    - transitions.jsonl
+    - consolidation_events.jsonl
+    - scenario_results.jsonl
+    - metrics_summary.json
+  path_template: "artifacts/{date}_{git_sha}_{system}_{seed}/"
