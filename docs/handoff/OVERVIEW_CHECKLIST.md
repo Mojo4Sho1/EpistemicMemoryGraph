@@ -19,7 +19,7 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 15.3(1), 9, 10, 20
 
 ### M2: Implement observation log and persistence tables
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: observation-sqlite-store-v0
 - EXIT_CRITERIA: append-only observation persistence with deterministic duplicate handling and lookup
 - EVIDENCE: `src/store/observation_store.py`, `tests/test_observation_store.py`
@@ -62,7 +62,7 @@ PROJECT_PHASE: implementation
 
 ### M8: Build policy correctness suite
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: v0q-minimum-quantified-hardening-v0
+- OWNER_TASK_ID: policy-correctness-micro-suite-v0
 - EXIT_CRITERIA: micro-scenario suite for state/policy correctness
 - EVIDENCE: `tests/test_policy_scoring.py`, `tests/test_state_machine.py`, `tests/test_test_trigger.py`
 - SOURCE: MASTER_DOC 16.1, 15.3(8), 20
@@ -138,9 +138,9 @@ PROJECT_PHASE: implementation
 1. Treat master as design freeze: DONE
 2. Split into derived docs: IN_PROGRESS
 3. Implement schema + policy boundary before higher-level behavior: IN_PROGRESS
-4. Create policy correctness micro-scenarios before full benchmark harness: IN_PROGRESS
+4. Create policy correctness micro-scenarios before full benchmark harness (OWNER_TASK_ID: policy-correctness-micro-suite-v0): IN_PROGRESS
 5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): DONE
-6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): IN_PROGRESS
+6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): DONE
 
 ## Update Rules
 - Update this file once per completed handoff loop.

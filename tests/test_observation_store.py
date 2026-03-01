@@ -1,6 +1,6 @@
-"""Tests for observation-store interface and in-memory append-only stub."""
+"""Tests for observation-store interface and append-only store backends."""
 
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
@@ -9,10 +9,14 @@ from src.core.models import Observation
 from src.store import InMemoryObservationStore, SQLiteObservationStore
 
 
-def _build_observation(observation_id: str) -> Observation:
+def _build_observation(
+    observation_id: str,
+    *,
+    timestamp: datetime | None = None,
+) -> Observation:
     return Observation(
         observation_id=observation_id,
-        timestamp=datetime(2026, 2, 27, 12, 0, 0),
+        timestamp=timestamp or datetime(2026, 2, 27, 12, 0, 0),
         source_id="source-1",
         source_type="api",
         source_independence_group="group-a",
@@ -78,3 +82,58 @@ def test_sqlite_lookup_unknown_id_returns_none(tmp_path: Path) -> None:
     db_path = tmp_path / "observations.db"
     store = SQLiteObservationStore(db_path)
     assert store.get_by_id("missing") is None
+
+
+def test_sqlite_persists_rows_across_store_reinstantiation(
+    tmp_path: Path,
+) -> None:
+    db_path = tmp_path / "observations.db"
+    writer = SQLiteObservationStore(db_path)
+    observation = _build_observation("obs-sqlite-persist-1")
+    writer.append(observation)
+
+    reopened_store = SQLiteObservationStore(db_path)
+    loaded = reopened_store.get_by_id("obs-sqlite-persist-1")
+    assert loaded is not None
+    assert loaded.observation_id == "obs-sqlite-persist-1"
+    assert loaded.parsed_payload == {"value": "obs-sqlite-persist-1"}
+
+    with pytest.raises(ValueError):
+        reopened_store.append(observation)
+
+
+def test_sqlite_timestamp_round_trip_naive_datetime_normalizes_to_utc(
+    tmp_path: Path,
+) -> None:
+    db_path = tmp_path / "observations.db"
+    store = SQLiteObservationStore(db_path)
+    naive_timestamp = datetime(2026, 2, 27, 12, 34, 56)
+    observation = _build_observation(
+        "obs-sqlite-ts-naive",
+        timestamp=naive_timestamp,
+    )
+    store.append(observation)
+
+    loaded = store.get_by_id("obs-sqlite-ts-naive")
+    assert loaded is not None
+    assert loaded.timestamp == naive_timestamp.replace(tzinfo=timezone.utc)
+    assert loaded.timestamp.tzinfo == timezone.utc
+
+
+def test_sqlite_timestamp_round_trip_timezone_aware_datetime_normalizes_to_utc(
+    tmp_path: Path,
+) -> None:
+    db_path = tmp_path / "observations.db"
+    store = SQLiteObservationStore(db_path)
+    source_timezone = timezone(timedelta(hours=-5))
+    aware_timestamp = datetime(2026, 2, 27, 12, 34, 56, tzinfo=source_timezone)
+    observation = _build_observation(
+        "obs-sqlite-ts-aware",
+        timestamp=aware_timestamp,
+    )
+    store.append(observation)
+
+    loaded = store.get_by_id("obs-sqlite-ts-aware")
+    assert loaded is not None
+    assert loaded.timestamp == aware_timestamp.astimezone(timezone.utc)
+    assert loaded.timestamp.tzinfo == timezone.utc
