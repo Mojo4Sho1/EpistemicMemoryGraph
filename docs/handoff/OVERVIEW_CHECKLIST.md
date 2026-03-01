@@ -1,6 +1,6 @@
 # v0 Overview Checklist
 
-LAST_UPDATED: 2026-02-28
+LAST_UPDATED: 2026-03-01
 PROJECT_PHASE: implementation
 
 ## Status Legend
@@ -55,9 +55,9 @@ PROJECT_PHASE: implementation
 
 ### M7: Implement consolidation and archival
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-update-boundary-v0q-v0
+- OWNER_TASK_ID: workspace-smoke-suite-v0q-v0
 - EXIT_CRITERIA: promote/archive/discard flow at task boundary with trace logging
-- EVIDENCE: `src/workspace/consolidation.py`, `src/eval/schemas.py`, `tests/test_workspace_consolidation.py`, `tests/test_eval_artifacts.py`
+- EVIDENCE: `src/workspace/consolidation.py`, `src/eval/schemas.py`, `tests/test_workspace_consolidation.py`, `tests/test_eval_artifacts.py`, `tests/smoke/test_workspace_update_smoke.py`, `scripts/probes/workspace_update_probe.py`
 - SOURCE: MASTER_DOC 13.4, 15.3(7)
 
 ### M8: Build policy correctness suite
@@ -106,9 +106,9 @@ PROJECT_PHASE: implementation
 
 ### Runtime architecture
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-smoke-suite-v0q-v0
+- OWNER_TASK_ID: workspace-update-boundary-v0q-v0
 - EXIT_CRITERIA: tool surface, policy boundary, consolidation, retrieval/reactivation defined and partially implemented
-- EVIDENCE: `docs/specs/01_architecture_overview.md`, `docs/specs/05_operational_flows.md`, `docs/specs/06_tool_boundary_and_interfaces.md`, `src/workspace/update.py`, `src/workspace/consolidation.py`, `src/tools/schemas.py`
+- EVIDENCE: `docs/specs/01_architecture_overview.md`, `docs/specs/05_operational_flows.md`, `docs/specs/06_tool_boundary_and_interfaces.md`, `src/workspace/update.py`, `src/workspace/consolidation.py`, `src/tools/schemas.py`, `tests/smoke/test_workspace_update_smoke.py`, `scripts/probes/workspace_update_probe.py`
 - SOURCE: MASTER_DOC 6, 13, 14, 20
 
 ### Evaluation
@@ -139,7 +139,8 @@ PROJECT_PHASE: implementation
 2. Split into derived docs: IN_PROGRESS
 3. Implement schema + policy boundary before higher-level behavior: IN_PROGRESS
 4. Create policy correctness micro-scenarios before full benchmark harness: IN_PROGRESS
-5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): IN_PROGRESS
+5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): DONE
+6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): IN_PROGRESS
 
 ## Update Rules
 - Update this file once per completed handoff loop.

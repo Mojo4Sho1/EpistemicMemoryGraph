@@ -12,6 +12,7 @@ requires-python = ">=3.11"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-q"
+markers = ["smoke: deterministic smoke-layer runtime checks"]
 
 [tool.mypy]
 python_version = "3.11"

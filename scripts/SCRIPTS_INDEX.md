@@ -6,7 +6,10 @@ Track developer scripts for manual diagnostics, probing, and targeted runtime ch
 
 ## Current State
 
-- No developer probe scripts are committed yet.
+- Probe scripts:
+  - `scripts/probes/workspace_update_probe.py`
+- Run command:
+  - `conda run -n emg python scripts/probes/workspace_update_probe.py`
 
 ## Conventions
 
@@ -16,4 +19,4 @@ Track developer scripts for manual diagnostics, probing, and targeted runtime ch
 
 ## Deferred Work
 
-- Add `scripts/probes/workspace_update_probe.py` when the composed workspace update boundary is implemented.
+- Add additional probe scripts as new runtime boundaries are introduced.

@@ -22,11 +22,7 @@ Provide a focused map of repository tests and execution conventions.
 - Evaluation/fairness/artifact tests:
   - `tests/test_eval_fairness.py`
   - `tests/test_eval_artifacts.py`
-
-## Planned Smoke Layer (Deferred)
-
-- Deferred until `workspace-update-boundary-v0q-v0` is implemented.
-- Target first smoke files:
+- Smoke tests:
   - `tests/smoke/test_workspace_update_smoke.py`
   - `tests/smoke/test_eval_artifact_smoke.py`
 
@@ -34,9 +30,9 @@ Provide a focused map of repository tests and execution conventions.
 
 - Full suite:
   - `conda run -n emg python -m pytest -q`
-- Planned smoke-only run (after marker is added):
+- Smoke-only run:
   - `conda run -n emg python -m pytest -q -m smoke`
 
 ## Deferred Work
 
-- Add minimal smoke tests after `workspace-update-boundary-v0q-v0` lands.
+- Expand smoke coverage beyond initial workspace and eval-artifact contracts.
