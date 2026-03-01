@@ -26,10 +26,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 7.1, 15.3(2), 20
 
 ### M3: Implement in-memory workspace object
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: workspace-update-boundary-v0q-v0
 - EXIT_CRITERIA: workspace intake path records observations and returns deterministic result
-- EVIDENCE: `src/workspace/intake.py`, `src/workspace/state.py`, `src/workspace/consolidation.py`, `tests/test_workspace_intake.py`, `tests/test_workspace_state.py`, `tests/test_workspace_consolidation.py`, `docs/handoff/NEXT_TASK.md` (active task)
+- EVIDENCE: `src/workspace/intake.py`, `src/workspace/state.py`, `src/workspace/update.py`, `src/workspace/consolidation.py`, `tests/test_workspace_intake.py`, `tests/test_workspace_state.py`, `tests/test_workspace_update.py`, `tests/test_workspace_consolidation.py`
 - SOURCE: MASTER_DOC 7.2, 13.1, 15.3(3)
 
 ### M4: Implement scoring and state transitions
@@ -106,9 +106,9 @@ PROJECT_PHASE: implementation
 
 ### Runtime architecture
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-update-boundary-v0q-v0
+- OWNER_TASK_ID: workspace-smoke-suite-v0q-v0
 - EXIT_CRITERIA: tool surface, policy boundary, consolidation, retrieval/reactivation defined and partially implemented
-- EVIDENCE: `docs/specs/01_architecture_overview.md`, `docs/specs/05_operational_flows.md`, `docs/specs/06_tool_boundary_and_interfaces.md`, `src/workspace/consolidation.py`, `src/tools/schemas.py`
+- EVIDENCE: `docs/specs/01_architecture_overview.md`, `docs/specs/05_operational_flows.md`, `docs/specs/06_tool_boundary_and_interfaces.md`, `src/workspace/update.py`, `src/workspace/consolidation.py`, `src/tools/schemas.py`
 - SOURCE: MASTER_DOC 6, 13, 14, 20
 
 ### Evaluation
@@ -139,7 +139,7 @@ PROJECT_PHASE: implementation
 2. Split into derived docs: IN_PROGRESS
 3. Implement schema + policy boundary before higher-level behavior: IN_PROGRESS
 4. Create policy correctness micro-scenarios before full benchmark harness: IN_PROGRESS
-5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-update-boundary-v0q-v0): NOT_STARTED
+5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): IN_PROGRESS
 
 ## Update Rules
 - Update this file once per completed handoff loop.

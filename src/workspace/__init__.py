@@ -18,6 +18,11 @@ from src.workspace.state import (
     ObservationIndexRegisterRequest,
     ObservationIndexRegisterResult,
 )
+from src.workspace.update import (
+    WorkspaceUpdateBoundary,
+    WorkspaceUpdateRequest,
+    WorkspaceUpdateResult,
+)
 
 __all__ = [
     "CarryoverDecision",
@@ -32,4 +37,7 @@ __all__ = [
     "ObservationIndexRegisterResult",
     "InMemoryWorkspaceObservationIndex",
     "WorkspaceObservationIntake",
+    "WorkspaceUpdateRequest",
+    "WorkspaceUpdateResult",
+    "WorkspaceUpdateBoundary",
 ]

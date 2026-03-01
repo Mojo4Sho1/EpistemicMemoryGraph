@@ -1,35 +1,39 @@
 # Next Task
 
-TASK_ID: workspace-update-boundary-v0q-v0
-TASK_TITLE: Compose deterministic workspace update boundary with v0.1q gates
-OBJECTIVE: Implement one deterministic workspace boundary call that ingests an observation, updates the `(session_id, task_id)` observation index, and returns consolidation/promotion eligibility metadata using frozen v0.1q helpers.
+TASK_ID: workspace-smoke-suite-v0q-v0
+TASK_TITLE: Add minimal smoke suite and workspace update probe
+OBJECTIVE: Add first smoke-layer runtime checks for the composed workspace update boundary and commit one deterministic probe script for developer diagnostics.
 IN_SCOPE:
-- Add `src/workspace/update.py` with typed request/result objects for composed update behavior.
-- Compose `WorkspaceObservationIntake` and `InMemoryWorkspaceObservationIndex` in one boundary call.
-- Integrate `should_run_consolidation` and `evaluate_promotion_eligibility` into result metadata.
-- Ensure deterministic handling of fresh and duplicate intake paths.
-- Add focused tests for intake/index integration and cadence/promotion eligibility outputs.
+- Add `tests/smoke/test_workspace_update_smoke.py` covering deterministic end-to-end composed boundary behavior.
+- Add `tests/smoke/test_eval_artifact_smoke.py` for minimal eval-artifact contract smoke validation.
+- Add `scripts/probes/workspace_update_probe.py` with deterministic JSON output for manual workspace-boundary checks.
+- Update `tests/TEST_INDEX.md` and `scripts/SCRIPTS_INDEX.md` to register new smoke/probe assets.
+- Keep smoke coverage deterministic and scoped to in-memory/local fixtures.
 OUT_OF_SCOPE:
-- Benchmark runner execution or baseline-comparison runs.
-- Identity merge or alias-resolution logic.
-- Broader orchestration beyond single-call workspace update behavior.
+- Benchmark runner execution or baseline comparisons.
+- Any policy threshold/config changes in `configs/*.yaml`.
+- Canonical-memory promotion/archive orchestration beyond smoke validation.
 TARGET_FILES:
-- `src/workspace/update.py`
-- `src/workspace/__init__.py`
-- `tests/test_workspace_update.py`
+- `tests/smoke/test_workspace_update_smoke.py`
+- `tests/smoke/test_eval_artifact_smoke.py`
+- `scripts/probes/workspace_update_probe.py`
+- `tests/TEST_INDEX.md`
+- `scripts/SCRIPTS_INDEX.md`
 - `docs/handoff/CURRENT_STATUS.md`
 - `docs/handoff/NEXT_TASK.md`
 - `docs/handoff/OVERVIEW_CHECKLIST.md`
 PREREQUISITES:
 - Review `docs/handoff/CURRENT_STATUS.md` and this file.
-- Read `docs/specs/05_operational_flows.md` and `configs/policy_v0q.yaml`.
+- Read `docs/specs/05_operational_flows.md`, `docs/specs/08_evaluation_and_metrics.md`, and `configs/policy_v0q.yaml`.
+- Read `tests/TEST_INDEX.md` and `scripts/SCRIPTS_INDEX.md`.
 - Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Add `src/workspace/update.py` with deterministic composed intake/index/update flow and typed request/result models.
-2. Export update-path symbols from `src/workspace/__init__.py`.
-3. Add `tests/test_workspace_update.py` for fresh/duplicate intake plus consolidation cadence and promotion-eligibility output behavior.
+1. Add `tests/smoke/test_workspace_update_smoke.py` with deterministic smoke checks for composed update output invariants.
+2. Add `tests/smoke/test_eval_artifact_smoke.py` with minimal artifact-contract smoke assertions.
+3. Add `scripts/probes/workspace_update_probe.py` that prints deterministic JSON for one composed update scenario.
 4. Run quality gates in fixed order and capture outcomes.
-5. Update handoff docs for loop completion and next-task continuity.
+5. Update `tests/TEST_INDEX.md` and `scripts/SCRIPTS_INDEX.md`.
+6. Update handoff docs for loop completion and next-task continuity.
 QUALITY_GATES:
 1) Unit tests and/or smoke scripts
 2) Type checking
@@ -37,19 +41,23 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] `src/workspace/update.py` defines typed composed update request/result structures.
-- [ ] Composed boundary deterministically records intake outcome and session/task index state.
-- [ ] Composed result includes consolidation cadence decision and promotion-eligibility metadata.
-- [ ] Tests validate fresh and duplicate intake/index behavior plus cadence/promotion outputs.
+- [ ] `tests/smoke/test_workspace_update_smoke.py` exists and validates deterministic composed boundary behavior.
+- [ ] `tests/smoke/test_eval_artifact_smoke.py` exists and validates minimal eval artifact contract behavior.
+- [ ] `scripts/probes/workspace_update_probe.py` exists and emits deterministic JSON output.
+- [ ] Test/script indexes are updated to include the new smoke/probe paths.
+- [ ] `conda run -n emg python -m pytest -q -m smoke` passes.
 - [ ] `conda run -n emg python -m pytest -q` passes.
 - [ ] `conda run -n emg python -m mypy src tests` passes.
 - [ ] `conda run -n emg python -m ruff check src tests` passes.
 - [ ] Handoff docs are updated and task IDs remain continuous.
 VALIDATION_COMMANDS:
+- `conda run -n emg python -m pytest -q -m smoke`
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
+- `conda run -n emg python scripts/probes/workspace_update_probe.py`
 - `rg --files src tests`
+- `rg --files scripts tests/smoke`
 - `git status --short`
 DONE_UPDATE_REQUIREMENTS:
 - Update `docs/handoff/CURRENT_STATUS.md` with completed-task facts and gate outcomes.
