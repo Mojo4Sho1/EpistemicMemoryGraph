@@ -16,6 +16,15 @@ Start with these project documents:
   - `configs/baselines_v0q.yaml`: baseline system set and shared comparison defaults
 - Documentation maintenance guide: `docs/DOCS_GUIDE.md`
 
+### Agent Handoff Docs
+
+- `docs/handoff/CURRENT_STATUS.md`: active state, blockers, locked/pending decisions
+- `docs/handoff/NEXT_TASK.md`: single-task execution contract for current loop
+- `docs/handoff/TASK_QUEUE.md`: staged M5-M10 queue with one `READY: YES` task
+- `docs/handoff/DECISION_LOG.md`: open-question closure tracking
+- `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`: `SPEC_MUST_ID` tracking for gate-4 conformance
+- `docs/handoff/OVERVIEW_CHECKLIST.md`: milestone/checklist/DoD evidence dashboard
+
 ## Environment Setup
 
 Create the project environment with:

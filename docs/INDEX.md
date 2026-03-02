@@ -129,6 +129,27 @@ RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/specs/10_checklists_and_dod.m
 SOURCE_SECTIONS: N/A (operational handoff document)
 WHEN_TO_READ: read second in every fresh session to execute one scoped task loop with fixed quality gates, then update handoff docs.
 
+KEYWORDS: task queue, staged backlog, ready task, dependency order, milestone queue
+CANONICAL_TOPIC: handoff_task_queue
+PRIMARY_DOC: docs/handoff/TASK_QUEUE.md
+RELATED_DOCS: docs/handoff/CURRENT_STATUS.md, docs/handoff/NEXT_TASK.md, docs/specs/07_build_plan_and_milestones.md
+SOURCE_SECTIONS: N/A (operational handoff document)
+WHEN_TO_READ: read after `NEXT_TASK.md` to confirm active queue ownership and downstream M5-M10 execution order.
+
+KEYWORDS: decision log, open questions, locked decisions, unresolved spec questions, decision closure
+CANONICAL_TOPIC: handoff_decision_log
+PRIMARY_DOC: docs/handoff/DECISION_LOG.md
+RELATED_DOCS: docs/specs/00_scope_and_claim.md, docs/specs/01_architecture_overview.md, docs/specs/02_data_model.md, docs/specs/07_build_plan_and_milestones.md, docs/specs/08_evaluation_and_metrics.md, docs/specs/09_risks_non_goals_deferred.md
+SOURCE_SECTIONS: N/A (operational handoff document)
+WHEN_TO_READ: read during startup to identify unresolved spec decisions that can block or constrain active implementation tasks.
+
+KEYWORDS: spec conformance, must requirements, gate 4, normative checklist, traceable MUST ids
+CANONICAL_TOPIC: handoff_spec_conformance
+PRIMARY_DOC: docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md
+RELATED_DOCS: docs/handoff/NEXT_TASK.md, docs/specs/00_scope_and_claim.md, docs/specs/10_checklists_and_dod.md
+SOURCE_SECTIONS: N/A (operational handoff document)
+WHEN_TO_READ: read before gate 4 to map task scope to concrete `SPEC_MUST_ID` rows and update evidence deterministically.
+
 KEYWORDS: overview checklist, macro progress, milestones dashboard, definition of done readiness, program tracker
 CANONICAL_TOPIC: handoff_overview_checklist
 PRIMARY_DOC: docs/handoff/OVERVIEW_CHECKLIST.md

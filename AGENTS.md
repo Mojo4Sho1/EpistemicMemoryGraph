@@ -10,11 +10,14 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 
 1. Read `docs/handoff/CURRENT_STATUS.md`.
 2. Read `docs/handoff/NEXT_TASK.md`.
-3. Read `docs/handoff/OVERVIEW_CHECKLIST.md`.
-4. Read `docs/INDEX.md`.
-5. If the active task touches policy/evaluation/baselines, read relevant `configs/*.yaml` files.
-6. If task scope enters `tests/`, `scripts/`, or `configs/`, read the corresponding mini-index (`tests/TEST_INDEX.md`, `scripts/SCRIPTS_INDEX.md`, `configs/CONFIG_INDEX.md`).
-7. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
+3. Read `docs/handoff/TASK_QUEUE.md`.
+4. Read `docs/handoff/DECISION_LOG.md`.
+5. Read `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`.
+6. Read `docs/handoff/OVERVIEW_CHECKLIST.md`.
+7. Read `docs/INDEX.md`.
+8. If the active task touches policy/evaluation/baselines, read relevant `configs/*.yaml` files.
+9. If task scope enters `tests/`, `scripts/`, or `configs/`, read the corresponding mini-index (`tests/TEST_INDEX.md`, `scripts/SCRIPTS_INDEX.md`, `configs/CONFIG_INDEX.md`).
+10. Read only the relevant `PRIMARY_DOC` specification files required for the active task.
 
 ## Execution Loop Contract
 
@@ -28,6 +31,9 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 - Update all handoff docs at end of cycle:
   - `docs/handoff/CURRENT_STATUS.md`
   - `docs/handoff/NEXT_TASK.md`
+  - `docs/handoff/TASK_QUEUE.md`
+  - `docs/handoff/DECISION_LOG.md`
+  - `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
   - `docs/handoff/OVERVIEW_CHECKLIST.md`
 - The active `docs/handoff/NEXT_TASK.md:TASK_ID` must be reflected in relevant
   `docs/handoff/OVERVIEW_CHECKLIST.md` `OWNER_TASK_ID` rows.
@@ -35,12 +41,15 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 ## Task Continuity
 
 - `docs/handoff/NEXT_TASK.md:TASK_ID` must match `docs/handoff/CURRENT_STATUS.md:NEXT_TASK_ID`.
+- `docs/handoff/CURRENT_STATUS.md:ACTIVE_QUEUE_TASK_ID` must match queue `READY: YES` `TASK_ID` in `docs/handoff/TASK_QUEUE.md`.
 - Keep task IDs short and stable during a cycle.
 
 ## Checklist Continuity
 
 - `docs/handoff/NEXT_TASK.md:TASK_ID` should appear as `OWNER_TASK_ID` for at
   least one `IN_PROGRESS` row in `docs/handoff/OVERVIEW_CHECKLIST.md`.
+- `docs/handoff/NEXT_TASK.md:OWNER_CHECK_IDS` must reference valid `CHECK_ID` rows in `docs/handoff/OVERVIEW_CHECKLIST.md`.
+- `docs/handoff/NEXT_TASK.md:SPEC_MUST_IDS` must reference valid `SPEC_MUST_ID` rows in `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`.
 - Only set `STATUS: DONE` when both `EXIT_CRITERIA` and `EVIDENCE` are satisfied.
 
 ## Environment Usage
@@ -73,9 +82,12 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 Run before ending a cycle:
 
 - `rg --files docs/handoff`
-- `rg "^LAST_UPDATED:|^PROJECT_PHASE:|^REPO_BASELINE:|^NEXT_TASK_ID:|^NEXT_TASK_READY:" docs/handoff/CURRENT_STATUS.md`
-- `rg "^TASK_ID:|^OBJECTIVE:|^IMPLEMENTATION_SUBTASKS:|^QUALITY_GATES:|^ACCEPTANCE_CRITERIA:|^VALIDATION_COMMANDS:" docs/handoff/NEXT_TASK.md`
+- `rg "^LAST_UPDATED:|^PROJECT_PHASE:|^REPO_BASELINE:|^NEXT_TASK_ID:|^ACTIVE_QUEUE_TASK_ID:|^OPEN_DECISIONS_COUNT:|^NEXT_TASK_READY:" docs/handoff/CURRENT_STATUS.md`
+- `rg "^TASK_ID:|^OBJECTIVE:|^OWNER_CHECK_IDS:|^SPEC_MUST_IDS:|^IMPLEMENTATION_SUBTASKS:|^QUALITY_GATES:|^ACCEPTANCE_CRITERIA:|^VALIDATION_COMMANDS:" docs/handoff/NEXT_TASK.md`
+- `rg "^TASK_ID:|^MILESTONE:|^OBJECTIVE:|^PREREQUISITES:|^PRIMARY_DOCS:|^TARGET_FILES:|^ACCEPTANCE_CRITERIA:|^VALIDATION_COMMANDS:|^READY:" docs/handoff/TASK_QUEUE.md`
+- `rg "^DECISION_ID:|^STATUS:|^SOURCE_DOC:|^QUESTION:|^DECISION:|^OWNER_TASK_ID:|^EVIDENCE:" docs/handoff/DECISION_LOG.md`
+- `rg "^SPEC_MUST_ID:|^SOURCE_SPEC:|^MUST_TEXT:|^STATUS:|^OWNER_TASK_ID:|^EVIDENCE:" docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 - `rg "^# v0 Overview Checklist|^## A\\. Build Milestones|^## B\\. Master Implementation Checklist|^## C\\. Definition of Done Readiness|^## D\\. Immediate Next Actions Tracking|^## Update Rules" docs/handoff/OVERVIEW_CHECKLIST.md`
-- `rg "handoff_current_status|handoff_next_task|agent_runtime_workflow" docs/INDEX.md`
+- `rg "handoff_current_status|handoff_next_task|handoff_task_queue|handoff_decision_log|handoff_spec_conformance|agent_runtime_workflow" docs/INDEX.md`
 - `rg "handoff_overview_checklist" docs/INDEX.md`
 - `rg "configs/" AGENTS.md README.md docs/INDEX.md`
