@@ -76,9 +76,9 @@ EVIDENCE: `src/core/models.py`; `src/core/scoring.py`; `src/core/state_machine.p
 SPEC_MUST_ID: S02-M03
 SOURCE_SPEC: `docs/specs/02_data_model.md`
 MUST_TEXT: Anchor graph structure on entities and explicit edge types.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: identity-alias-possible-same-as-v0
-EVIDENCE: `src/core/models.py`; `src/core/constants.py`; `tests/test_scaffold_imports.py`
+EVIDENCE: `src/core/models.py`; `src/core/constants.py`; `src/workspace/update.py`; `tests/test_core_models.py`; `tests/test_workspace_update.py`
 
 SPEC_MUST_ID: S02-M04
 SOURCE_SPEC: `docs/specs/02_data_model.md`

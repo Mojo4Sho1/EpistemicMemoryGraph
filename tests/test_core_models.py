@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from src.core.constants import BELIEF_STATES
+from src.core.constants import BELIEF_STATES, IDENTITY_LINK_TYPES
 from src.core.models import Entity, Observation, Proposition
 
 
@@ -40,6 +40,35 @@ def test_entity_supports_minimal_identity_fields() -> None:
     assert entity.entity_type == "person"
     assert entity.aliases == ("A. Lovelace",)
     assert entity.is_canonical is True
+
+
+def test_identity_link_types_include_alias_and_possible_same_as() -> None:
+    assert IDENTITY_LINK_TYPES == ("alias", "possible_same_as")
+
+
+def test_entity_dedupes_alias_and_possible_same_as_links() -> None:
+    entity = Entity(
+        entity_id="ent-1",
+        canonical_name="  Ada Lovelace  ",
+        entity_type="person",
+        aliases=("A. Lovelace", "ada lovelace", "A. Lovelace", " "),
+        possible_same_as=("ent-2", "ent-1", "ent-2", " "),
+    )
+
+    assert entity.canonical_name == "Ada Lovelace"
+    assert entity.aliases == ("A. Lovelace",)
+    assert entity.possible_same_as == ("ent-2",)
+
+
+def test_entity_rejects_blank_identity_fields() -> None:
+    with pytest.raises(ValueError, match="canonical_name must be non-empty"):
+        Entity(entity_id="ent-x", canonical_name=" ", entity_type="person")
+
+    with pytest.raises(ValueError, match="entity_type must be non-empty"):
+        Entity(entity_id="ent-y", canonical_name="Ada", entity_type=" ")
+
+    with pytest.raises(ValueError, match="entity_id must be non-empty"):
+        Entity(entity_id=" ", canonical_name="Ada", entity_type="person")
 
 
 def test_proposition_accepts_spec_belief_state() -> None:

@@ -19,6 +19,7 @@ from src.workspace.state import (
     ObservationIndexRegisterResult,
 )
 from src.workspace.update import (
+    IdentityUpdateDecision,
     WorkspaceUpdateBoundary,
     WorkspaceUpdateRequest,
     WorkspaceUpdateResult,
@@ -36,6 +37,7 @@ __all__ = [
     "ObservationIndexRegisterRequest",
     "ObservationIndexRegisterResult",
     "InMemoryWorkspaceObservationIndex",
+    "IdentityUpdateDecision",
     "WorkspaceObservationIntake",
     "WorkspaceUpdateRequest",
     "WorkspaceUpdateResult",

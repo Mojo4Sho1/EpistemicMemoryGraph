@@ -45,8 +45,8 @@ STATUS: OPEN
 SOURCE_DOC: `docs/specs/02_data_model.md`
 QUESTION: Should proposition structured form be normalized in v0 or deferred to v0.2?
 DECISION: TBD
-OWNER_TASK_ID: identity-alias-possible-same-as-v0
-EVIDENCE: PENDING (data-model update + migration/test note)
+OWNER_TASK_ID: dod-evidence-closeout-v0
+EVIDENCE: NON_BLOCKING for `identity-alias-possible-same-as-v0`; deferred schema decision pending closeout policy.
 
 DECISION_ID: DEC-0006
 STATUS: OPEN

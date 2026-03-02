@@ -13,6 +13,13 @@ BELIEF_STATES = (
     "rejected",
 )
 
+# Alias links are maintained as table-level identity mappings while
+# `possible_same_as` is the explicit graph-level ambiguity edge.
+IDENTITY_LINK_TYPES = (
+    "alias",
+    "possible_same_as",
+)
+
 EDGE_TYPES = (
     "supports",
     "contradicts",

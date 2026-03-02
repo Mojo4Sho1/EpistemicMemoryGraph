@@ -40,10 +40,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 9, 12, 15.3(4)
 
 ### M5: Implement conservative identity handling
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: identity-alias-possible-same-as-v0
 - EXIT_CRITERIA: alias + possible_same_as behavior with tests
-- EVIDENCE: NONE
+- EVIDENCE: `src/core/constants.py`; `src/core/models.py`; `src/workspace/update.py`; `tests/test_core_models.py`; `tests/test_workspace_update.py`
 - SOURCE: MASTER_DOC 8.1, 8.6, 15.3(5)
 
 ### M6: Implement tool boundary and validation layer
@@ -157,17 +157,17 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Freeze relationship types)
 
 - CHECK_ID: C20-DATA-03
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: identity-alias-possible-same-as-v0
 - EXIT_CRITERIA: persistent table schema for canonical memory objects is frozen.
-- EVIDENCE: `docs/specs/02_data_model.md`; `src/store/observation_store.py`
+- EVIDENCE: `docs/specs/02_data_model.md`; `src/core/constants.py`; `src/core/models.py`; `src/workspace/update.py`; `src/store/observation_store.py`; `tests/test_core_models.py`; `tests/test_workspace_update.py`
 - SOURCE: MASTER_DOC 20 (Freeze persistent table schema)
 
 - CHECK_ID: C20-DATA-04
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: identity-alias-possible-same-as-v0
 - EXIT_CRITERIA: workspace schema is frozen and fully covered by deterministic tests.
-- EVIDENCE: `docs/specs/02_data_model.md`; `src/workspace/state.py`; `tests/test_workspace_state.py`
+- EVIDENCE: `docs/specs/02_data_model.md`; `src/workspace/state.py`; `src/workspace/update.py`; `tests/test_workspace_state.py`; `tests/test_workspace_update.py`
 - SOURCE: MASTER_DOC 20 (Freeze workspace schema)
 
 - CHECK_ID: C20-DATA-05
@@ -200,10 +200,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Freeze consolidation workflow)
 
 - CHECK_ID: C20-RUNTIME-04
-- STATUS: NOT_STARTED
+- STATUS: IN_PROGRESS
 - OWNER_TASK_ID: retrieval-reactivation-boundary-v0
 - EXIT_CRITERIA: retrieval/reactivation workflow is frozen with deterministic interfaces and tests.
-- EVIDENCE: NONE
+- EVIDENCE: `docs/specs/01_architecture_overview.md`; `docs/specs/05_operational_flows.md`; `src/workspace/update.py`; `tests/test_workspace_update.py`
 - SOURCE: MASTER_DOC 20 (Freeze retrieval and reactivation workflow)
 
 ### Evaluation
@@ -344,7 +344,7 @@ PROJECT_PHASE: implementation
 6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): DONE
 7. Expand consolidation cadence/carryover/promotion boundary micro-scenarios (OWNER_TASK_ID: consolidation-archival-determinism-v0): DONE
 8. Establish M5-M10 task queue + decision/spec-conformance trackers (OWNER_TASK_ID: docs-operations-hardening-v0): DONE
-9. Implement conservative identity handling + retrieval/reactivation boundaries (OWNER_TASK_ID: identity-alias-possible-same-as-v0): NOT_STARTED
+9. Implement conservative identity handling + retrieval/reactivation boundaries (OWNER_TASK_ID: retrieval-reactivation-boundary-v0): IN_PROGRESS
 
 ## Update Rules
 - Update this file once per completed handoff loop.

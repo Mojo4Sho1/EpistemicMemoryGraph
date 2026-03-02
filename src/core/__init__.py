@@ -1,6 +1,6 @@
 """Core package exports for v0 policy and model primitives."""
 
-from src.core.constants import BELIEF_STATES, EDGE_TYPES
+from src.core.constants import BELIEF_STATES, EDGE_TYPES, IDENTITY_LINK_TYPES
 from src.core.models import Entity, Observation, Proposition
 from src.core.policy_config import (
     DEFAULT_POLICY_CONFIG,
@@ -21,6 +21,7 @@ __all__ = [
     "BELIEF_STATES",
     "DEFAULT_POLICY_CONFIG",
     "EDGE_TYPES",
+    "IDENTITY_LINK_TYPES",
     "Entity",
     "Observation",
     "PolicyConfig",

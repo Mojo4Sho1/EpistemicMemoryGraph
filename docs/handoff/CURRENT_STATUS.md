@@ -3,14 +3,14 @@
 LAST_UPDATED: 2026-03-02
 PROJECT_PHASE: implementation
 REPO_BASELINE: Repo includes deterministic v0.1q policy/scoring/state-transition/test-trigger modules, tool proposal schema validation, consolidation gate helpers, eval artifact/fairness schemas, frozen config baselines under `configs/`, composed workspace update boundaries, smoke/probe coverage, and expanded handoff controls (`TASK_QUEUE.md`, `DECISION_LOG.md`, `SPEC_CONFORMANCE_CHECKLIST.md`) for zero-context agent execution.
-ACTIVE_PRIMARY_OBJECTIVE: Implement conservative identity ambiguity handling (`alias` + `possible_same_as`) with deterministic false-merge guardrails.
+ACTIVE_PRIMARY_OBJECTIVE: Implement retrieval/reactivation workflow boundaries with deterministic canonical-subgraph loading interfaces.
 STATUS_SUMMARY:
-- Completed `consolidation-archival-determinism-v0` with expanded deterministic micro-scenarios for cadence boundaries, carryover-cap overflow ordering/reason code, and promotion eligibility thresholds.
-- Advanced checklist coverage: `M7`, `C20-POLICY-04`, `C20-RUNTIME-03`, and `C20-DATA-05` updated with current evidence/state in `docs/handoff/OVERVIEW_CHECKLIST.md`.
-- Advanced spec conformance: `S05-M06`, `S05-M07`, and `S05-M08` are now `SATISFIED`.
-- Locked `DEC-0003` to fixed v0.1q consolidation cadence (task boundary OR every 25 observations).
+- Completed `identity-alias-possible-same-as-v0` with deterministic alias linking and `possible_same_as` ambiguity handling while preserving no-hard-auto-merge behavior.
+- Advanced checklist coverage: `M5`, `C20-DATA-03`, and `C20-DATA-04` are now `DONE`; `C20-RUNTIME-04` is staged as `IN_PROGRESS` for the next retrieval task.
+- Advanced spec conformance: `S02-M03` is now `SATISFIED` with identity-boundary evidence in models/constants/workspace update + tests.
+- Maintained fixed-quality-gate compliance: focused + full pytest, `mypy`, and `ruff` all passed in this loop.
 QUALITY_GATES:
-- Unit tests and/or smoke scripts: PASS - `pytest -q tests/test_workspace_consolidation.py` and full `pytest -q` passed.
+- Unit tests and/or smoke scripts: PASS - `pytest -q tests/test_core_models.py tests/test_workspace_update.py` and full `pytest -q` passed.
 - Type checking: PASS - `mypy src tests` reported no issues.
 - Linting: PASS - `ruff check src tests` passed cleanly.
 - Spec conformance check: PASS - referenced `SPEC_MUST_ID` rows updated to `SATISFIED` with evidence.
@@ -32,12 +32,12 @@ DECISIONS_LOCKED:
 - Keep consolidation cadence fixed at task boundary OR every 25 observations (DEC-0003).
 DECISIONS_PENDING:
 - Resolve 11 open spec questions tracked in `docs/handoff/DECISION_LOG.md`.
-- Decide whether episode schema needs explicit retention class tags at v0 launch (`DEC-0006`).
+- Decide whether proposition structured form normalization is in-scope for v0 (`DEC-0005`) and whether episode schema needs retention class tags (`DEC-0006`).
 RISKS_ACTIVE:
-- Identity milestone M5 remains `NOT_STARTED` until conservative alias/`possible_same_as` boundaries are implemented and tested.
+- Runtime retrieval/reactivation milestone remains incomplete pending deterministic boundary + coverage implementation (`C20-RUNTIME-04`, `C21-02`).
 - Evaluation milestones M9/M10 remain `NOT_STARTED` until runnable baseline and stress harness implementations are added.
-NEXT_TASK_ID: identity-alias-possible-same-as-v0
-ACTIVE_QUEUE_TASK_ID: identity-alias-possible-same-as-v0
+NEXT_TASK_ID: retrieval-reactivation-boundary-v0
+ACTIVE_QUEUE_TASK_ID: retrieval-reactivation-boundary-v0
 OPEN_DECISIONS_COUNT: 11
 NEXT_TASK_READY: YES
 REQUIRED_REFERENCES:
@@ -46,15 +46,15 @@ REQUIRED_REFERENCES:
 3. `docs/handoff/OVERVIEW_CHECKLIST.md`
 4. `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 5. `docs/handoff/DECISION_LOG.md`
-6. `docs/specs/02_data_model.md`
-7. `docs/specs/09_risks_non_goals_deferred.md`
-8. `docs/specs/10_checklists_and_dod.md`
-9. `tests/TEST_INDEX.md`
-10. `configs/CONFIG_INDEX.md`
+6. `docs/specs/01_architecture_overview.md`
+7. `docs/specs/05_operational_flows.md`
+8. `docs/specs/02_data_model.md`
+9. `docs/specs/10_checklists_and_dod.md`
+10. `tests/TEST_INDEX.md`
 11. `docs/INDEX.md`
 ASSUMPTIONS:
 - Python runtime remains available for local command execution.
-- Frozen policy/eval/baseline defaults remain unchanged during identity-boundary work.
+- Frozen policy/eval/baseline defaults remain unchanged during retrieval/reactivation boundary work.
 - Open spec questions remain `OPEN` until explicitly locked with evidence.
 HANDOFF_INSTRUCTIONS:
 - Read this file first, then execute `docs/handoff/NEXT_TASK.md` exactly.

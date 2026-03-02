@@ -66,7 +66,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: YES
+READY: NO
 
 ## Queue Entry 3
 TASK_ID: retrieval-reactivation-boundary-v0
@@ -93,7 +93,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: NO
+READY: YES
 
 ## Queue Entry 4
 TASK_ID: baseline-variants-core-v0

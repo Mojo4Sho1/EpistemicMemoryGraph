@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from src.core.models import Observation
+from src.core.models import Entity, Observation
 from src.store import InMemoryObservationStore
 from src.workspace import (
     InMemoryWorkspaceObservationIndex,
@@ -34,6 +34,23 @@ def _build_boundary() -> WorkspaceUpdateBoundary:
     return WorkspaceUpdateBoundary(intake=intake, index=index)
 
 
+def _build_entity(
+    entity_id: str,
+    canonical_name: str,
+    *,
+    aliases: tuple[str, ...] = (),
+    possible_same_as: tuple[str, ...] = (),
+) -> Entity:
+    return Entity(
+        entity_id=entity_id,
+        canonical_name=canonical_name,
+        entity_type="person",
+        aliases=aliases,
+        possible_same_as=possible_same_as,
+        is_canonical=False,
+    )
+
+
 def test_update_ingests_indexes_and_returns_gate_metadata() -> None:
     boundary = _build_boundary()
     request = WorkspaceUpdateRequest(
@@ -55,6 +72,9 @@ def test_update_ingests_indexes_and_returns_gate_metadata() -> None:
     assert result.consolidation.rule_id == "consolidation.not_due"
     assert result.promotion.eligible is True
     assert result.promotion.rule_id == "promotion.eligible"
+    assert result.identity.status == "not_requested"
+    assert result.identity.rule_id == "identity.not_requested"
+    assert result.identity.hard_merge_performed is False
 
 
 def test_update_duplicate_observation_is_index_idempotent() -> None:
@@ -123,3 +143,95 @@ def test_update_rejects_negative_new_observation_count() -> None:
         assert str(exc) == "new_observations_since_last must be >= 0"
     else:
         raise AssertionError("Expected ValueError for negative new observation count.")
+
+
+def test_update_identity_links_ambiguity_without_hard_merge() -> None:
+    boundary = _build_boundary()
+    first = WorkspaceUpdateRequest(
+        observation=_build_observation("obs-identity-1"),
+        new_observations_since_last=1,
+        at_task_boundary=False,
+        proposition_state="accepted",
+        proposition_freshness=0.9,
+        identity_entity=_build_entity(
+            "ent-ada-primary",
+            "Ada Lovelace",
+            aliases=("A. Lovelace",),
+        ),
+    )
+    second = WorkspaceUpdateRequest(
+        observation=_build_observation("obs-identity-2"),
+        new_observations_since_last=2,
+        at_task_boundary=False,
+        proposition_state="accepted",
+        proposition_freshness=0.9,
+        identity_entity=_build_entity(
+            "ent-ada-candidate",
+            "ada lovelace",
+            aliases=("Ada L.",),
+        ),
+    )
+
+    first_result = boundary.update(first)
+    second_result = boundary.update(second)
+
+    assert first_result.identity.status == "created"
+    assert second_result.identity.status == "linked_possible_same_as"
+    assert second_result.identity.entity_id == "ent-ada-candidate"
+    assert second_result.identity.possible_same_as_links_added == ("ent-ada-primary",)
+    assert second_result.identity.merge_blocked is True
+    assert second_result.identity.hard_merge_performed is False
+    assert boundary.get_entity_ids() == ("ent-ada-primary", "ent-ada-candidate")
+
+    primary = boundary.get_entity("ent-ada-primary")
+    candidate = boundary.get_entity("ent-ada-candidate")
+    assert primary is not None
+    assert candidate is not None
+    assert primary.possible_same_as == ("ent-ada-candidate",)
+    assert candidate.possible_same_as == ("ent-ada-primary",)
+
+
+def test_update_identity_updates_existing_entity_aliases_only() -> None:
+    boundary = _build_boundary()
+    first = WorkspaceUpdateRequest(
+        observation=_build_observation("obs-identity-update-1"),
+        new_observations_since_last=1,
+        at_task_boundary=False,
+        proposition_state="accepted",
+        proposition_freshness=0.9,
+        identity_entity=_build_entity(
+            "ent-grace",
+            "Grace Hopper",
+            aliases=("Rear Admiral Hopper",),
+        ),
+    )
+    second = WorkspaceUpdateRequest(
+        observation=_build_observation("obs-identity-update-2"),
+        new_observations_since_last=2,
+        at_task_boundary=False,
+        proposition_state="accepted",
+        proposition_freshness=0.9,
+        identity_entity=_build_entity(
+            "ent-grace",
+            "Grace Hopper",
+            aliases=("Grace Brewster Murray Hopper", "rear admiral hopper"),
+        ),
+    )
+
+    boundary.update(first)
+    second_result = boundary.update(second)
+
+    assert second_result.identity.status == "updated"
+    assert second_result.identity.alias_links_added == (
+        "Grace Brewster Murray Hopper",
+    )
+    assert second_result.identity.merge_blocked is False
+    assert second_result.identity.hard_merge_performed is False
+    assert boundary.get_entity_ids() == ("ent-grace",)
+
+    updated_entity = boundary.get_entity("ent-grace")
+    assert updated_entity is not None
+    assert updated_entity.aliases == (
+        "Rear Admiral Hopper",
+        "Grace Brewster Murray Hopper",
+    )
