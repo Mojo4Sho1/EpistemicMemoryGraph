@@ -107,4 +107,6 @@ EVIDENCE: PENDING (deferred-feature dependency tags)
 ## Update Rules
 - Every non-`None` spec open question must appear exactly once in this file.
 - `OPEN_DECISIONS_COUNT` must equal the number of `STATUS: OPEN` entries.
+- Escalate an `OPEN` decision to the user only when it blocks active `NEXT_TASK.md` acceptance criteria, `OWNER_CHECK_IDS`, or `SPEC_MUST_IDS`.
+- If an `OPEN` decision is non-blocking for active scope, keep it `OPEN` and proceed with task execution.
 - Lock decisions only with explicit evidence links.

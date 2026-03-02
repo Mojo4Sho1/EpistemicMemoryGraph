@@ -74,6 +74,13 @@ Use explicit modal language:
 - Keep entries short and operational.
 - Link to `docs/INDEX.md` or `docs/specs/*` instead of duplicating specification detail.
 
+## Decision Escalation Rule
+
+- Treat `docs/handoff/DECISION_LOG.md` as a blocker registry, not a mandatory prompt list.
+- Agents should escalate a decision to the user only when the active `NEXT_TASK.md` scope cannot complete without a decision lock.
+- For non-blocking decisions, agents should proceed with scoped work and leave the decision `OPEN`.
+- Decision requests should always cite `DECISION_ID`, active `TASK_ID`, and impacted acceptance/spec rows.
+
 ## Handoff Validation Checks
 
 - `rg --files docs/handoff`

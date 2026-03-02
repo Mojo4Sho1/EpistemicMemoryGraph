@@ -52,6 +52,15 @@ Use this document for agent workflow rules. Human-oriented project overview and 
 - `docs/handoff/NEXT_TASK.md:SPEC_MUST_IDS` must reference valid `SPEC_MUST_ID` rows in `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`.
 - Only set `STATUS: DONE` when both `EXIT_CRITERIA` and `EVIDENCE` are satisfied.
 
+## Decision Escalation Contract
+
+- For each `STATUS: OPEN` row in `docs/handoff/DECISION_LOG.md`, classify impact on the active loop as `BLOCKING` or `NON_BLOCKING`.
+- Treat a decision as `BLOCKING` only when active `NEXT_TASK.md` acceptance criteria, `OWNER_CHECK_IDS`, or `SPEC_MUST_IDS` cannot be completed without resolving that decision.
+- If `NON_BLOCKING`, continue implementation without asking the user and keep the decision `OPEN`.
+- Ask the user for a decision only when `BLOCKING`, and include `DECISION_ID`, affected scope, and consequence of each option.
+- Do not escalate decisions outside active task scope unless they directly block a quality gate in the current loop.
+- When resolved, set decision `STATUS: LOCKED`, fill `DECISION`, add `EVIDENCE`, and synchronize `OPEN_DECISIONS_COUNT` in `CURRENT_STATUS.md` and `DECISION_LOG.md`.
+
 ## Environment Usage
 
 - Environment spec: `environment.yml`
