@@ -85,6 +85,63 @@ def test_accepts_when_policy_thresholds_are_met() -> None:
     assert decision.next_state == "accepted"
 
 
+def test_accepts_at_exact_policy_threshold_boundaries() -> None:
+    decision = evaluate_transition(
+        StateTransitionInput(
+            current_state="tentative",
+            score=_score(
+                support_score=0.8,
+                contradiction_score=0.29,
+                confidence=0.80,
+                distinct_support_groups=2,
+                distinct_contradict_groups=1,
+                freshness=0.40,
+            ),
+        )
+    )
+
+    assert decision.next_state == "accepted"
+    assert decision.rule_id == "transition.accepted.policy_threshold"
+
+
+def test_accepted_requires_contradiction_strictly_below_threshold() -> None:
+    decision = evaluate_transition(
+        StateTransitionInput(
+            current_state="tentative",
+            score=_score(
+                support_score=0.8,
+                contradiction_score=0.30,
+                confidence=0.90,
+                distinct_support_groups=3,
+                distinct_contradict_groups=1,
+                freshness=0.70,
+            ),
+        )
+    )
+
+    assert decision.next_state == "provisional"
+    assert decision.rule_id == "transition.provisional.supported"
+
+
+def test_rejected_saturation_requires_confidence_strictly_below_threshold() -> None:
+    decision = evaluate_transition(
+        StateTransitionInput(
+            current_state="tentative",
+            score=_score(
+                support_score=0.2,
+                contradiction_score=0.90,
+                confidence=0.15,
+                distinct_support_groups=1,
+                distinct_contradict_groups=2,
+                freshness=0.8,
+            ),
+        )
+    )
+
+    assert decision.next_state == "tentative"
+    assert decision.rule_id == "transition.tentative.default"
+
+
 def test_deprecated_when_stale_for_one_half_life_without_support() -> None:
     decision = evaluate_transition(
         StateTransitionInput(
@@ -103,6 +160,48 @@ def test_deprecated_when_stale_for_one_half_life_without_support() -> None:
     )
 
     assert decision.next_state == "deprecated"
+
+
+def test_deprecated_applies_to_prior_provisional_state() -> None:
+    decision = evaluate_transition(
+        StateTransitionInput(
+            current_state="provisional",
+            score=_score(
+                support_score=0.4,
+                contradiction_score=0.1,
+                confidence=0.60,
+                distinct_support_groups=1,
+                distinct_contradict_groups=1,
+                freshness=0.19,
+                volatility="medium",
+            ),
+            hours_since_last_support=72.0,
+        )
+    )
+
+    assert decision.next_state == "deprecated"
+    assert decision.rule_id == "transition.deprecated.staleness"
+
+
+def test_deprecated_requires_freshness_strictly_below_threshold() -> None:
+    decision = evaluate_transition(
+        StateTransitionInput(
+            current_state="accepted",
+            score=_score(
+                support_score=0.4,
+                contradiction_score=0.1,
+                confidence=0.60,
+                distinct_support_groups=1,
+                distinct_contradict_groups=1,
+                freshness=0.20,
+                volatility="medium",
+            ),
+            hours_since_last_support=72.0,
+        )
+    )
+
+    assert decision.next_state == "provisional"
+    assert decision.rule_id == "transition.provisional.supported"
 
 
 def test_provisional_when_confidence_crosses_threshold_only() -> None:

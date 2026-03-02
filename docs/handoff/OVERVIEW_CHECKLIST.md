@@ -55,13 +55,13 @@ PROJECT_PHASE: implementation
 
 ### M7: Implement consolidation and archival
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: workspace-smoke-suite-v0q-v0
+- OWNER_TASK_ID: consolidation-archival-determinism-v0
 - EXIT_CRITERIA: promote/archive/discard flow at task boundary with trace logging
 - EVIDENCE: `src/workspace/consolidation.py`, `src/eval/schemas.py`, `tests/test_workspace_consolidation.py`, `tests/test_eval_artifacts.py`, `tests/smoke/test_workspace_update_smoke.py`, `scripts/probes/workspace_update_probe.py`
 - SOURCE: MASTER_DOC 13.4, 15.3(7)
 
 ### M8: Build policy correctness suite
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: policy-correctness-micro-suite-v0
 - EXIT_CRITERIA: micro-scenario suite for state/policy correctness
 - EVIDENCE: `tests/test_policy_scoring.py`, `tests/test_state_machine.py`, `tests/test_test_trigger.py`
@@ -128,7 +128,7 @@ PROJECT_PHASE: implementation
 ## C. Definition of Done Readiness (MASTER_DOC 21)
 - Policy enforced by deterministic code: DONE
 - Three layers function end-to-end: NOT_STARTED
-- Policy correctness micro-suite passes: IN_PROGRESS
+- Policy correctness micro-suite passes: DONE
 - Governance stress benchmark reproducible: NOT_STARTED
 - Outperforms naive baseline on governance metrics: NOT_STARTED
 - Interpretable long-horizon benefit: NOT_STARTED
@@ -138,9 +138,10 @@ PROJECT_PHASE: implementation
 1. Treat master as design freeze: DONE
 2. Split into derived docs: IN_PROGRESS
 3. Implement schema + policy boundary before higher-level behavior: IN_PROGRESS
-4. Create policy correctness micro-scenarios before full benchmark harness (OWNER_TASK_ID: policy-correctness-micro-suite-v0): IN_PROGRESS
+4. Create policy correctness micro-scenarios before full benchmark harness (OWNER_TASK_ID: policy-correctness-micro-suite-v0): DONE
 5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): DONE
 6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): DONE
+7. Expand consolidation cadence/carryover/promotion boundary micro-scenarios (OWNER_TASK_ID: consolidation-archival-determinism-v0): IN_PROGRESS
 
 ## Update Rules
 - Update this file once per completed handoff loop.
