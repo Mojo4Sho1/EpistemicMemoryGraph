@@ -1,47 +1,50 @@
 # Next Task
 
-TASK_ID: consolidation-archival-determinism-v0
-TASK_TITLE: Harden consolidation and archival deterministic boundaries
-OBJECTIVE: Increase deterministic evidence for consolidation cadence, unresolved-carryover cap behavior, and promotion eligibility thresholds under frozen v0.1q policy defaults.
+TASK_ID: identity-alias-possible-same-as-v0
+TASK_TITLE: Implement conservative identity ambiguity boundaries
+OBJECTIVE: Add deterministic alias-linking and `possible_same_as` handling without hard auto-merge, with focused model/update coverage under frozen v0.1q defaults.
 OWNER_CHECK_IDS:
-- C20-POLICY-04
-- C20-RUNTIME-03
-- C20-DATA-05
+- C20-DATA-03
+- C20-DATA-04
 SPEC_MUST_IDS:
-- S05-M06
-- S05-M07
-- S05-M08
+- S02-M03
 IN_SCOPE:
-- Extend `tests/test_workspace_consolidation.py` with deterministic edge-case scenarios around cadence boundaries, carryover-cap overflow handling, and promotion eligibility thresholds.
-- If tests expose a gap, apply minimal in-scope fixes in `src/workspace/consolidation.py`.
-- Update `tests/TEST_INDEX.md` only if the test surface description changes.
+- Add/extend deterministic identity model support for alias and `possible_same_as` links in `src/core/models.py` and `src/core/constants.py`.
+- Add/extend deterministic workspace update boundary handling in `src/workspace/update.py` that preserves conservative no-hard-auto-merge behavior.
+- Extend `tests/test_core_models.py` and `tests/test_workspace_update.py` with duplicate-entity and false-merge guardrail micro-scenarios.
+- Update `tests/TEST_INDEX.md` only if the test surface map changes.
 - Keep `configs/*.yaml` unchanged.
 OUT_OF_SCOPE:
-- Policy/state-machine and test-trigger behavior changes.
+- Retrieval/reactivation workflow implementation.
+- Consolidation cadence/carryover/promotion behavior changes.
 - New baseline variants, benchmark harness work, or long-horizon studies.
 - Any changes to frozen policy/eval/baseline YAML files.
 TARGET_FILES:
-- `src/workspace/consolidation.py`
-- `tests/test_workspace_consolidation.py`
+- `src/core/models.py`
+- `src/core/constants.py`
+- `src/workspace/update.py`
+- `tests/test_core_models.py`
+- `tests/test_workspace_update.py`
 - `tests/TEST_INDEX.md`
 - `docs/handoff/CURRENT_STATUS.md`
 - `docs/handoff/NEXT_TASK.md`
 - `docs/handoff/OVERVIEW_CHECKLIST.md`
 - `docs/handoff/TASK_QUEUE.md`
+- `docs/handoff/DECISION_LOG.md`
 - `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 PREREQUISITES:
 - Review `docs/handoff/CURRENT_STATUS.md`, `docs/handoff/TASK_QUEUE.md`, and this file.
 - Confirm `TASK_ID` continuity across `CURRENT_STATUS.md:NEXT_TASK_ID`, `CURRENT_STATUS.md:ACTIVE_QUEUE_TASK_ID`, and queue `READY: YES` row.
-- Read `docs/specs/05_operational_flows.md`, `docs/specs/10_checklists_and_dod.md`, `docs/specs/03_policy_and_state_machine.md`, and `docs/specs/04_scoring_and_trust.md`.
-- Read `tests/TEST_INDEX.md`, `configs/CONFIG_INDEX.md`, `configs/policy_v0q.yaml`, and `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
+- Read `docs/specs/02_data_model.md`, `docs/specs/09_risks_non_goals_deferred.md`, and `docs/specs/10_checklists_and_dod.md`.
+- Read `tests/TEST_INDEX.md`, `configs/CONFIG_INDEX.md`, and `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
 - Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Add deterministic micro-scenarios to `tests/test_workspace_consolidation.py` for cadence boundary behavior and deterministic rule-id expectations.
-2. Add deterministic micro-scenarios to `tests/test_workspace_consolidation.py` for unresolved-carryover cap edge cases, deterministic ordering, and overflow reason-code handling.
-3. Add deterministic micro-scenarios to `tests/test_workspace_consolidation.py` for promotion threshold boundaries (`accepted` + freshness gate).
-4. Patch `src/workspace/consolidation.py` only if required to satisfy deterministic policy contract expectations.
-5. Confirm test index accuracy in `tests/TEST_INDEX.md`.
-6. Update `OWNER_CHECK_IDS` and `SPEC_MUST_IDS` evidence rows in handoff checklists.
+1. Implement or refine alias/`possible_same_as` identity representations in `src/core/models.py` and supporting constants.
+2. Implement conservative identity handling in `src/workspace/update.py` that avoids hard auto-merge while retaining ambiguity links.
+3. Add deterministic model-level edge-case coverage in `tests/test_core_models.py`.
+4. Add deterministic workspace update guardrail coverage in `tests/test_workspace_update.py`.
+5. Confirm `tests/TEST_INDEX.md` remains accurate (or update if the mapped surface changes).
+6. Update `OWNER_CHECK_IDS` and `SPEC_MUST_IDS` evidence/state rows in handoff checklists.
 7. Run quality gates in fixed order and capture outcomes.
 8. Update handoff docs for loop completion and task continuity.
 QUALITY_GATES:
@@ -51,17 +54,17 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] `tests/test_workspace_consolidation.py` includes deterministic consolidation cadence/carryover/promotion micro-scenario coverage expansions.
-- [ ] `src/workspace/consolidation.py` preserves deterministic consolidation and promotion behavior.
+- [ ] `src/core/models.py`, `src/core/constants.py`, and `src/workspace/update.py` implement conservative alias/`possible_same_as` handling with no hard auto-merge path.
+- [ ] `tests/test_core_models.py` and `tests/test_workspace_update.py` include deterministic identity ambiguity/false-merge guardrail coverage expansions.
 - [ ] `docs/handoff/OVERVIEW_CHECKLIST.md` rows in `OWNER_CHECK_IDS` are updated with current evidence/state.
 - [ ] `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` rows in `SPEC_MUST_IDS` are updated with current evidence/state.
-- [ ] `conda run -n emg python -m pytest -q tests/test_workspace_consolidation.py` passes.
+- [ ] `conda run -n emg python -m pytest -q tests/test_core_models.py tests/test_workspace_update.py` passes.
 - [ ] `conda run -n emg python -m pytest -q` passes.
 - [ ] `conda run -n emg python -m mypy src tests` passes.
 - [ ] `conda run -n emg python -m ruff check src tests` passes.
 - [ ] Handoff docs are updated and task IDs remain continuous.
 VALIDATION_COMMANDS:
-- `conda run -n emg python -m pytest -q tests/test_workspace_consolidation.py`
+- `conda run -n emg python -m pytest -q tests/test_core_models.py tests/test_workspace_update.py`
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
@@ -75,6 +78,7 @@ DONE_UPDATE_REQUIREMENTS:
 - Update `docs/handoff/NEXT_TASK.md` with the next single-task contract.
 - Update `docs/handoff/OVERVIEW_CHECKLIST.md` for owner-check continuity.
 - Update `docs/handoff/TASK_QUEUE.md` for queue readiness continuity.
+- Update `docs/handoff/DECISION_LOG.md` for any decision status/count changes.
 - Update `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` for referenced MUST-row continuity.
 - Keep handoff updates concise and operational.
 FAILURE_PROTOCOL:

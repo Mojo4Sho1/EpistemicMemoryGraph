@@ -54,7 +54,7 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 14, 15.3(6)
 
 ### M7: Implement consolidation and archival
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: consolidation-archival-determinism-v0
 - EXIT_CRITERIA: promote/archive/discard flow at task boundary with trace logging
 - EVIDENCE: `src/workspace/consolidation.py`, `src/eval/schemas.py`, `tests/test_workspace_consolidation.py`, `tests/test_eval_artifacts.py`, `tests/smoke/test_workspace_update_smoke.py`, `scripts/probes/workspace_update_probe.py`
@@ -128,7 +128,7 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Freeze trust model fields)
 
 - CHECK_ID: C20-POLICY-04
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: consolidation-archival-determinism-v0
 - EXIT_CRITERIA: promotion and decay criteria are fully covered by deterministic boundary tests.
 - EVIDENCE: `configs/policy_v0q.yaml`; `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`; `tests/test_state_machine.py`
@@ -165,16 +165,16 @@ PROJECT_PHASE: implementation
 
 - CHECK_ID: C20-DATA-04
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: consolidation-archival-determinism-v0
+- OWNER_TASK_ID: identity-alias-possible-same-as-v0
 - EXIT_CRITERIA: workspace schema is frozen and fully covered by deterministic tests.
 - EVIDENCE: `docs/specs/02_data_model.md`; `src/workspace/state.py`; `tests/test_workspace_state.py`
 - SOURCE: MASTER_DOC 20 (Freeze workspace schema)
 
 - CHECK_ID: C20-DATA-05
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: consolidation-archival-determinism-v0
 - EXIT_CRITERIA: episode archive format is frozen and emitted through consolidation/eval artifacts.
-- EVIDENCE: `docs/specs/02_data_model.md`; `src/eval/schemas.py`; `tests/test_eval_artifacts.py`
+- EVIDENCE: `docs/specs/02_data_model.md`; `src/eval/schemas.py`; `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`; `tests/test_eval_artifacts.py`
 - SOURCE: MASTER_DOC 20 (Freeze episode archive format)
 
 ### Runtime architecture
@@ -193,7 +193,7 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Freeze the deterministic policy boundary)
 
 - CHECK_ID: C20-RUNTIME-03
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: consolidation-archival-determinism-v0
 - EXIT_CRITERIA: consolidation workflow boundary behavior is deterministic and fully evidenced.
 - EVIDENCE: `docs/specs/05_operational_flows.md`; `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`
@@ -342,7 +342,7 @@ PROJECT_PHASE: implementation
 4. Create policy correctness micro-scenarios before full benchmark harness (OWNER_TASK_ID: policy-correctness-micro-suite-v0): DONE
 5. Introduce minimal smoke suite + workspace probe scripts after composed boundary implementation (OWNER_TASK_ID: workspace-smoke-suite-v0q-v0): DONE
 6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): DONE
-7. Expand consolidation cadence/carryover/promotion boundary micro-scenarios (OWNER_TASK_ID: consolidation-archival-determinism-v0): IN_PROGRESS
+7. Expand consolidation cadence/carryover/promotion boundary micro-scenarios (OWNER_TASK_ID: consolidation-archival-determinism-v0): DONE
 8. Establish M5-M10 task queue + decision/spec-conformance trackers (OWNER_TASK_ID: docs-operations-hardening-v0): DONE
 9. Implement conservative identity handling + retrieval/reactivation boundaries (OWNER_TASK_ID: identity-alias-possible-same-as-v0): NOT_STARTED
 

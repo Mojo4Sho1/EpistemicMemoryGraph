@@ -1,7 +1,7 @@
 # Decision Log
 
 LAST_UPDATED: 2026-03-02
-OPEN_DECISIONS_COUNT: 12
+OPEN_DECISIONS_COUNT: 11
 
 ## Status Legend
 - `OPEN`: unresolved question requiring explicit task closure
@@ -25,12 +25,12 @@ OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (`docs/specs/09_risks_non_goals_deferred.md` tag policy)
 
 DECISION_ID: DEC-0003
-STATUS: OPEN
+STATUS: LOCKED
 SOURCE_DOC: `docs/specs/01_architecture_overview.md`
 QUESTION: Should checkpoint cadence for consolidation be fixed or task-adaptive in v0?
-DECISION: TBD
+DECISION: Keep fixed cadence in v0.1q (task boundary OR every 25 observations), not task-adaptive cadence.
 OWNER_TASK_ID: consolidation-archival-determinism-v0
-EVIDENCE: PENDING (`docs/specs/01_architecture_overview.md` + tests for chosen mode)
+EVIDENCE: `docs/specs/05_operational_flows.md`; `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`
 
 DECISION_ID: DEC-0004
 STATUS: OPEN

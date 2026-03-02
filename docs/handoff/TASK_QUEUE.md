@@ -36,7 +36,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
 - `rg "^OWNER_CHECK_IDS:|^SPEC_MUST_IDS:" docs/handoff/NEXT_TASK.md`
-READY: YES
+READY: NO
 
 ## Queue Entry 2
 TASK_ID: identity-alias-possible-same-as-v0
@@ -66,7 +66,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: NO
+READY: YES
 
 ## Queue Entry 3
 TASK_ID: retrieval-reactivation-boundary-v0

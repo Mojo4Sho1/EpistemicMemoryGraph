@@ -233,21 +233,21 @@ EVIDENCE: `src/core/test_trigger.py`; `tests/test_test_trigger.py`
 SPEC_MUST_ID: S05-M06
 SOURCE_SPEC: `docs/specs/05_operational_flows.md`
 MUST_TEXT: Consolidate at task boundaries or every 25 new observations.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: consolidation-archival-determinism-v0
 EVIDENCE: `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`
 
 SPEC_MUST_ID: S05-M07
 SOURCE_SPEC: `docs/specs/05_operational_flows.md`
 MUST_TEXT: Cap unresolved carryover at 20 propositions per task and archive overflow with reason code.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: consolidation-archival-determinism-v0
 EVIDENCE: `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`
 
 SPEC_MUST_ID: S05-M08
 SOURCE_SPEC: `docs/specs/05_operational_flows.md`
 MUST_TEXT: Require accepted state plus freshness >= 0.35 for canonical promotion.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: consolidation-archival-determinism-v0
 EVIDENCE: `src/workspace/consolidation.py`; `tests/test_workspace_consolidation.py`; `configs/policy_v0q.yaml`
 
