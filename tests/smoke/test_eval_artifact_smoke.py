@@ -7,10 +7,15 @@ from pathlib import Path
 import pytest
 
 from src.eval import (
+    STAGE2_FIXED_SEEDS,
+    STAGE2_REQUIRED_ARTIFACT_FILES,
     AggregateMetrics,
     ConsolidationEvent,
+    GovernanceStressHarness,
     ScenarioResult,
     TransitionEvent,
+    build_default_governance_stress_bundle,
+    build_uniform_stage2_bundles,
     stable_hash,
     write_run_artifacts,
 )
@@ -115,3 +120,25 @@ def test_eval_artifact_smoke_contract(tmp_path: Path) -> None:
 
     transitions_rows = (run_dir / "transitions.jsonl").read_text(encoding="utf-8").splitlines()
     assert len(transitions_rows) == 1
+
+
+def test_stage2_governance_stress_smoke_contract(tmp_path: Path) -> None:
+    harness = GovernanceStressHarness(systems=("full_governed_system",))
+    run_records = harness.run_stage2(
+        artifacts_root=tmp_path,
+        run_date=datetime(2026, 3, 3, 14, 0, 0),
+        git_sha="abcdef1234567890",
+        model_id="model-smoke",
+        config_snapshot={"eval": {"stage": "governance_stress"}},
+        scenario_bundles=build_uniform_stage2_bundles(
+            systems=("full_governed_system",),
+            bundle=build_default_governance_stress_bundle(),
+        ),
+    )
+
+    assert len(run_records) == len(STAGE2_FIXED_SEEDS)
+    assert {record.seed for record in run_records} == set(STAGE2_FIXED_SEEDS)
+    for record in run_records:
+        assert set(STAGE2_REQUIRED_ARTIFACT_FILES).issubset(
+            {path.name for path in record.run_dir.iterdir()}
+        )

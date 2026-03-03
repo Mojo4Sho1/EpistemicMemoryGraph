@@ -3,14 +3,14 @@
 LAST_UPDATED: 2026-03-03
 PROJECT_PHASE: implementation
 REPO_BASELINE: Repo includes deterministic v0.1q policy/scoring/state-transition/test-trigger modules, tool proposal schema validation, consolidation gate helpers, eval artifact/fairness schemas, frozen config baselines under `configs/`, composed workspace update boundaries, smoke/probe coverage, and expanded handoff controls (`TASK_QUEUE.md`, `DECISION_LOG.md`, `SPEC_CONFORMANCE_CHECKLIST.md`) for zero-context agent execution.
-ACTIVE_PRIMARY_OBJECTIVE: Implement governance stress scenario suite and deterministic seed harness.
+ACTIVE_PRIMARY_OBJECTIVE: Execute fairness-locked baseline comparison and compute Stage 3 claim-threshold outcomes.
 STATUS_SUMMARY:
-- Completed `baseline-variants-core-v0` with deterministic six-system baseline runtime adapters and shared execution interface.
-- Advanced checklist coverage: `M9` and `C20-EVAL-03` are now `DONE` with runnable baseline/fairness evidence.
-- Advanced spec conformance: `S08-M07` is now `SATISFIED` with fairness preflight + adapter runtime evidence.
+- Completed `governance-stress-suite-v0` with deterministic Stage 2 stress harness and fixed seed contract enforcement.
+- Advanced checklist coverage: `C20-EVAL-02` and `C21-04` are now `DONE` with executable stress benchmark evidence.
+- Advanced spec conformance: `S08-M06` is now `SATISFIED` with fixed-seed and identical-bundle runtime enforcement.
 - Maintained fixed-quality-gate compliance: scoped + full pytest, `mypy`, and `ruff` all passed in this loop.
 QUALITY_GATES:
-- Unit tests and/or smoke scripts: PASS - `pytest -q tests/test_eval_fairness.py` and full `pytest -q` both passed.
+- Unit tests and/or smoke scripts: PASS - scoped eval artifact/smoke tests and full `pytest -q` both passed.
 - Type checking: PASS - `mypy src tests` reported no issues.
 - Linting: PASS - `ruff check src tests` passed cleanly.
 - Spec conformance check: PASS - referenced `SPEC_MUST_ID` rows updated to `SATISFIED` with evidence.
@@ -34,9 +34,9 @@ DECISIONS_PENDING:
 - Resolve 11 open spec questions tracked in `docs/handoff/DECISION_LOG.md`.
 - Keep open decision rows `NON_BLOCKING` until they enter active acceptance criteria scope.
 RISKS_ACTIVE:
-- M10 Stage 2/3/4 evidence remains pending until governance stress harness and benchmark execution are implemented.
-NEXT_TASK_ID: governance-stress-suite-v0
-ACTIVE_QUEUE_TASK_ID: governance-stress-suite-v0
+- M10 Stage 3/4 evidence remains pending until baseline comparison claims and long-horizon study execution are implemented.
+NEXT_TASK_ID: baseline-comparison-claims-v0
+ACTIVE_QUEUE_TASK_ID: baseline-comparison-claims-v0
 OPEN_DECISIONS_COUNT: 11
 NEXT_TASK_READY: YES
 REQUIRED_REFERENCES:
@@ -53,7 +53,7 @@ REQUIRED_REFERENCES:
 11. `docs/INDEX.md`
 ASSUMPTIONS:
 - Python runtime remains available for local command execution.
-- Frozen policy/eval/baseline defaults remain unchanged during governance stress harness implementation.
+- Frozen policy/eval/baseline defaults remain unchanged during baseline comparison claim-threshold implementation.
 - Open spec questions remain `OPEN` until explicitly locked with evidence.
 HANDOFF_INSTRUCTIONS:
 - Read this file first, then execute `docs/handoff/NEXT_TASK.md` exactly.

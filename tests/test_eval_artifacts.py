@@ -4,11 +4,21 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+import pytest
+
 from src.eval import (
+    STAGE2_FIXED_SEEDS,
+    STAGE2_REQUIRED_ARTIFACT_FILES,
     AggregateMetrics,
     ConsolidationEvent,
+    GovernanceStressBundle,
+    GovernanceStressContractError,
+    GovernanceStressHarness,
+    GovernanceStressScenario,
     ScenarioResult,
     TransitionEvent,
+    build_default_governance_stress_bundle,
+    build_uniform_stage2_bundles,
     stable_hash,
     write_run_artifacts,
 )
@@ -132,3 +142,90 @@ def test_manifest_reproducibility_hash_matches_frozen_recipe(tmp_path: Path) -> 
     )
 
     assert manifest_payload["reproducibility_hash"] == expected
+
+
+def test_governance_stress_harness_rejects_non_fixed_seed_set() -> None:
+    with pytest.raises(GovernanceStressContractError):
+        GovernanceStressHarness(
+            systems=("full_governed_system",),
+            seeds=(101, 202),
+        )
+
+
+def test_governance_stress_harness_rejects_non_identical_bundles(tmp_path: Path) -> None:
+    harness = GovernanceStressHarness(systems=("system-a", "system-b"))
+    bundle_a = build_default_governance_stress_bundle()
+    bundle_b = GovernanceStressBundle(
+        bundle_id="stage2-governance-stress-v0q-system-b",
+        scenarios=(
+            GovernanceStressScenario(
+                scenario_id="stress-01",
+                failure_mode="delayed_correction",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-02",
+                failure_mode="correlated_false_sources",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-03",
+                failure_mode="same_source_reinforcement",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-04",
+                failure_mode="changing_facts_over_time",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-05",
+                failure_mode="ambiguous_entity_references",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-06",
+                failure_mode="insufficient_evidence_abstention",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+            GovernanceStressScenario(
+                scenario_id="stress-07",
+                failure_mode="competing_propositions_targeted_test",
+                description="Different bundle id should fail shared bundle contract.",
+            ),
+        ),
+    )
+
+    with pytest.raises(GovernanceStressContractError):
+        harness.run_stage2(
+            artifacts_root=tmp_path,
+            run_date=datetime(2026, 3, 3, 12, 0, 0),
+            git_sha="abcdef1234567890",
+            model_id="model-x",
+            config_snapshot={"eval": {"stage": "governance_stress"}},
+            scenario_bundles={"system-a": bundle_a, "system-b": bundle_b},
+        )
+
+
+def test_governance_stress_harness_emits_required_files_for_fixed_seed_set(tmp_path: Path) -> None:
+    harness = GovernanceStressHarness(systems=("full_governed_system",))
+    run_records = harness.run_stage2(
+        artifacts_root=tmp_path,
+        run_date=datetime(2026, 3, 3, 13, 0, 0),
+        git_sha="abcdef1234567890",
+        model_id="model-governed",
+        config_snapshot={"eval": {"stage": "governance_stress"}},
+        scenario_bundles=build_uniform_stage2_bundles(
+            systems=("full_governed_system",),
+            bundle=build_default_governance_stress_bundle(),
+        ),
+    )
+
+    assert len(run_records) == len(STAGE2_FIXED_SEEDS)
+    assert {record.seed for record in run_records} == set(STAGE2_FIXED_SEEDS)
+    assert {record.system for record in run_records} == {"full_governed_system"}
+
+    for record in run_records:
+        assert set(STAGE2_REQUIRED_ARTIFACT_FILES).issubset(
+            {path.name for path in record.run_dir.iterdir()}
+        )

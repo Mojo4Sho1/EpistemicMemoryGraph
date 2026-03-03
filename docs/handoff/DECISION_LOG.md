@@ -94,7 +94,7 @@ SOURCE_DOC: `docs/specs/08_evaluation_and_metrics.md`
 QUESTION: Minimal smoke tests and developer probe scripts are intentionally deferred until `workspace-update-boundary-v0q-v0` is implemented.
 DECISION: TBD
 OWNER_TASK_ID: governance-stress-suite-v0
-EVIDENCE: PENDING (`tests/TEST_INDEX.md` + `scripts/SCRIPTS_INDEX.md` expansion policy)
+EVIDENCE: Stage 2 eval artifact smoke coverage now exists (`tests/smoke/test_eval_artifact_smoke.py`); broader smoke/probe expansion policy remains pending.
 ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0011

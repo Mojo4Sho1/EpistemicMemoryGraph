@@ -334,16 +334,16 @@ EVIDENCE: NONE
 SPEC_MUST_ID: S08-M03
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Record machine-readable run artifacts with configs, seeds, timestamps, and system version.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: governance-stress-suite-v0
-EVIDENCE: `src/eval/schemas.py`; `src/eval/artifacts.py`; `tests/test_eval_artifacts.py`
+EVIDENCE: `src/eval/schemas.py`; `src/eval/artifacts.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 
 SPEC_MUST_ID: S08-M04
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Log proposition transitions with triggering evidence and deterministic rule ids.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: governance-stress-suite-v0
-EVIDENCE: `src/eval/schemas.py`; `tests/test_eval_artifacts.py`
+EVIDENCE: `src/eval/schemas.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 
 SPEC_MUST_ID: S08-M05
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
@@ -355,9 +355,9 @@ EVIDENCE: `tests/test_policy_scoring.py`; `tests/test_state_machine.py`; `tests/
 SPEC_MUST_ID: S08-M06
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Run Stage 2 stress with five fixed seeds and identical scenario bundles per system.
-STATUS: NOT_STARTED
+STATUS: SATISFIED
 OWNER_TASK_ID: governance-stress-suite-v0
-EVIDENCE: `configs/eval_v0q.yaml`
+EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 
 SPEC_MUST_ID: S08-M07
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`

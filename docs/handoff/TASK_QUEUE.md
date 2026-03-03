@@ -148,7 +148,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: YES
+READY: NO
 
 ## Queue Entry 6
 TASK_ID: baseline-comparison-claims-v0
@@ -175,7 +175,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: NO
+READY: YES
 
 ## Queue Entry 7
 TASK_ID: long-horizon-study-v0

@@ -75,10 +75,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 16.3, 18, 15.3(9)
 
 ### M10: Run first governance benchmark + end-to-end trials
-- STATUS: NOT_STARTED
+- STATUS: IN_PROGRESS
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: reproducible benchmark + long-horizon study artifacts
-- EVIDENCE: NONE
+- EVIDENCE: `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`; `configs/eval_v0q.yaml`
 - SOURCE: MASTER_DOC 16.2, 16.4, 15.3(10), 21
 
 ## B. Master Implementation Checklist (MASTER_DOC 20)
@@ -215,10 +215,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Write policy correctness tests)
 
 - CHECK_ID: C20-EVAL-02
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: governance stress scenario catalog is defined and executable.
-- EVIDENCE: NONE
+- EVIDENCE: `src/eval/stress.py`; `src/eval/__init__.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 20 (Design governance stress scenarios)
 
 - CHECK_ID: C20-EVAL-03
@@ -229,10 +229,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Define baseline systems)
 
 - CHECK_ID: C20-EVAL-04
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: metrics/logging schema is frozen and used by benchmark artifacts.
-- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `tests/test_eval_artifacts.py`
+- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 20 (Define metrics and logging schema)
 
 - CHECK_ID: C20-EVAL-05
@@ -251,10 +251,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Create experiment config spec)
 
 - CHECK_ID: C20-HYGIENE-02
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: run logging spec is fully represented and exercised by benchmark runs.
-- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `src/eval/schemas.py`; `src/eval/artifacts.py`
+- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 20 (Create run logging spec)
 
 - CHECK_ID: C20-HYGIENE-03
@@ -301,10 +301,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 21 (policy correctness suite)
 
 - CHECK_ID: C21-04
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: governance stress benchmark executes reproducibly with required artifacts.
-- EVIDENCE: NONE
+- EVIDENCE: `src/eval/stress.py`; `configs/eval_v0q.yaml`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 21 (stress benchmark reproducibility)
 
 - CHECK_ID: C21-05
@@ -329,10 +329,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 21 (interpretable long-horizon benefit)
 
 - CHECK_ID: C21-08
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: governance-stress-suite-v0
 - EXIT_CRITERIA: logging/artifact trail is complete for failure analysis reporting.
-- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `tests/test_eval_artifacts.py`
+- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 21 (artifact sufficiency for failure analysis)
 
 ## D. Immediate Next Actions Tracking (MASTER_DOC 23)
