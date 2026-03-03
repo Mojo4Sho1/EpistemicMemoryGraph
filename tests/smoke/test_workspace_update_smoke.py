@@ -5,10 +5,15 @@ from datetime import datetime
 import pytest
 
 from src.core.models import Observation
-from src.store import InMemoryObservationStore
+from src.store import (
+    CanonicalMemoryNode,
+    InMemoryCanonicalMemoryStore,
+    InMemoryObservationStore,
+)
 from src.workspace import (
     InMemoryWorkspaceObservationIndex,
     WorkspaceObservationIntake,
+    WorkspaceReactivationBoundary,
     WorkspaceUpdateBoundary,
     WorkspaceUpdateRequest,
 )
@@ -34,7 +39,19 @@ def _build_observation(observation_id: str) -> Observation:
 def _build_boundary() -> WorkspaceUpdateBoundary:
     intake = WorkspaceObservationIntake(InMemoryObservationStore())
     index = InMemoryWorkspaceObservationIndex()
-    return WorkspaceUpdateBoundary(intake=intake, index=index)
+    canonical_store = InMemoryCanonicalMemoryStore()
+    canonical_store.append_node(
+        CanonicalMemoryNode(
+            node_id="node-smoke",
+            session_id="smoke-session",
+            task_id="smoke-task",
+            entity_ids=("ent-smoke",),
+            proposition_ids=("prop-smoke",),
+            relevance_keys=("smoke", "event"),
+        )
+    )
+    reactivation = WorkspaceReactivationBoundary(canonical_store)
+    return WorkspaceUpdateBoundary(intake=intake, index=index, reactivation=reactivation)
 
 
 def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
@@ -47,6 +64,7 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
             at_task_boundary=False,
             proposition_state="accepted",
             proposition_freshness=0.80,
+            reactivation_relevance_keys=("smoke",),
         )
     )
     second = boundary.update(
@@ -56,6 +74,7 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
             at_task_boundary=False,
             proposition_state="accepted",
             proposition_freshness=0.20,
+            reactivation_relevance_keys=("unknown-key",),
         )
     )
     duplicate = boundary.update(
@@ -65,6 +84,7 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
             at_task_boundary=True,
             proposition_state="tentative",
             proposition_freshness=0.90,
+            reactivation_relevance_keys=(),
         )
     )
 
@@ -75,6 +95,9 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
     assert first.consolidation.rule_id == "consolidation.not_due"
     assert first.promotion.eligible is True
     assert first.promotion.rule_id == "promotion.eligible"
+    assert first.reactivation.status == "loaded"
+    assert first.reactivation.hydrated_entity_ids == ("ent-smoke",)
+    assert first.reactivation.hydrated_proposition_ids == ("prop-smoke",)
 
     assert second.intake_status == "ingested"
     assert second.index_status == "indexed"
@@ -83,6 +106,8 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
     assert second.consolidation.rule_id == "consolidation.cadence.25"
     assert second.promotion.eligible is False
     assert second.promotion.rule_id == "promotion.ineligible.freshness"
+    assert second.reactivation.status == "no_matches"
+    assert second.reactivation.rule_id == "reactivation.no_matches"
 
     assert duplicate.intake_status == "duplicate"
     assert duplicate.stored is False
@@ -92,3 +117,5 @@ def test_workspace_update_smoke_end_to_end_is_deterministic() -> None:
     assert duplicate.consolidation.rule_id == "consolidation.task_boundary"
     assert duplicate.promotion.eligible is False
     assert duplicate.promotion.rule_id == "promotion.ineligible.state"
+    assert duplicate.reactivation.status == "not_requested"
+    assert duplicate.reactivation.rule_id == "reactivation.not_requested"

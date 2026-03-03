@@ -1,6 +1,6 @@
 # Decision Log
 
-LAST_UPDATED: 2026-03-02
+LAST_UPDATED: 2026-03-03
 OPEN_DECISIONS_COUNT: 11
 
 ## Status Legend
@@ -15,6 +15,7 @@ QUESTION: Should a formal v0.1 changelog file be added in `docs/` for scope upda
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (`docs/` changelog policy or explicit defer entry)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0002
 STATUS: OPEN
@@ -23,6 +24,7 @@ QUESTION: Should non-goals be tagged by "defer until" milestone for planning cla
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (`docs/specs/09_risks_non_goals_deferred.md` tag policy)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0003
 STATUS: LOCKED
@@ -38,7 +40,8 @@ SOURCE_DOC: `docs/specs/01_architecture_overview.md`
 QUESTION: Should workspace eviction thresholds be configurable by domain volatility at v0 launch?
 DECISION: TBD
 OWNER_TASK_ID: retrieval-reactivation-boundary-v0
-EVIDENCE: PENDING (runtime config + boundary tests)
+EVIDENCE: Retrieval/reactivation boundary now implemented (`src/workspace/reactivation.py`, `tests/test_workspace_state.py`); volatility-configurable eviction remains pending.
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0005
 STATUS: OPEN
@@ -47,6 +50,7 @@ QUESTION: Should proposition structured form be normalized in v0 or deferred to 
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: NON_BLOCKING for `identity-alias-possible-same-as-v0`; deferred schema decision pending closeout policy.
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0006
 STATUS: OPEN
@@ -55,6 +59,7 @@ QUESTION: Should episode schema include explicit retention class tags at launch?
 DECISION: TBD
 OWNER_TASK_ID: consolidation-archival-determinism-v0
 EVIDENCE: PENDING (episode schema + archival test coverage)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0007
 STATUS: OPEN
@@ -63,6 +68,7 @@ QUESTION: Should milestone completion require explicit sign-off checklists in re
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (process policy documented in `AGENTS.md` or handoff docs)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0008
 STATUS: OPEN
@@ -71,6 +77,7 @@ QUESTION: Should benchmark harness scaffolding begin in parallel with policy tes
 DECISION: TBD
 OWNER_TASK_ID: governance-stress-suite-v0
 EVIDENCE: PENDING (queue dependency update + rationale in `TASK_QUEUE.md`)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0009
 STATUS: OPEN
@@ -79,6 +86,7 @@ QUESTION: Confidence calibration visualizations are optional in v0.1q; scalar me
 DECISION: TBD
 OWNER_TASK_ID: baseline-comparison-claims-v0
 EVIDENCE: PENDING (report schema decision in eval docs)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0010
 STATUS: OPEN
@@ -87,6 +95,7 @@ QUESTION: Minimal smoke tests and developer probe scripts are intentionally defe
 DECISION: TBD
 OWNER_TASK_ID: governance-stress-suite-v0
 EVIDENCE: PENDING (`tests/TEST_INDEX.md` + `scripts/SCRIPTS_INDEX.md` expansion policy)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0011
 STATUS: OPEN
@@ -95,6 +104,7 @@ QUESTION: Should each known risk get a mapped detection metric owner during impl
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (risk-to-metric owner matrix)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 DECISION_ID: DEC-0012
 STATUS: OPEN
@@ -103,6 +113,7 @@ QUESTION: Should deferred features be tagged with dependency prerequisites for p
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (deferred-feature dependency tags)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 ## Update Rules
 - Every non-`None` spec open question must appear exactly once in this file.

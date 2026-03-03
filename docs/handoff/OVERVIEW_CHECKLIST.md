@@ -1,6 +1,6 @@
 # v0 Overview Checklist
 
-LAST_UPDATED: 2026-03-02
+LAST_UPDATED: 2026-03-03
 PROJECT_PHASE: implementation
 
 ## Status Legend
@@ -200,10 +200,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Freeze consolidation workflow)
 
 - CHECK_ID: C20-RUNTIME-04
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: retrieval-reactivation-boundary-v0
 - EXIT_CRITERIA: retrieval/reactivation workflow is frozen with deterministic interfaces and tests.
-- EVIDENCE: `docs/specs/01_architecture_overview.md`; `docs/specs/05_operational_flows.md`; `src/workspace/update.py`; `tests/test_workspace_update.py`
+- EVIDENCE: `src/store/canonical_memory.py`; `src/workspace/reactivation.py`; `src/workspace/update.py`; `tests/test_workspace_state.py`; `tests/test_workspace_update.py`; `tests/smoke/test_workspace_update_smoke.py`
 - SOURCE: MASTER_DOC 20 (Freeze retrieval and reactivation workflow)
 
 ### Evaluation
@@ -287,10 +287,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 21 (deterministic policy enforcement)
 
 - CHECK_ID: C21-02
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: retrieval-reactivation-boundary-v0
 - EXIT_CRITERIA: observation log, workspace, and canonical memory layers function end-to-end.
-- EVIDENCE: NONE
+- EVIDENCE: `src/store/observation_store.py`; `src/store/canonical_memory.py`; `src/workspace/state.py`; `src/workspace/reactivation.py`; `src/workspace/update.py`; `tests/test_workspace_state.py`; `tests/test_workspace_update.py`; `tests/smoke/test_workspace_update_smoke.py`
 - SOURCE: MASTER_DOC 21 (three layers end-to-end)
 
 - CHECK_ID: C21-03
@@ -344,7 +344,7 @@ PROJECT_PHASE: implementation
 6. Harden SQLite observation-store persistence contract coverage (OWNER_TASK_ID: observation-sqlite-store-v0): DONE
 7. Expand consolidation cadence/carryover/promotion boundary micro-scenarios (OWNER_TASK_ID: consolidation-archival-determinism-v0): DONE
 8. Establish M5-M10 task queue + decision/spec-conformance trackers (OWNER_TASK_ID: docs-operations-hardening-v0): DONE
-9. Implement conservative identity handling + retrieval/reactivation boundaries (OWNER_TASK_ID: retrieval-reactivation-boundary-v0): IN_PROGRESS
+9. Implement conservative identity handling + retrieval/reactivation boundaries (OWNER_TASK_ID: retrieval-reactivation-boundary-v0): DONE
 
 ## Update Rules
 - Update this file once per completed handoff loop.

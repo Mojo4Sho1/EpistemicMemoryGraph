@@ -18,6 +18,11 @@ from src.workspace.intake import (
     ObservationIntakeRequest,
     WorkspaceObservationIntake,
 )
+from src.workspace.reactivation import (
+    ReactivationRequest,
+    ReactivationResult,
+    WorkspaceReactivationBoundary,
+)
 from src.workspace.state import (
     InMemoryWorkspaceObservationIndex,
     ObservationIndexRegisterRequest,
@@ -72,6 +77,7 @@ class WorkspaceUpdateRequest:
     proposition_state: str
     proposition_freshness: float
     identity_entity: Entity | None = None
+    reactivation_relevance_keys: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -88,6 +94,7 @@ class WorkspaceUpdateResult:
     consolidation: ConsolidationDecision
     promotion: PromotionDecision
     identity: IdentityUpdateDecision
+    reactivation: ReactivationResult
 
 
 class WorkspaceUpdateBoundary:
@@ -98,9 +105,11 @@ class WorkspaceUpdateBoundary:
         *,
         intake: WorkspaceObservationIntake,
         index: InMemoryWorkspaceObservationIndex,
+        reactivation: WorkspaceReactivationBoundary | None = None,
     ) -> None:
         self._intake = intake
         self._index = index
+        self._reactivation = reactivation
         self._entities: dict[str, Entity] = {}
         self._alias_index: dict[str, list[str]] = {}
 
@@ -153,6 +162,7 @@ class WorkspaceUpdateBoundary:
             freshness=request.proposition_freshness,
         )
         identity = self._update_identity(request.identity_entity)
+        reactivation = self._reactivate(request)
 
         return WorkspaceUpdateResult(
             observation_id=observation.observation_id,
@@ -165,6 +175,24 @@ class WorkspaceUpdateBoundary:
             consolidation=consolidation,
             promotion=promotion,
             identity=identity,
+            reactivation=reactivation,
+        )
+
+    def _reactivate(self, request: WorkspaceUpdateRequest) -> ReactivationResult:
+        if self._reactivation is None:
+            return ReactivationResult(
+                status="not_requested",
+                canonical_nodes=(),
+                hydrated_entity_ids=(),
+                hydrated_proposition_ids=(),
+                rule_id="reactivation.boundary_not_configured",
+            )
+        return self._reactivation.reactivate(
+            ReactivationRequest(
+                session_id=request.observation.session_id,
+                task_id=request.observation.task_id,
+                relevance_keys=request.reactivation_relevance_keys,
+            )
         )
 
     def _update_identity(self, candidate: Entity | None) -> IdentityUpdateDecision:

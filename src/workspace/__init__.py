@@ -13,6 +13,11 @@ from src.workspace.intake import (
     ObservationIntakeResult,
     WorkspaceObservationIntake,
 )
+from src.workspace.reactivation import (
+    ReactivationRequest,
+    ReactivationResult,
+    WorkspaceReactivationBoundary,
+)
 from src.workspace.state import (
     InMemoryWorkspaceObservationIndex,
     ObservationIndexRegisterRequest,
@@ -37,6 +42,9 @@ __all__ = [
     "ObservationIndexRegisterRequest",
     "ObservationIndexRegisterResult",
     "InMemoryWorkspaceObservationIndex",
+    "ReactivationRequest",
+    "ReactivationResult",
+    "WorkspaceReactivationBoundary",
     "IdentityUpdateDecision",
     "WorkspaceObservationIntake",
     "WorkspaceUpdateRequest",

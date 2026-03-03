@@ -1,6 +1,6 @@
 # Spec Conformance Checklist
 
-LAST_UPDATED: 2026-03-02
+LAST_UPDATED: 2026-03-03
 
 ## Status Legend
 - `SATISFIED`: implemented and evidenced
@@ -33,9 +33,9 @@ EVIDENCE: `MASTER_DOC.md` sections 4.2, 22; `docs/specs/09_risks_non_goals_defer
 SPEC_MUST_ID: S01-M01
 SOURCE_SPEC: `docs/specs/01_architecture_overview.md`
 MUST_TEXT: Implement three distinct layers: immutable observation log, transient workspace, canonical long-term memory graph.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: retrieval-reactivation-boundary-v0
-EVIDENCE: `src/store/observation_store.py`; `src/workspace/state.py`; `docs/specs/01_architecture_overview.md`
+EVIDENCE: `src/store/observation_store.py`; `src/store/canonical_memory.py`; `src/workspace/state.py`; `src/workspace/reactivation.py`; `src/workspace/update.py`; `tests/test_workspace_state.py`; `tests/test_workspace_update.py`; `tests/smoke/test_workspace_update_smoke.py`
 
 SPEC_MUST_ID: S01-M02
 SOURCE_SPEC: `docs/specs/01_architecture_overview.md`
@@ -54,9 +54,9 @@ EVIDENCE: `src/workspace/state.py`; `docs/specs/01_architecture_overview.md`
 SPEC_MUST_ID: S01-M04
 SOURCE_SPEC: `docs/specs/01_architecture_overview.md`
 MUST_TEXT: Treat canonical memory as policy-gated durable state.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: retrieval-reactivation-boundary-v0
-EVIDENCE: `docs/specs/01_architecture_overview.md`; `docs/specs/06_tool_boundary_and_interfaces.md`
+EVIDENCE: `src/store/canonical_memory.py`; `src/workspace/reactivation.py`; `src/workspace/update.py`; `tests/test_workspace_state.py`; `tests/test_workspace_update.py`
 
 ## Spec 02 (`docs/specs/02_data_model.md`)
 SPEC_MUST_ID: S02-M01
@@ -198,9 +198,9 @@ EVIDENCE: `src/core/scoring.py`; `tests/test_policy_scoring.py`
 SPEC_MUST_ID: S05-M01
 SOURCE_SPEC: `docs/specs/05_operational_flows.md`
 MUST_TEXT: Execute intake order: receive input -> record observations -> parse references/claims -> attach to workspace.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: retrieval-reactivation-boundary-v0
-EVIDENCE: `src/workspace/intake.py`; `src/workspace/update.py`; `docs/specs/05_operational_flows.md`
+EVIDENCE: `src/workspace/intake.py`; `src/workspace/update.py`; `src/workspace/reactivation.py`; `tests/test_workspace_update.py`; `tests/smoke/test_workspace_update_smoke.py`
 
 SPEC_MUST_ID: S05-M02
 SOURCE_SPEC: `docs/specs/05_operational_flows.md`

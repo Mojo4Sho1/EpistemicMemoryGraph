@@ -3,10 +3,15 @@
 from datetime import datetime
 
 from src.core.models import Entity, Observation
-from src.store import InMemoryObservationStore
+from src.store import (
+    CanonicalMemoryNode,
+    InMemoryCanonicalMemoryStore,
+    InMemoryObservationStore,
+)
 from src.workspace import (
     InMemoryWorkspaceObservationIndex,
     WorkspaceObservationIntake,
+    WorkspaceReactivationBoundary,
     WorkspaceUpdateBoundary,
     WorkspaceUpdateRequest,
 )
@@ -27,11 +32,13 @@ def _build_observation(observation_id: str) -> Observation:
     )
 
 
-def _build_boundary() -> WorkspaceUpdateBoundary:
+def _build_boundary(
+    reactivation: WorkspaceReactivationBoundary | None = None,
+) -> WorkspaceUpdateBoundary:
     store = InMemoryObservationStore()
     intake = WorkspaceObservationIntake(store)
     index = InMemoryWorkspaceObservationIndex()
-    return WorkspaceUpdateBoundary(intake=intake, index=index)
+    return WorkspaceUpdateBoundary(intake=intake, index=index, reactivation=reactivation)
 
 
 def _build_entity(
@@ -75,6 +82,8 @@ def test_update_ingests_indexes_and_returns_gate_metadata() -> None:
     assert result.identity.status == "not_requested"
     assert result.identity.rule_id == "identity.not_requested"
     assert result.identity.hard_merge_performed is False
+    assert result.reactivation.status == "not_requested"
+    assert result.reactivation.rule_id == "reactivation.boundary_not_configured"
 
 
 def test_update_duplicate_observation_is_index_idempotent() -> None:
@@ -235,3 +244,45 @@ def test_update_identity_updates_existing_entity_aliases_only() -> None:
         "Rear Admiral Hopper",
         "Grace Brewster Murray Hopper",
     )
+
+
+def test_update_reactivation_loads_only_relevant_session_task_context() -> None:
+    canonical_store = InMemoryCanonicalMemoryStore()
+    canonical_store.append_node(
+        CanonicalMemoryNode(
+            node_id="node-ada",
+            session_id="session-1",
+            task_id="task-1",
+            entity_ids=("ent-ada",),
+            proposition_ids=("prop-ada-1",),
+            relevance_keys=("Ada", "analysis"),
+        )
+    )
+    canonical_store.append_node(
+        CanonicalMemoryNode(
+            node_id="node-other-task",
+            session_id="session-1",
+            task_id="task-2",
+            entity_ids=("ent-ignored",),
+            proposition_ids=("prop-ignored",),
+            relevance_keys=("ada",),
+        )
+    )
+    boundary = _build_boundary(WorkspaceReactivationBoundary(canonical_store))
+
+    result = boundary.update(
+        WorkspaceUpdateRequest(
+            observation=_build_observation("obs-reactivation-1"),
+            new_observations_since_last=3,
+            at_task_boundary=False,
+            proposition_state="accepted",
+            proposition_freshness=0.9,
+            reactivation_relevance_keys=("ada",),
+        )
+    )
+
+    assert result.reactivation.status == "loaded"
+    assert tuple(node.node_id for node in result.reactivation.canonical_nodes) == ("node-ada",)
+    assert result.reactivation.hydrated_entity_ids == ("ent-ada",)
+    assert result.reactivation.hydrated_proposition_ids == ("prop-ada-1",)
+    assert result.reactivation.rule_id == "reactivation.loaded_relevant_subgraph"
