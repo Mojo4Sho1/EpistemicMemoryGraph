@@ -1,28 +1,30 @@
 # Next Task
 
-TASK_ID: baseline-variants-core-v0
-TASK_TITLE: Implement runnable baseline variants under shared fairness controls
-OBJECTIVE: Build deterministic baseline execution adapters that satisfy the baseline matrix and fairness preflight requirements for M9 progress.
+TASK_ID: governance-stress-suite-v0
+TASK_TITLE: Implement governance stress scenarios and deterministic seed harness
+OBJECTIVE: Build Stage 2 governance stress scenario execution with fixed-seed determinism and required artifact output under frozen eval constraints.
 OWNER_CHECK_IDS:
-- C20-EVAL-03
+- C20-EVAL-02
 SPEC_MUST_IDS:
-- S08-M07
+- S08-M06
 IN_SCOPE:
-- Implement baseline adapter/runtime interfaces under `src/eval/` aligned to `configs/baselines_v0q.yaml`.
-- Enforce fairness preflight parity inputs before baseline run acceptance.
-- Add deterministic tests in `tests/test_eval_fairness.py` for baseline interface behavior.
-- Update `tests/TEST_INDEX.md` only if the mapped test surface changes.
-- Keep `configs/*.yaml` unchanged.
+- Implement Stage 2 governance stress scenario interfaces under `src/eval/`.
+- Add deterministic seed harness behavior for fixed seed set `[101, 202, 303, 404, 505]`.
+- Ensure artifact output includes required files listed in `configs/eval_v0q.yaml`.
+- Add/extend deterministic tests in `tests/test_eval_artifacts.py` and `tests/smoke/test_eval_artifact_smoke.py`.
+- Update `scripts/` scaffolds only if needed for deterministic harness entrypoints.
 OUT_OF_SCOPE:
-- Governance stress suite Stage 2 scenario generation and execution harness wiring.
-- Stage 3 claim-threshold reporting and long-horizon study execution.
+- Stage 3 baseline-comparison claim threshold computation and reporting.
+- Stage 4 long-horizon study execution and claim updates.
 - Policy/state-machine/scoring threshold changes.
-- Any edits to frozen policy/eval/baseline YAML files.
+- Any edits to frozen `configs/*.yaml`.
 TARGET_FILES:
 - `src/eval/`
-- `scripts/` benchmark runner scaffolds (only if required by adapter entrypoint integration)
-- `tests/test_eval_fairness.py`
+- `scripts/`
+- `tests/test_eval_artifacts.py`
+- `tests/smoke/test_eval_artifact_smoke.py`
 - `tests/TEST_INDEX.md`
+- `scripts/SCRIPTS_INDEX.md`
 - `docs/handoff/CURRENT_STATUS.md`
 - `docs/handoff/NEXT_TASK.md`
 - `docs/handoff/OVERVIEW_CHECKLIST.md`
@@ -33,17 +35,18 @@ PREREQUISITES:
 - Review `docs/handoff/CURRENT_STATUS.md`, `docs/handoff/TASK_QUEUE.md`, and this file.
 - Confirm `TASK_ID` continuity across `CURRENT_STATUS.md:NEXT_TASK_ID`, `CURRENT_STATUS.md:ACTIVE_QUEUE_TASK_ID`, and queue `READY: YES` row.
 - Read `docs/specs/08_evaluation_and_metrics.md` and `docs/specs/10_checklists_and_dod.md`.
-- Read `configs/baselines_v0q.yaml` and `configs/eval_v0q.yaml`.
-- Read `tests/TEST_INDEX.md` and `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
+- Read `configs/eval_v0q.yaml`, `tests/TEST_INDEX.md`, and `scripts/SCRIPTS_INDEX.md`.
+- Read `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
 - Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Implement deterministic baseline runtime interfaces for systems listed in `configs/baselines_v0q.yaml`.
-2. Enforce shared fairness preflight checks before run acceptance.
-3. Add deterministic test coverage in `tests/test_eval_fairness.py` for baseline adapters and parity checks.
-4. Confirm `tests/TEST_INDEX.md` remains accurate (or update if mapped test surface changes).
-5. Update `OWNER_CHECK_IDS` and `SPEC_MUST_IDS` evidence/state rows in handoff checklists.
-6. Run quality gates in fixed order and capture outcomes.
-7. Update handoff docs for loop completion and task continuity.
+1. Implement deterministic Stage 2 governance stress scenario runner interfaces.
+2. Enforce fixed seed execution contract `[101, 202, 303, 404, 505]` for stress harness runs.
+3. Ensure required artifact outputs are emitted for stress runs.
+4. Add deterministic unit/smoke coverage for scenario execution + artifact emission.
+5. Confirm `tests/TEST_INDEX.md` and `scripts/SCRIPTS_INDEX.md` remain accurate (or update if mapped surfaces change).
+6. Update `OWNER_CHECK_IDS` and `SPEC_MUST_IDS` evidence/state rows in handoff checklists.
+7. Run quality gates in fixed order and capture outcomes.
+8. Update handoff docs for loop completion and task continuity.
 QUALITY_GATES:
 1) Unit tests and/or smoke scripts
 2) Type checking
@@ -51,22 +54,22 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] Baseline runtime interfaces are deterministic and cover systems listed in `configs/baselines_v0q.yaml`.
-- [ ] Fairness preflight deterministically blocks parity mismatches before run execution.
-- [ ] `tests/test_eval_fairness.py` contains deterministic baseline interface + fairness checks.
+- [ ] Stage 2 stress scenarios are executable through deterministic interfaces.
+- [ ] Harness runs fixed seeds `[101, 202, 303, 404, 505]` deterministically.
+- [ ] Stress runs emit required artifact files from `configs/eval_v0q.yaml`.
 - [ ] `docs/handoff/OVERVIEW_CHECKLIST.md` rows in `OWNER_CHECK_IDS` are updated with current evidence/state.
 - [ ] `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` rows in `SPEC_MUST_IDS` are updated with current evidence/state.
-- [ ] `conda run -n emg python -m pytest -q tests/test_eval_fairness.py` passes.
+- [ ] `conda run -n emg python -m pytest -q tests/test_eval_artifacts.py tests/smoke/test_eval_artifact_smoke.py` passes.
 - [ ] `conda run -n emg python -m pytest -q` passes.
 - [ ] `conda run -n emg python -m mypy src tests` passes.
 - [ ] `conda run -n emg python -m ruff check src tests` passes.
 - [ ] Handoff docs are updated and task IDs remain continuous.
 VALIDATION_COMMANDS:
-- `conda run -n emg python -m pytest -q tests/test_eval_fairness.py`
+- `conda run -n emg python -m pytest -q tests/test_eval_artifacts.py tests/smoke/test_eval_artifact_smoke.py`
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-- `rg --files src tests docs/handoff`
+- `rg --files src tests scripts docs/handoff`
 - `rg "^TASK_ID:|^OWNER_CHECK_IDS:|^SPEC_MUST_IDS:" docs/handoff/NEXT_TASK.md`
 - `rg "^NEXT_TASK_ID:|^ACTIVE_QUEUE_TASK_ID:" docs/handoff/CURRENT_STATUS.md`
 - `rg "^TASK_ID:|^READY:" docs/handoff/TASK_QUEUE.md`

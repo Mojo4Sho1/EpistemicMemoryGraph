@@ -362,9 +362,9 @@ EVIDENCE: `configs/eval_v0q.yaml`
 SPEC_MUST_ID: S08-M07
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Enforce Stage 3 fairness parity across compared systems.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: baseline-variants-core-v0
-EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/fairness.py`; `tests/test_eval_fairness.py`
+EVIDENCE: `configs/eval_v0q.yaml`; `configs/baselines_v0q.yaml`; `src/eval/baselines.py`; `src/eval/fairness.py`; `tests/test_eval_fairness.py`
 
 SPEC_MUST_ID: S08-M08
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`

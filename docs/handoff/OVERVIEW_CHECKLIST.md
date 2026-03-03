@@ -68,10 +68,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 16.1, 15.3(8), 20
 
 ### M9: Build baseline variants
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: baseline-variants-core-v0
 - EXIT_CRITERIA: baseline memory systems runnable for comparison
-- EVIDENCE: NONE
+- EVIDENCE: `configs/baselines_v0q.yaml`; `src/eval/baselines.py`; `src/eval/fairness.py`; `tests/test_eval_fairness.py`
 - SOURCE: MASTER_DOC 16.3, 18, 15.3(9)
 
 ### M10: Run first governance benchmark + end-to-end trials
@@ -222,10 +222,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Design governance stress scenarios)
 
 - CHECK_ID: C20-EVAL-03
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: baseline-variants-core-v0
 - EXIT_CRITERIA: baseline systems are defined and runnable under shared fairness constraints.
-- EVIDENCE: `configs/baselines_v0q.yaml`; `src/eval/fairness.py`; `tests/test_eval_fairness.py`
+- EVIDENCE: `configs/baselines_v0q.yaml`; `src/eval/baselines.py`; `src/eval/fairness.py`; `tests/test_eval_fairness.py`
 - SOURCE: MASTER_DOC 20 (Define baseline systems)
 
 - CHECK_ID: C20-EVAL-04
