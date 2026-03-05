@@ -1,0 +1,1 @@
+{"confidence": 0.73, "contradiction_score": 0.08, "evidence_ids": ["policy-debug-full_governed_system-101-obs-1"], "freshness": 0.91, "new_state": "accepted", "prior_state": "provisional", "proposition_id": "policy-debug-full_governed_system-101-proposition", "rule_id": "transition.accepted.sustained_support", "support_score": 0.81, "timestamp_utc": "2026-03-05T00:00:00Z"}

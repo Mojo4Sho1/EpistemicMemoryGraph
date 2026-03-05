@@ -1,6 +1,6 @@
 # Spec Conformance Checklist
 
-LAST_UPDATED: 2026-03-04
+LAST_UPDATED: 2026-03-05
 
 ## Status Legend
 - `SATISFIED`: implemented and evidenced
@@ -320,9 +320,9 @@ EVIDENCE: `tests/test_policy_scoring.py`; `tests/test_state_machine.py`; `tests/
 SPEC_MUST_ID: S08-M01
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Run staged evaluation in order: policy correctness -> governance stress -> baseline comparison -> end-to-end study.
-STATUS: IN_PROGRESS
-OWNER_TASK_ID: governance-stress-suite-v0
-EVIDENCE: `configs/eval_v0q.yaml`; `docs/specs/08_evaluation_and_metrics.md`
+STATUS: SATISFIED
+OWNER_TASK_ID: long-horizon-study-v0
+EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/stress.py`; `src/eval/baselines.py`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `tests/test_eval_fairness.py`
 
 SPEC_MUST_ID: S08-M02
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
@@ -376,9 +376,9 @@ EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fai
 SPEC_MUST_ID: S08-M09
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Require Stage 4 interpretable benefit on one governance metric and one continuity metric in the same task family.
-STATUS: NOT_STARTED
+STATUS: SATISFIED
 OWNER_TASK_ID: long-horizon-study-v0
-EVIDENCE: `configs/eval_v0q.yaml`
+EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `scripts/probes/long_horizon_study_probe.py`; `artifacts/2026-03-05_abcdef12_raw_text_log_retrieval_policy-debug_101/metrics_summary.json`; `artifacts/2026-03-05_abcdef12_full_governed_system_policy-debug_101/metrics_summary.json`
 
 ## Spec 09 (`docs/specs/09_risks_non_goals_deferred.md`)
 SPEC_MUST_ID: S09-M01
@@ -448,9 +448,9 @@ EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `s
 SPEC_MUST_ID: S10-M07
 SOURCE_SPEC: `docs/specs/10_checklists_and_dod.md`
 MUST_TEXT: Require long-horizon interpretable benefit on at least one governance metric plus one continuity metric.
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: long-horizon-study-v0
-EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `docs/handoff/OVERVIEW_CHECKLIST.md`
+EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `scripts/probes/long_horizon_study_probe.py`; `docs/handoff/OVERVIEW_CHECKLIST.md`
 
 ## Update Rules
 - Keep each `SPEC_MUST_ID` unique and stable.

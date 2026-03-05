@@ -1,6 +1,6 @@
 # Task Queue
 
-LAST_UPDATED: 2026-03-04
+LAST_UPDATED: 2026-03-05
 QUEUE_PHASE: implementation
 QUEUE_POLICY: Keep one `READY: YES` task at a time; all other staged tasks remain `READY: NO`.
 
@@ -201,7 +201,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: YES
+READY: NO
 
 ## Queue Entry 8
 TASK_ID: dod-evidence-closeout-v0
@@ -230,7 +230,7 @@ VALIDATION_COMMANDS:
 - `rg "^DECISION_ID:|^STATUS:" docs/handoff/DECISION_LOG.md`
 - `rg "^SPEC_MUST_ID:" docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 - `rg "^NEXT_TASK_ID:|^ACTIVE_QUEUE_TASK_ID:" docs/handoff/CURRENT_STATUS.md`
-READY: NO
+READY: YES
 
 ## Queue Update Rules
 - Keep one and only one queue entry with `READY: YES`.

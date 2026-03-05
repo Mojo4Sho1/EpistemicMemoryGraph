@@ -1,6 +1,6 @@
 # v0 Overview Checklist
 
-LAST_UPDATED: 2026-03-04
+LAST_UPDATED: 2026-03-05
 PROJECT_PHASE: implementation
 
 ## Status Legend
@@ -75,10 +75,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 16.3, 18, 15.3(9)
 
 ### M10: Run first governance benchmark + end-to-end trials
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: long-horizon-study-v0
 - EXIT_CRITERIA: reproducible benchmark + long-horizon study artifacts
-- EVIDENCE: `src/eval/stress.py`; `src/eval/baselines.py`; `tests/test_eval_artifacts.py`; `tests/test_eval_fairness.py`; `tests/smoke/test_eval_artifact_smoke.py`; `configs/eval_v0q.yaml`
+- EVIDENCE: `src/eval/stress.py`; `src/eval/baselines.py`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `tests/test_eval_fairness.py`; `tests/smoke/test_eval_artifact_smoke.py`; `scripts/probes/long_horizon_study_probe.py`; `artifacts/2026-03-05_abcdef12_full_governed_system_policy-debug_101/metrics_summary.json`; `artifacts/2026-03-05_abcdef12_raw_text_log_retrieval_policy-debug_101/metrics_summary.json`; `configs/eval_v0q.yaml`
 - SOURCE: MASTER_DOC 16.2, 16.4, 15.3(10), 21
 
 ## B. Master Implementation Checklist (MASTER_DOC 20)
@@ -272,10 +272,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Create result artifact naming convention)
 
 - CHECK_ID: C20-HYGIENE-05
-- STATUS: NOT_STARTED
+- STATUS: IN_PROGRESS
 - OWNER_TASK_ID: dod-evidence-closeout-v0
 - EXIT_CRITERIA: failure-analysis template exists and is linked from evaluation workflow docs.
-- EVIDENCE: NONE
+- EVIDENCE: `docs/specs/10_checklists_and_dod.md`; `docs/handoff/NEXT_TASK.md`
 - SOURCE: MASTER_DOC 20 (Create failure analysis template)
 
 ## C. Definition of Done Readiness (MASTER_DOC 21)
@@ -322,10 +322,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 21 (task success non-degradation threshold)
 
 - CHECK_ID: C21-07
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: long-horizon-study-v0
 - EXIT_CRITERIA: one task family shows both governance and continuity metric improvement.
-- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `docs/handoff/NEXT_TASK.md`
+- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `scripts/probes/long_horizon_study_probe.py`; `artifacts/2026-03-05_abcdef12_full_governed_system_policy-debug_101/metrics_summary.json`; `artifacts/2026-03-05_abcdef12_raw_text_log_retrieval_policy-debug_101/metrics_summary.json`
 - SOURCE: MASTER_DOC 21 (interpretable long-horizon benefit)
 
 - CHECK_ID: C21-08

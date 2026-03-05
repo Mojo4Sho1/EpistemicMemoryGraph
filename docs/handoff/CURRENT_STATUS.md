@@ -1,20 +1,20 @@
 # Current Status
 
-LAST_UPDATED: 2026-03-04
+LAST_UPDATED: 2026-03-05
 PROJECT_PHASE: implementation
 REPO_BASELINE: Repo includes deterministic v0.1q policy/scoring/state-transition/test-trigger modules, tool proposal schema validation, consolidation gate helpers, eval artifact/fairness schemas, frozen config baselines under `configs/`, composed workspace update boundaries, smoke/probe coverage, and expanded handoff controls (`TASK_QUEUE.md`, `DECISION_LOG.md`, `SPEC_CONFORMANCE_CHECKLIST.md`) for zero-context agent execution.
-ACTIVE_PRIMARY_OBJECTIVE: Execute Stage 4 long-horizon study with interpretable governance+continuity benefit evidence.
+ACTIVE_PRIMARY_OBJECTIVE: Complete DoD evidence closeout and lock final checklist/spec readiness state.
 STATUS_SUMMARY:
-- Completed `baseline-comparison-claims-v0` with deterministic Stage 3 comparison and claim-threshold computation against raw-log baseline.
-- Advanced checklist coverage: `C20-EVAL-05`, `C21-05`, and `C21-06` are now `DONE` with fairness-locked threshold evidence.
-- Advanced spec conformance: `S08-M02`, `S08-M08`, and `S10-M06` are now `SATISFIED` with implementation + test evidence.
+- Completed `long-horizon-study-v0` with deterministic Stage 4 workflow, paired governance+continuity deltas, and artifact emission checks.
+- Advanced checklist coverage: `C21-07` now `DONE`; M10 milestone evidence now includes Stage 4 harness/probe/artifact outputs.
+- Advanced spec conformance: `S08-M09` and `S10-M07` now `SATISFIED` with implementation + test evidence.
 - Maintained fixed-quality-gate compliance: scoped + full `pytest`, `mypy`, and `ruff` all passed in this loop.
 QUALITY_GATES:
 - Unit tests and/or smoke scripts: PASS - scoped eval fairness/artifact tests and full `pytest -q` both passed.
 - Type checking: PASS - `mypy src tests` reported no issues.
 - Linting: PASS - `ruff check src tests` passed cleanly.
-- Spec conformance check: PASS - referenced `SPEC_MUST_ID` rows updated to `SATISFIED` with evidence.
-- Documentation + handoff updates: PASS - queue/task continuity and checklist/spec references synchronized.
+- Spec conformance check: PASS - `S08-M09` and `S10-M07` rows set to `SATISFIED` with Stage 4 evidence.
+- Documentation + handoff updates: PASS - queue/task continuity, overview/spec rows, and next-task contract synchronized.
 BLOCKERS: NONE
 DECISIONS_LOCKED:
 - Keep single primary task per loop.
@@ -34,9 +34,9 @@ DECISIONS_PENDING:
 - Resolve 11 open spec questions tracked in `docs/handoff/DECISION_LOG.md`.
 - Keep open decision rows `NON_BLOCKING` until they enter active acceptance criteria scope.
 RISKS_ACTIVE:
-- M10 Stage 4 long-horizon interpretable-benefit evidence remains pending.
-NEXT_TASK_ID: long-horizon-study-v0
-ACTIVE_QUEUE_TASK_ID: long-horizon-study-v0
+- DoD closeout rows and open documentation decisions remain pending for final freeze.
+NEXT_TASK_ID: dod-evidence-closeout-v0
+ACTIVE_QUEUE_TASK_ID: dod-evidence-closeout-v0
 OPEN_DECISIONS_COUNT: 11
 NEXT_TASK_READY: YES
 REQUIRED_REFERENCES:
@@ -45,15 +45,12 @@ REQUIRED_REFERENCES:
 3. `docs/handoff/OVERVIEW_CHECKLIST.md`
 4. `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 5. `docs/handoff/DECISION_LOG.md`
-6. `docs/specs/08_evaluation_and_metrics.md`
-7. `docs/specs/10_checklists_and_dod.md`
-8. `configs/baselines_v0q.yaml`
-9. `configs/eval_v0q.yaml`
-10. `tests/TEST_INDEX.md`
-11. `docs/INDEX.md`
+6. `docs/specs/10_checklists_and_dod.md`
+7. `docs/specs/09_risks_non_goals_deferred.md`
+8. `docs/INDEX.md`
 ASSUMPTIONS:
 - Python runtime remains available for local command execution.
-- Frozen policy/eval/baseline defaults remain unchanged during long-horizon study execution.
+- Frozen policy/eval/baseline defaults remain unchanged during DoD closeout validation.
 - Open spec questions remain `OPEN` until explicitly locked with evidence.
 HANDOFF_INSTRUCTIONS:
 - Read this file first, then execute `docs/handoff/NEXT_TASK.md` exactly.

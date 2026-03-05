@@ -24,6 +24,16 @@ from src.eval.baselines import (
     evaluate_stage3_claim_thresholds,
 )
 from src.eval.fairness import BaselineRunSpec, FairnessCheckResult, check_baseline_fairness
+from src.eval.long_horizon import (
+    LONG_HORIZON_REQUIRED_ARTIFACT_FILES,
+    LONG_HORIZON_REQUIRED_SYSTEMS,
+    LongHorizonContractError,
+    LongHorizonRunRecord,
+    LongHorizonStudyHarness,
+    LongHorizonStudyResult,
+    LongHorizonTaskFamily,
+    evaluate_stage4_interpretable_benefit,
+)
 from src.eval.schemas import (
     AggregateMetrics,
     ConsolidationEvent,
@@ -49,6 +59,8 @@ __all__ = [
     "AggregateMetrics",
     "BASELINE_SYSTEMS",
     "GOVERNED_SYSTEM",
+    "LONG_HORIZON_REQUIRED_ARTIFACT_FILES",
+    "LONG_HORIZON_REQUIRED_SYSTEMS",
     "RAW_LOG_BASELINE_SYSTEM",
     "REQUIRED_ABLATION_SYSTEMS",
     "BaselineAdapter",
@@ -66,6 +78,11 @@ __all__ = [
     "GovernanceStressHarness",
     "GovernanceStressRunRecord",
     "GovernanceStressScenario",
+    "LongHorizonContractError",
+    "LongHorizonRunRecord",
+    "LongHorizonStudyHarness",
+    "LongHorizonStudyResult",
+    "LongHorizonTaskFamily",
     "RunManifest",
     "STAGE2_FIXED_SEEDS",
     "STAGE2_REQUIRED_ARTIFACT_FILES",
@@ -79,6 +96,7 @@ __all__ = [
     "build_default_baseline_adapters",
     "build_default_baseline_runtime",
     "build_uniform_stage2_bundles",
+    "evaluate_stage4_interpretable_benefit",
     "evaluate_stage3_claim_thresholds",
     "check_baseline_fairness",
     "stable_hash",

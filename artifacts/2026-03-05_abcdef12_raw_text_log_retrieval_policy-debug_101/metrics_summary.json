@@ -1,0 +1,14 @@
+{
+  "identity_metrics": {},
+  "memory_health_metrics": {},
+  "policy_metrics": {
+    "false_promotion_rate": 0.34
+  },
+  "seed_set": [
+    101
+  ],
+  "system": "raw_text_log_retrieval",
+  "task_metrics": {
+    "context_retention_success_rate": 0.62
+  }
+}

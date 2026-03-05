@@ -1,0 +1,1 @@
+{"identity_metrics": {}, "memory_health_metrics": {}, "policy_metrics": {"false_promotion_rate": 0.18}, "scenario_id": "identity-reconciliation-lh", "seed": 101, "stage": "long_horizon", "system": "raw_text_log_retrieval", "task_metrics": {"context_retention_success_rate": 0.7}, "task_success": true}

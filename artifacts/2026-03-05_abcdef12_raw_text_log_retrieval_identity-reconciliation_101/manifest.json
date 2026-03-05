@@ -1,0 +1,10 @@
+{
+  "config_hash": "0e397018357509aff293b3e39f550f6cab1c4d78bb86687106fa0192285ed5f2",
+  "git_sha": "abcdef1234567890",
+  "model_id": "model-governed",
+  "reproducibility_hash": "193309dfc7c53480551e4f557c3b07dee1206141520c5edc3dbafe6383040fb9",
+  "scenario_bundle_hash": "1ab7dd6b104339d3e87623a7d99a7a94a1ff3353121da7ed56ad6b972de8100d",
+  "seed": 101,
+  "system": "raw_text_log_retrieval_identity-reconciliation",
+  "timestamp_utc": "2026-03-05T09:00:00Z"
+}

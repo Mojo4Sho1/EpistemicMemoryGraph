@@ -1,0 +1,1 @@
+{"identity_metrics": {}, "memory_health_metrics": {}, "policy_metrics": {"false_promotion_rate": 0.24}, "scenario_id": "policy-debug-lh", "seed": 101, "stage": "long_horizon", "system": "full_governed_system", "task_metrics": {"context_retention_success_rate": 0.76}, "task_success": true}

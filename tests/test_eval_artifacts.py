@@ -7,18 +7,25 @@ from pathlib import Path
 import pytest
 
 from src.eval import (
+    LONG_HORIZON_REQUIRED_ARTIFACT_FILES,
     STAGE2_FIXED_SEEDS,
     STAGE2_REQUIRED_ARTIFACT_FILES,
     AggregateMetrics,
+    BaselineFairnessError,
+    BaselineRunSpec,
     ConsolidationEvent,
     GovernanceStressBundle,
     GovernanceStressContractError,
     GovernanceStressHarness,
     GovernanceStressScenario,
+    LongHorizonContractError,
+    LongHorizonStudyHarness,
+    LongHorizonTaskFamily,
     ScenarioResult,
     TransitionEvent,
     build_default_governance_stress_bundle,
     build_uniform_stage2_bundles,
+    evaluate_stage4_interpretable_benefit,
     stable_hash,
     write_run_artifacts,
 )
@@ -229,3 +236,167 @@ def test_governance_stress_harness_emits_required_files_for_fixed_seed_set(tmp_p
         assert set(STAGE2_REQUIRED_ARTIFACT_FILES).issubset(
             {path.name for path in record.run_dir.iterdir()}
         )
+
+
+def _stage4_spec(*, token_budget: int = 4096) -> BaselineRunSpec:
+    return BaselineRunSpec(
+        model_snapshot="model-locked",
+        prompt_template_family="default-v1",
+        tool_availability=("record_observation", "request_consolidation"),
+        token_budget=token_budget,
+        wall_clock_timeout_seconds=120,
+        seed_set=(101, 202, 303, 404, 505),
+    )
+
+
+def test_long_horizon_harness_emits_deterministic_artifacts_for_required_systems(
+    tmp_path: Path,
+) -> None:
+    harness = LongHorizonStudyHarness()
+    run_specs = {
+        "raw_text_log_retrieval": _stage4_spec(),
+        "full_governed_system": _stage4_spec(),
+    }
+    task_families = (
+        LongHorizonTaskFamily(
+            family_id="policy-debug",
+            description="Repeated policy-sensitive debugging steps.",
+            governance_baseline=0.34,
+            governance_governed=0.24,
+            continuity_baseline=0.62,
+            continuity_governed=0.76,
+        ),
+    )
+    seeds = (101, 202)
+
+    first = harness.run_stage4(
+        artifacts_root=tmp_path / "first",
+        run_date=datetime(2026, 3, 5, 9, 0, 0),
+        git_sha="abcdef1234567890",
+        model_id="model-governed",
+        seeds=seeds,
+        run_specs=run_specs,
+        config_snapshot={"eval": {"stage": "long_horizon"}},
+        task_families=task_families,
+    )
+    second = harness.run_stage4(
+        artifacts_root=tmp_path / "second",
+        run_date=datetime(2026, 3, 5, 9, 0, 0),
+        git_sha="abcdef1234567890",
+        model_id="model-governed",
+        seeds=seeds,
+        run_specs=run_specs,
+        config_snapshot={"eval": {"stage": "long_horizon"}},
+        task_families=task_families,
+    )
+
+    assert len(first) == 4
+    assert [(item.family_id, item.system, item.seed) for item in first] == [
+        ("policy-debug", "raw_text_log_retrieval", 101),
+        ("policy-debug", "raw_text_log_retrieval", 202),
+        ("policy-debug", "full_governed_system", 101),
+        ("policy-debug", "full_governed_system", 202),
+    ]
+    assert [(item.family_id, item.system, item.seed) for item in first] == [
+        (item.family_id, item.system, item.seed) for item in second
+    ]
+
+    for record in first:
+        assert set(LONG_HORIZON_REQUIRED_ARTIFACT_FILES).issubset(
+            {path.name for path in record.run_dir.iterdir()}
+        )
+
+
+def test_long_horizon_harness_requires_stage4_fairness_lock(tmp_path: Path) -> None:
+    harness = LongHorizonStudyHarness()
+    run_specs = {
+        "raw_text_log_retrieval": _stage4_spec(token_budget=2048),
+        "full_governed_system": _stage4_spec(token_budget=4096),
+    }
+    task_families = (
+        LongHorizonTaskFamily(
+            family_id="policy-debug",
+            description="Repeated policy-sensitive debugging steps.",
+            governance_baseline=0.34,
+            governance_governed=0.24,
+            continuity_baseline=0.62,
+            continuity_governed=0.76,
+        ),
+    )
+
+    with pytest.raises(LongHorizonContractError):
+        harness.run_stage4(
+            artifacts_root=tmp_path,
+            run_date=datetime(2026, 3, 5, 9, 0, 0),
+            git_sha="abcdef1234567890",
+            model_id="model-governed",
+            seeds=(101,),
+            run_specs={"raw_text_log_retrieval": _stage4_spec()},
+            config_snapshot={"eval": {"stage": "long_horizon"}},
+            task_families=task_families,
+        )
+
+    with pytest.raises(BaselineFairnessError) as exc_info:
+        harness.run_stage4(
+            artifacts_root=tmp_path,
+            run_date=datetime(2026, 3, 5, 9, 0, 0),
+            git_sha="abcdef1234567890",
+            model_id="model-governed",
+            seeds=(101,),
+            run_specs=run_specs,
+            config_snapshot={"eval": {"stage": "long_horizon"}},
+            task_families=task_families,
+        )
+    assert "Fairness preflight failed" in str(exc_info.value)
+
+
+def test_stage4_interpretable_benefit_passes_when_one_family_has_paired_improvement() -> None:
+    result = evaluate_stage4_interpretable_benefit(
+        task_families=(
+            LongHorizonTaskFamily(
+                family_id="policy-debug",
+                description="Repeated policy-sensitive debugging steps.",
+                governance_baseline=0.34,
+                governance_governed=0.24,
+                continuity_baseline=0.62,
+                continuity_governed=0.76,
+            ),
+            LongHorizonTaskFamily(
+                family_id="identity-reconciliation",
+                description="Entity resolution over long dialogue turns.",
+                governance_baseline=0.18,
+                governance_governed=0.17,
+                continuity_baseline=0.70,
+                continuity_governed=0.69,
+            ),
+        )
+    )
+
+    assert result.interpretable_benefit_passed is True
+    assert result.task_families_with_paired_improvement == ("policy-debug",)
+
+
+def test_stage4_interpretable_benefit_fails_when_no_family_has_paired_improvement() -> None:
+    result = evaluate_stage4_interpretable_benefit(
+        task_families=(
+            LongHorizonTaskFamily(
+                family_id="policy-debug",
+                description="Repeated policy-sensitive debugging steps.",
+                governance_baseline=0.20,
+                governance_governed=0.21,
+                continuity_baseline=0.62,
+                continuity_governed=0.76,
+            ),
+            LongHorizonTaskFamily(
+                family_id="identity-reconciliation",
+                description="Entity resolution over long dialogue turns.",
+                governance_baseline=0.18,
+                governance_governed=0.17,
+                continuity_baseline=0.70,
+                continuity_governed=0.69,
+            ),
+        )
+    )
+
+    assert result.interpretable_benefit_passed is False
+    assert result.task_families_with_paired_improvement == ()
