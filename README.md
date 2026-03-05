@@ -35,6 +35,10 @@ Run tools in that environment with:
 
 `conda run -n emg <command>`
 
+For local Phase 2 model-serving readiness (Ollama + mapped model aliases), run:
+
+`make preflight-local-models`
+
 ## Agent Workflow
 
 For agent operation and handoff-loop rules, see `AGENTS.md`.

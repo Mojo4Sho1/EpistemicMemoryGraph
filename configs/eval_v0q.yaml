@@ -58,6 +58,19 @@ phase2:
   findings_report:
     required: true
     artifact_filename: "findings_summary.md"
+runtime:
+  openai_compatible:
+    provider: "ollama"
+    base_url: "http://localhost:11434/v1"
+    api_key_env: "OLLAMA_API_KEY"
+    api_key_fallback: "ollama-local"
+    timeout_seconds: 120
+    default_max_tokens: 64
+    default_temperature: 0.0
+  model_id_aliases:
+    meta_llama3.2_1b_instruct: "llama3.2:1b"
+    google_gemma3_1b: "gemma3:1b"
+    microsoft_phi4_mini: "phi4-mini"
 stages:
   order:
     - policy_correctness

@@ -72,6 +72,8 @@ Use this document for agent workflow rules. Human-oriented project overview and 
   - `conda run -n emg python -m pytest -q`
   - `conda run -n emg python -m mypy src tests`
   - `conda run -n emg python -m ruff check src tests`
+- For local OpenAI-compatible model-serving readiness checks before Phase 2 local execution:
+  - `make preflight-local-models`
 
 ## Config Baselines
 

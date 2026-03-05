@@ -35,6 +35,12 @@ from src.eval.long_horizon import (
     LongHorizonTaskFamily,
     evaluate_stage4_interpretable_benefit,
 )
+from src.eval.model_registry import (
+    ModelAliasError,
+    get_phase2_model_ids,
+    get_runtime_model_aliases,
+    resolve_served_model_name,
+)
 from src.eval.openai_compat import (
     OpenAICompatChatRequest,
     OpenAICompatChatResponse,
@@ -104,6 +110,7 @@ __all__ = [
     "PHASE2_STAGE_IDS",
     "LONG_HORIZON_REQUIRED_ARTIFACT_FILES",
     "LONG_HORIZON_REQUIRED_SYSTEMS",
+    "ModelAliasError",
     "OpenAICompatChatRequest",
     "OpenAICompatChatResponse",
     "OpenAICompatClient",
@@ -159,12 +166,15 @@ __all__ = [
     "evaluate_paired_metric",
     "evaluate_stage4_interpretable_benefit",
     "evaluate_stage3_claim_thresholds",
+    "get_phase2_model_ids",
+    "get_runtime_model_aliases",
     "paired_permutation_pvalue",
     "check_baseline_fairness",
     "render_findings_summary_markdown",
     "sign_test_pvalue",
     "stable_hash",
     "utc_now_iso",
+    "resolve_served_model_name",
     "write_findings_summary",
     "write_run_artifacts",
 ]

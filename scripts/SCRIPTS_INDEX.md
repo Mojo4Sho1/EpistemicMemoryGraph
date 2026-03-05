@@ -9,9 +9,11 @@ Track developer scripts for manual diagnostics, probing, and targeted runtime ch
 - Probe scripts:
   - `scripts/probes/workspace_update_probe.py`
   - `scripts/probes/long_horizon_study_probe.py`
+  - `scripts/probes/ollama_openai_preflight_probe.py`
 - Run command:
   - `conda run -n emg python scripts/probes/workspace_update_probe.py`
   - `conda run -n emg python scripts/probes/long_horizon_study_probe.py`
+  - `conda run -n emg python scripts/probes/ollama_openai_preflight_probe.py`
 
 ## Conventions
 
