@@ -361,6 +361,19 @@ Validation contracts for v0.1q:
 
 ## 16. Evaluation Methodology
 
+### 16.0 Phase and Stage Mapping
+
+Use hierarchy `sub-task -> task -> stage -> phase` for evaluation planning.
+
+- Phase 1 (completed): legacy Stage 1-4 evaluation evidence already executed in this repo.
+- Phase 2 (active): small/edge model uplift with hierarchical stage IDs:
+  - P2-S1: model/backend integration and fairness lock verification
+  - P2-S2: scenario-family execution across seeds
+  - P2-S3: statistical analysis and findings report generation
+  - P2-S4: decision gate (`LOCKED_PROCEED` or `LOCKED_DEFER`)
+
+Historical Stage 1-4 artifacts remain unchanged for backward compatibility.
+
 ### 16.1 Stage 1: Policy Correctness
 
 Test the governance policy directly with deterministic micro scenarios.
@@ -414,6 +427,21 @@ Run longer tasks where memory quality materially affects outcomes.
 Long-horizon gate:
 - Interpretable benefit requires improvement on at least one governance metric and one continuity metric in the same task family.
 
+### 16.5 Phase 2: Small/Edge Uplift
+
+Primary objective:
+- Test whether memory governance improves small-context open-source instruct models.
+
+Model panel:
+- one ~1B model
+- one ~3B model
+- one ~7-8B model
+
+Statistical gate (required):
+- 95% bootstrap CI on paired deltas
+- paired nonparametric test
+- minimum effect-size threshold
+
 ## 17. Metrics and Logging
 
 ### 17.1 Policy Metrics
@@ -462,7 +490,9 @@ Required files:
 - consolidation_events.jsonl
 - scenario_results.jsonl
 - metrics_summary.json
+- findings_summary.md
 Manifest must include model id, git SHA, seed, timestamp, config hash, scenario bundle hash, and reproducibility hash.
+`findings_summary.md` must contain facts/tables plus concise interpretation with caveats.
 
 ## 18. Baselines and Ablation Plan
 
@@ -546,6 +576,7 @@ Primary mitigation strategy: keep v0 small, deterministic, heavily logged, and e
 - The full system does not degrade task success by more than 3 absolute percentage points versus raw-log baseline.
 - The system shows an interpretable benefit on at least one end to end long horizon task family.
 - The logging and artifact trail are sufficient for failure analysis and paper quality reporting.
+- Phase 2 decision gate (`P2-S4`) is explicitly locked to `LOCKED_PROCEED` or `LOCKED_DEFER` before any additional phase execution.
 
 ## 22. Deferred Features
 
