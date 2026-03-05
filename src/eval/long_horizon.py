@@ -102,6 +102,7 @@ class LongHorizonStudyHarness:
         run_date: datetime,
         git_sha: str,
         model_id: str,
+        model_metadata: dict[str, str] | None = None,
         seeds: tuple[int, ...],
         run_specs: Mapping[str, BaselineRunSpec],
         config_snapshot: Mapping[str, Any],
@@ -165,6 +166,7 @@ class LongHorizonStudyHarness:
                         ],
                         scenario_results=scenario_results,
                         metrics_summary=metrics_summary,
+                        model_metadata=model_metadata,
                     )
                     self._ensure_required_artifacts(run_dir)
                     records.append(

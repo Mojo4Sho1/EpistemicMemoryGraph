@@ -22,6 +22,9 @@ Provide a focused map of repository tests and execution conventions.
 - Evaluation/fairness/artifact tests:
   - `tests/test_eval_fairness.py`
   - `tests/test_eval_artifacts.py`
+  - `tests/test_eval_phase2.py`
+- Repository hygiene tests:
+  - `tests/test_repo_hygiene.py`
 - Smoke tests:
   - `tests/smoke/test_workspace_update_smoke.py`
   - `tests/smoke/test_eval_artifact_smoke.py`

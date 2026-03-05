@@ -368,7 +368,8 @@ Use hierarchy `sub-task -> task -> stage -> phase` for evaluation planning.
 - Phase 1 (completed): legacy Stage 1-4 evaluation evidence already executed in this repo.
 - Phase 2 (active): small/edge model uplift with hierarchical stage IDs:
   - P2-S1: model/backend integration and fairness lock verification
-  - P2-S2: scenario-family execution across seeds
+  - P2-S2A: local small-model screening across seeds
+  - P2-S2B: local policy-mechanism ablation runs on top performers
   - P2-S3: statistical analysis and findings report generation
   - P2-S4: decision gate (`LOCKED_PROCEED` or `LOCKED_DEFER`)
 
@@ -432,10 +433,14 @@ Long-horizon gate:
 Primary objective:
 - Test whether memory governance improves small-context open-source instruct models.
 
-Model panel:
-- one ~1B model
-- one ~3B model
-- one ~7-8B model
+Local screening panel:
+- `meta_llama3.2_1b_instruct`
+- `google_gemma3_1b`
+- `microsoft_phi4_mini`
+
+Compliance rule for active cycle:
+- Enforce non-China-origin model policy in all environments (local and server).
+- Defer server-scale model runs until `P2-S2A` and `P2-S2B` are complete.
 
 Statistical gate (required):
 - 95% bootstrap CI on paired deltas

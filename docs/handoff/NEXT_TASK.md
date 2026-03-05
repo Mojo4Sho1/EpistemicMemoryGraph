@@ -1,43 +1,48 @@
 # Next Task
 
-TASK_ID: dod-evidence-closeout-v0
-TASK_TITLE: Close remaining DoD evidence and freeze handoff readiness state
-OBJECTIVE: Complete final checklist/spec/decision closeout for v0 by resolving or explicitly deferring remaining open readiness items.
+TASK_ID: phase2-local-small-screening-v0
+TASK_TITLE: Execute Phase 2 Stage P2-S2A local non-China 3-model screening runs
+OBJECTIVE: Run fairness-locked local Phase 2 scenario bundles for the locked non-China 3-model panel and emit required machine artifacts plus findings reports.
 OWNER_CHECK_IDS:
-- C20-HYGIENE-05
+- C22-PHASE2-04
 SPEC_MUST_IDS:
-- S10-M02
-- S09-M02
+- S08-M11
+- S10-M08
 IN_SCOPE:
-- Implement and link a deterministic failure-analysis template required by research hygiene closeout.
-- Reconcile remaining Section B/C checklist rows to `DONE` or explicit `BLOCKED` with evidence.
-- Classify open decisions against active closeout acceptance criteria and lock any resolved decisions.
-- Synchronize `CURRENT_STATUS.md`, `TASK_QUEUE.md`, and `DECISION_LOG.md` counters/continuity fields.
+- Execute Phase 2 local screening runner over the locked local model panel.
+- Enforce non-China compliance policy for all model entries.
+- Emit required artifacts including `findings_summary.md` per model bundle.
+- Verify fairness parity remains satisfied for compared systems per model.
+- Update Phase 2 checklist/spec evidence rows and handoff continuity fields.
 OUT_OF_SCOPE:
+- Server-scale model execution.
+- Phase 2 decision-gate lock (`P2-S4`).
 - Changes to frozen policy/state-machine/scoring thresholds.
-- Changes to frozen `configs/*.yaml` baselines.
-- New benchmark implementation beyond closeout evidence wiring.
 TARGET_FILES:
+- `src/eval/phase2_edge.py`
+- `src/eval/artifacts.py`
+- `src/eval/openai_compat.py`
+- `configs/eval_v0q.yaml`
+- `tests/test_eval_phase2.py`
+- `tests/test_eval_fairness.py`
+- `artifacts/`
 - `docs/handoff/CURRENT_STATUS.md`
 - `docs/handoff/NEXT_TASK.md`
 - `docs/handoff/TASK_QUEUE.md`
 - `docs/handoff/OVERVIEW_CHECKLIST.md`
 - `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md`
 - `docs/handoff/DECISION_LOG.md`
-- `docs/specs/10_checklists_and_dod.md`
-- `docs/specs/09_risks_non_goals_deferred.md`
-- `docs/`
 PREREQUISITES:
 - Review `docs/handoff/CURRENT_STATUS.md`, `docs/handoff/TASK_QUEUE.md`, and this file.
 - Confirm `TASK_ID` continuity across `CURRENT_STATUS.md:NEXT_TASK_ID`, `CURRENT_STATUS.md:ACTIVE_QUEUE_TASK_ID`, and queue `READY: YES` row.
-- Read `docs/specs/10_checklists_and_dod.md`, `docs/specs/09_risks_non_goals_deferred.md`, and `docs/handoff/DECISION_LOG.md`.
+- Read `configs/eval_v0q.yaml` and `docs/specs/08_evaluation_and_metrics.md`.
 - Read `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
 - Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Add/verify failure-analysis template evidence for `C20-HYGIENE-05`.
-2. Resolve remaining closeout-impacting Section B/C checklist statuses to `DONE` or explicit `BLOCKED` with rationale.
-3. Classify every `STATUS: OPEN` decision as blocking/non-blocking for closeout acceptance and lock any resolved entries.
-4. Update `SPEC_MUST_IDS` rows with final evidence state.
+1. Enforce locked local panel contract (`meta_llama3.2_1b_instruct`, `google_gemma3_1b`, `microsoft_phi4_mini`) and compliance metadata validation.
+2. Execute Phase 2 scenario-family runs for each local panel member under fairness lock.
+3. Validate required artifacts, including `findings_summary.md`, are present per model bundle.
+4. Record execution evidence in overview/spec handoff rows.
 5. Run quality gates in fixed order and capture outcomes.
 6. Update handoff docs for loop completion and continuity.
 QUALITY_GATES:
@@ -47,21 +52,27 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] `C20-HYGIENE-05` is no longer `NOT_STARTED` and includes concrete evidence.
+- [ ] Phase 2 local screening execution produced artifacts for all three local model panel entries.
+- [ ] Each model bundle includes required machine artifacts plus `findings_summary.md`.
+- [ ] Compliance metadata exists in config and manifest paths for Phase 2 local runs.
+- [ ] Non-compliant model origins are blocked by deterministic runner validation.
+- [ ] `docs/handoff/OVERVIEW_CHECKLIST.md` rows in `OWNER_CHECK_IDS` are updated with current evidence/state.
 - [ ] `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` rows in `SPEC_MUST_IDS` are updated with current evidence/state.
-- [ ] Open decision handling for closeout is explicitly reflected in `docs/handoff/DECISION_LOG.md` with continuity counts synchronized.
+- [ ] `conda run -n emg python -m pytest -q tests/test_eval_phase2.py tests/test_eval_artifacts.py tests/test_eval_fairness.py` passes.
 - [ ] `conda run -n emg python -m pytest -q` passes.
 - [ ] `conda run -n emg python -m mypy src tests` passes.
 - [ ] `conda run -n emg python -m ruff check src tests` passes.
-- [ ] Handoff docs are updated and task IDs remain continuous.
+- [ ] Handoff docs are updated and task IDs remain continuous with `P2_GATE_STATUS: OPEN`.
 VALIDATION_COMMANDS:
+- `conda run -n emg python -m pytest -q tests/test_eval_phase2.py tests/test_eval_artifacts.py tests/test_eval_fairness.py`
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
+- `rg "meta_llama3.2_1b_instruct|google_gemma3_1b|microsoft_phi4_mini" configs/eval_v0q.yaml`
+- `rg "provider_org|origin_country|compliance_class" configs/eval_v0q.yaml src/eval`
 - `rg "^TASK_ID:|^OWNER_CHECK_IDS:|^SPEC_MUST_IDS:" docs/handoff/NEXT_TASK.md`
-- `rg "^NEXT_TASK_ID:|^ACTIVE_QUEUE_TASK_ID:" docs/handoff/CURRENT_STATUS.md`
+- `rg "^NEXT_TASK_ID:|^ACTIVE_QUEUE_TASK_ID:|^P2_GATE_STATUS:" docs/handoff/CURRENT_STATUS.md`
 - `rg "^TASK_ID:|^READY:" docs/handoff/TASK_QUEUE.md`
-- `rg "^DECISION_ID:|^STATUS:" docs/handoff/DECISION_LOG.md`
 - `git status --short`
 DONE_UPDATE_REQUIREMENTS:
 - Update `docs/handoff/CURRENT_STATUS.md` with completed-task facts and gate outcomes.

@@ -66,7 +66,7 @@ RELATED_DOCS: docs/specs/10_checklists_and_dod.md, docs/specs/08_evaluation_and_
 SOURCE_SECTIONS: 15.1, 15.2, 15.3, 23
 WHEN_TO_READ: use when planning execution order and dependency-aware delivery.
 
-KEYWORDS: evaluation, baseline comparison, ablation, false promotion rate, metrics, logging
+KEYWORDS: evaluation, phase, stage, baseline comparison, ablation, false promotion rate, metrics, logging, findings report
 CANONICAL_TOPIC: evaluation_and_metrics
 PRIMARY_DOC: docs/specs/08_evaluation_and_metrics.md
 RELATED_DOCS: docs/specs/10_checklists_and_dod.md, docs/specs/07_build_plan_and_milestones.md
@@ -114,6 +114,13 @@ PRIMARY_DOC: docs/specs/10_checklists_and_dod.md
 RELATED_DOCS: docs/specs/07_build_plan_and_milestones.md, docs/specs/08_evaluation_and_metrics.md
 SOURCE_SECTIONS: 20, 21, 23
 WHEN_TO_READ: use when verifying completion and readiness to claim v0 results.
+
+KEYWORDS: findings summary, experiment report, markdown report, phase 2 report template
+CANONICAL_TOPIC: experiment_findings_template
+PRIMARY_DOC: docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md
+RELATED_DOCS: docs/specs/08_evaluation_and_metrics.md, docs/specs/10_checklists_and_dod.md
+SOURCE_SECTIONS: 16, 17, 21
+WHEN_TO_READ: use after benchmark execution to produce required human-readable findings reports.
 
 KEYWORDS: current state, blockers, locked decisions, ready flag, required references, next task id
 CANONICAL_TOPIC: handoff_current_status

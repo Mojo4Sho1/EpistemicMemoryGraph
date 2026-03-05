@@ -1,7 +1,7 @@
 # Decision Log
 
 LAST_UPDATED: 2026-03-05
-OPEN_DECISIONS_COUNT: 11
+OPEN_DECISIONS_COUNT: 12
 
 ## Status Legend
 - `OPEN`: unresolved question requiring explicit task closure
@@ -113,6 +113,15 @@ QUESTION: Should deferred features be tagged with dependency prerequisites for p
 DECISION: TBD
 OWNER_TASK_ID: dod-evidence-closeout-v0
 EVIDENCE: PENDING (deferred-feature dependency tags)
+ACTIVE_LOOP_IMPACT: NON_BLOCKING
+
+DECISION_ID: DEC-0013
+STATUS: OPEN
+SOURCE_DOC: `docs/specs/08_evaluation_and_metrics.md`
+QUESTION: After Phase 2 Stage `P2-S4`, should follow-on phase planning proceed now or be deferred?
+DECISION: TBD
+OWNER_TASK_ID: phase2-decision-gate-v0
+EVIDENCE: PENDING (`docs/handoff/CURRENT_STATUS.md:P2_GATE_STATUS` lock to `LOCKED_PROCEED` or `LOCKED_DEFER`)
 ACTIVE_LOOP_IMPACT: NON_BLOCKING
 
 ## Update Rules

@@ -19,6 +19,7 @@ class RunManifest:
     config_hash: str
     scenario_bundle_hash: str
     reproducibility_hash: str
+    model_metadata: dict[str, str] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -92,6 +93,41 @@ class AggregateMetrics:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class StatisticalResult:
+    """Statistical gate outcome for one paired metric comparison."""
+
+    metric_name: str
+    delta: float
+    ci_low: float
+    ci_high: float
+    p_value: float
+    effect_size: float
+    passed: bool
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True, slots=True)
+class FindingsSummary:
+    """Structured companion object for human-readable experiment findings reports."""
+
+    phase_id: str
+    stage_id: str
+    model_id: str
+    task_families: tuple[str, ...]
+    key_results: tuple[StatisticalResult, ...]
+    caveats: tuple[str, ...]
+    interpretation: str
+    decision_gate_status: str
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["key_results"] = [result.to_dict() for result in self.key_results]
+        return payload
 
 
 def utc_now_iso() -> str:

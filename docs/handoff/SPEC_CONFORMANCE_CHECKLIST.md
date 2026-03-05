@@ -380,6 +380,20 @@ STATUS: SATISFIED
 OWNER_TASK_ID: long-horizon-study-v0
 EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `scripts/probes/long_horizon_study_probe.py`; `artifacts/2026-03-05_abcdef12_raw_text_log_retrieval_policy-debug_101/metrics_summary.json`; `artifacts/2026-03-05_abcdef12_full_governed_system_policy-debug_101/metrics_summary.json`
 
+SPEC_MUST_ID: S08-M10
+SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
+MUST_TEXT: Use hierarchy `sub-task -> task -> stage -> phase` and map legacy Stage 1-4 evidence into completed Phase 1 without renumbering historical artifacts.
+STATUS: SATISFIED
+OWNER_TASK_ID: phase2-small-edge-uplift-v0
+EVIDENCE: `MASTER_DOC.md`; `docs/specs/08_evaluation_and_metrics.md`; `docs/handoff/CURRENT_STATUS.md`; `docs/handoff/TASK_QUEUE.md`
+
+SPEC_MUST_ID: S08-M11
+SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
+MUST_TEXT: Require Phase 2 statistical gates (95% bootstrap CI, paired nonparametric test, effect-size threshold) and findings report artifact output.
+STATUS: SATISFIED
+OWNER_TASK_ID: phase2-local-small-screening-v0
+EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/stats.py`; `src/eval/reporting.py`; `src/eval/phase2_edge.py`; `src/eval/artifacts.py`; `tests/test_eval_phase2.py`; `tests/test_eval_fairness.py`; `docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md`; `docs/specs/08_evaluation_and_metrics.md`
+
 ## Spec 09 (`docs/specs/09_risks_non_goals_deferred.md`)
 SPEC_MUST_ID: S09-M01
 SOURCE_SPEC: `docs/specs/09_risks_non_goals_deferred.md`
@@ -451,6 +465,13 @@ MUST_TEXT: Require long-horizon interpretable benefit on at least one governance
 STATUS: SATISFIED
 OWNER_TASK_ID: long-horizon-study-v0
 EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `scripts/probes/long_horizon_study_probe.py`; `docs/handoff/OVERVIEW_CHECKLIST.md`
+
+SPEC_MUST_ID: S10-M08
+SOURCE_SPEC: `docs/specs/10_checklists_and_dod.md`
+MUST_TEXT: Require findings-summary reporting quality and explicit Phase 2 decision-gate lock before any subsequent phase execution.
+STATUS: SATISFIED
+OWNER_TASK_ID: phase2-local-small-screening-v0
+EVIDENCE: `docs/specs/10_checklists_and_dod.md`; `docs/handoff/CURRENT_STATUS.md`; `docs/handoff/NEXT_TASK.md`; `docs/handoff/TASK_QUEUE.md`; `docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md`; `configs/eval_v0q.yaml`
 
 ## Update Rules
 - Keep each `SPEC_MUST_ID` unique and stable.

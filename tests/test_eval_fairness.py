@@ -13,6 +13,9 @@ from src.eval import (
     BaselineRunResult,
     BaselineRunSpec,
     BaselineRuntime,
+    OpenAICompatChatResponse,
+    OpenAICompatClientConfig,
+    OpenAICompatibleBaselineAdapter,
     Stage3ThresholdConfig,
     build_default_baseline_adapters,
     build_default_baseline_runtime,
@@ -275,3 +278,43 @@ def test_stage3_claim_thresholds_enforce_fairness_before_comparison() -> None:
             aggregate_metrics=aggregate_metrics,
             run_specs=run_specs,
         )
+
+
+def test_openai_compatible_baseline_adapter_uses_client_response() -> None:
+    class FakeOpenAICompatClient:
+        def chat(self, request: object) -> OpenAICompatChatResponse:
+            req = request  # keep test client minimal while checking request payloads
+            assert hasattr(req, "user_prompt")
+            assert hasattr(req, "seed")
+            assert hasattr(req, "config")
+            # Narrowed checks
+            user_prompt = getattr(req, "user_prompt")
+            seed = getattr(req, "seed")
+            config = getattr(req, "config")
+            assert user_prompt == "screen this"
+            assert seed == 202
+            assert getattr(config, "model") == "meta_llama3.2_1b_instruct"
+            return OpenAICompatChatResponse(output_text="ok-from-openai-compat")
+
+    adapter = OpenAICompatibleBaselineAdapter(
+        client=FakeOpenAICompatClient(),
+        client_config=OpenAICompatClientConfig(
+            base_url="http://localhost:11434/v1",
+            api_key="local",
+            model="meta_llama3.2_1b_instruct",
+            timeout_seconds=120,
+            max_tokens=256,
+            temperature=0.0,
+            seed=202,
+        ),
+    )
+    result = adapter.execute(
+        BaselineAdapterInput(
+            system="raw_text_log_retrieval",
+            prompt="screen this",
+            seed=202,
+            run_spec=_spec(),
+        )
+    )
+
+    assert result.output_text == "ok-from-openai-compat"

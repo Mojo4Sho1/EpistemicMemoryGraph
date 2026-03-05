@@ -15,6 +15,8 @@ Define completion criteria and implementation checklists that gate v0 claims and
   - >= 10% relative improvement on >= 3 policy metrics versus raw-log baseline
   - <= 3 absolute percentage-point degradation in task success versus raw-log baseline
 - `MUST` require long-horizon interpretable benefit on at least one governance metric plus one continuity metric within the same task family.
+- `MUST` require Phase 2 findings reports (`findings_summary.md`) to document facts, statistics, and concise interpretation for each experiment bundle.
+- `MUST` require Phase 2 decision gate closure in handoff docs with status `LOCKED_PROCEED` or `LOCKED_DEFER` before any subsequent phase planning/execution.
 - `SHOULD` treat checklist completion as objective evidence for milestone closure.
 - `MAY` add checklist sub-items if traceability to source criteria is maintained.
 
@@ -34,18 +36,21 @@ Define completion criteria and implementation checklists that gate v0 claims and
   - measurable governance improvement over at least one naive baseline
   - interpretable gain in at least one long-horizon task family
   - sufficient logging/artifacts for failure analysis
+  - human-readable findings reports tied to statistical evidence
 
 ## Policy Rules / Constraints
 
 - Claims of success require both functional and evaluative criteria.
 - Benchmark reproducibility and artifact quality are mandatory for completion.
 - Directional improvement without quantified threshold does not satisfy v0.1q claim criteria.
+- Phase hierarchy for evaluation planning is `sub-task -> task -> stage -> phase`.
 
 ## Edge Cases and Failure Modes
 
 - Partial completion with missing ablations can lead to weak causal claims.
 - Missing reproducibility policy undermines comparability across runs.
 - Passing task success with weak governance metrics can mask core failure.
+- Missing decision-gate lock can cause uncontrolled phase sprawl.
 
 ## Open Questions
 

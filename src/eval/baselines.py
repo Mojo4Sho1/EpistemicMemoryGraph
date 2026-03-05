@@ -6,6 +6,11 @@ from dataclasses import dataclass
 from typing import Mapping, Protocol
 
 from src.eval.fairness import BaselineRunSpec, check_baseline_fairness
+from src.eval.openai_compat import (
+    OpenAICompatChatRequest,
+    OpenAICompatClient,
+    OpenAICompatClientConfig,
+)
 from src.eval.schemas import AggregateMetrics
 
 BASELINE_SYSTEMS: tuple[str, ...] = (
@@ -104,6 +109,38 @@ class DeterministicBaselineAdapter:
             system=request.system,
             adapter_label=self._adapter_label,
             output_text=summary,
+        )
+
+
+class OpenAICompatibleBaselineAdapter:
+    """Baseline adapter that calls an OpenAI-compatible chat endpoint."""
+
+    def __init__(
+        self,
+        *,
+        client: OpenAICompatClient,
+        client_config: OpenAICompatClientConfig,
+        adapter_label: str = "openai_compat_adapter",
+        system_prompt: str = "You are a deterministic evaluation assistant.",
+    ) -> None:
+        self._client = client
+        self._client_config = client_config
+        self._adapter_label = adapter_label
+        self._system_prompt = system_prompt
+
+    def execute(self, request: BaselineAdapterInput) -> BaselineRunResult:
+        response = self._client.chat(
+            OpenAICompatChatRequest(
+                system_prompt=self._system_prompt,
+                user_prompt=request.prompt,
+                seed=request.seed,
+                config=self._client_config,
+            )
+        )
+        return BaselineRunResult(
+            system=request.system,
+            adapter_label=self._adapter_label,
+            output_text=response.output_text,
         )
 
 

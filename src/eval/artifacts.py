@@ -31,6 +31,7 @@ def write_run_artifacts(
     consolidation_events: Iterable[ConsolidationEvent],
     scenario_results: Iterable[ScenarioResult],
     metrics_summary: AggregateMetrics,
+    model_metadata: dict[str, str] | None = None,
 ) -> Path:
     """Write required artifact files and return created run directory."""
 
@@ -60,6 +61,7 @@ def write_run_artifacts(
         config_hash=config_hash,
         scenario_bundle_hash=scenario_bundle_hash,
         reproducibility_hash=reproducibility_hash,
+        model_metadata=model_metadata,
     )
 
     _write_json(run_dir / "manifest.json", manifest.to_dict())

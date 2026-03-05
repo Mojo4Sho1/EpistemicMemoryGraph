@@ -1,4 +1,63 @@
 version: "v0.1q"
+phase2:
+  phase_id: "P2"
+  objective: "local_non_china_small_model_screening"
+  execution_scope: "local_only"
+  invocation_api: "openai_compatible_http"
+  stages:
+    - "P2-S1"
+    - "P2-S2A"
+    - "P2-S2B"
+    - "P2-S3"
+    - "P2-S4"
+  model_panel:
+    - model_id: "meta_llama3.2_1b_instruct"
+      parameter_scale: "~1B"
+      provider_org: "Meta"
+      origin_country: "United States"
+      compliance_class: "allowed_university"
+    - model_id: "google_gemma3_1b"
+      parameter_scale: "~1B"
+      provider_org: "Google"
+      origin_country: "United States"
+      compliance_class: "allowed_university"
+    - model_id: "microsoft_phi4_mini"
+      parameter_scale: "~3-4B"
+      provider_org: "Microsoft"
+      origin_country: "United States"
+      compliance_class: "allowed_university"
+  compliance_policy:
+    enforce_for_all_environments: true
+    disallowed_origin_countries: ["China"]
+  local_screening:
+    required_model_count: 3
+    stage_id: "P2-S2A"
+    freeze_prompt_template_family: "phase2-default-v1"
+    freeze_tool_availability: ["record_observation", "request_consolidation"]
+  policy_ablations:
+    stage_id: "P2-S2B"
+    required_order:
+      - "remove_provenance_weighting"
+      - "remove_source_independence"
+      - "remove_staleness_decay"
+      - "remove_triggered_test_loop"
+  server_transition_gate:
+    deferred_until_local_s2a_s2b_complete: true
+    require_non_china_shortlist: true
+  required_seed_set: [101, 202, 303, 404, 505]
+  statistical_gate:
+    confidence_level: 0.95
+    alpha: 0.05
+    min_effect_size: 0.20
+    require_bootstrap_ci: true
+    require_paired_nonparametric_test: true
+    require_effect_size_threshold: true
+  decision_gate:
+    field_name: "P2_GATE_STATUS"
+    allowed_values: ["OPEN", "LOCKED_PROCEED", "LOCKED_DEFER"]
+  findings_report:
+    required: true
+    artifact_filename: "findings_summary.md"
 stages:
   order:
     - policy_correctness
@@ -30,4 +89,5 @@ logging:
     - consolidation_events.jsonl
     - scenario_results.jsonl
     - metrics_summary.json
+    - findings_summary.md
   path_template: "artifacts/{date}_{git_sha}_{system}_{seed}/"

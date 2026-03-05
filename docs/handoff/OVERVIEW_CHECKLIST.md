@@ -81,6 +81,13 @@ PROJECT_PHASE: implementation
 - EVIDENCE: `src/eval/stress.py`; `src/eval/baselines.py`; `src/eval/long_horizon.py`; `tests/test_eval_artifacts.py`; `tests/test_eval_fairness.py`; `tests/smoke/test_eval_artifact_smoke.py`; `scripts/probes/long_horizon_study_probe.py`; `artifacts/2026-03-05_abcdef12_full_governed_system_policy-debug_101/metrics_summary.json`; `artifacts/2026-03-05_abcdef12_raw_text_log_retrieval_policy-debug_101/metrics_summary.json`; `configs/eval_v0q.yaml`
 - SOURCE: MASTER_DOC 16.2, 16.4, 15.3(10), 21
 
+### M11: Execute Phase 2 small/edge uplift
+- STATUS: IN_PROGRESS
+- OWNER_TASK_ID: phase2-small-edge-uplift-v0
+- EXIT_CRITERIA: Phase 2 stages `P2-S1..P2-S4` complete with statistical gates and locked decision status.
+- EVIDENCE: `src/eval/phase2_edge.py`; `src/eval/stats.py`; `src/eval/reporting.py`; `tests/test_eval_phase2.py`; `configs/eval_v0q.yaml`; `docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md`; `docs/handoff/CURRENT_STATUS.md`
+- SOURCE: MASTER_DOC 16.0, 16.5, 17, 21
+
 ## B. Master Implementation Checklist (MASTER_DOC 20)
 
 ### Project framing
@@ -334,6 +341,55 @@ PROJECT_PHASE: implementation
 - EXIT_CRITERIA: logging/artifact trail is complete for failure analysis reporting.
 - EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/schemas.py`; `src/eval/artifacts.py`; `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`
 - SOURCE: MASTER_DOC 21 (artifact sufficiency for failure analysis)
+
+- CHECK_ID: C22-PHASE2-01
+- STATUS: DONE
+- OWNER_TASK_ID: phase2-small-edge-uplift-v0
+- EXIT_CRITERIA: Phase 2 stage scaffolding (`P2-S1`, `P2-S2A`, `P2-S2B`, `P2-S3`, `P2-S4`) is implemented with fairness-lock controls.
+- EVIDENCE: `src/eval/phase2_edge.py`; `configs/eval_v0q.yaml`; `docs/specs/08_evaluation_and_metrics.md`; `docs/handoff/TASK_QUEUE.md`; `tests/test_eval_phase2.py`
+- SOURCE: MASTER_DOC 16.0, 16.5
+
+- CHECK_ID: C22-PHASE2-02
+- STATUS: DONE
+- OWNER_TASK_ID: phase2-small-edge-uplift-v0
+- EXIT_CRITERIA: statistical gate computations and findings-summary outputs are deterministic and tested.
+- EVIDENCE: `src/eval/stats.py`; `src/eval/reporting.py`; `tests/test_eval_phase2.py`; `docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md`
+- SOURCE: MASTER_DOC 16.5, 17
+
+- CHECK_ID: C22-PHASE2-03
+- STATUS: DONE
+- OWNER_TASK_ID: phase2-small-edge-uplift-v0
+- EXIT_CRITERIA: `P2_GATE_STATUS` is carried in handoff docs and reserved for explicit lock at `P2-S4`.
+- EVIDENCE: `docs/handoff/CURRENT_STATUS.md`; `docs/handoff/NEXT_TASK.md`; `docs/handoff/TASK_QUEUE.md`
+- SOURCE: MASTER_DOC 16.0, 21
+
+- CHECK_ID: C22-PHASE2-04
+- STATUS: IN_PROGRESS
+- OWNER_TASK_ID: phase2-local-small-screening-v0
+- EXIT_CRITERIA: Stage `P2-S2A` executes local scenario families across the locked non-China 3-model panel under fairness parity.
+- EVIDENCE: `docs/handoff/NEXT_TASK.md`; `docs/handoff/TASK_QUEUE.md`; `configs/eval_v0q.yaml`; `src/eval/phase2_edge.py`; `tests/test_eval_phase2.py`
+- SOURCE: MASTER_DOC 16.5, 17
+
+- CHECK_ID: C22-PHASE2-05
+- STATUS: IN_PROGRESS
+- OWNER_TASK_ID: phase2-local-policy-ablations-v0
+- EXIT_CRITERIA: Stage `P2-S2B` executes required policy-mechanism ablations on top local performers.
+- EVIDENCE: `src/eval/phase2_edge.py`; `configs/eval_v0q.yaml`; `docs/handoff/TASK_QUEUE.md`; `tests/test_eval_phase2.py`
+- SOURCE: MASTER_DOC 16.5, 17
+
+- CHECK_ID: C22-PHASE2-06
+- STATUS: IN_PROGRESS
+- OWNER_TASK_ID: phase2-small-edge-analysis-v0
+- EXIT_CRITERIA: Stage `P2-S3` generates statistical summaries and `findings_summary.md` for each model bundle.
+- EVIDENCE: `docs/templates/EXPERIMENT_FINDINGS_TEMPLATE.md`; `configs/eval_v0q.yaml`; `docs/handoff/TASK_QUEUE.md`
+- SOURCE: MASTER_DOC 16.5, 17
+
+- CHECK_ID: C22-PHASE2-07
+- STATUS: IN_PROGRESS
+- OWNER_TASK_ID: phase2-decision-gate-v0
+- EXIT_CRITERIA: Stage `P2-S4` locks `P2_GATE_STATUS` to `LOCKED_PROCEED` or `LOCKED_DEFER` with evidence.
+- EVIDENCE: `docs/handoff/CURRENT_STATUS.md`; `docs/handoff/TASK_QUEUE.md`; `docs/handoff/DECISION_LOG.md`
+- SOURCE: MASTER_DOC 16.0, 21
 
 ## D. Immediate Next Actions Tracking (MASTER_DOC 23)
 1. Treat master as design freeze: DONE
