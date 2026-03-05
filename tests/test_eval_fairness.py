@@ -4,15 +4,20 @@ import pytest
 
 from src.eval import (
     BASELINE_SYSTEMS,
+    GOVERNED_SYSTEM,
+    RAW_LOG_BASELINE_SYSTEM,
+    AggregateMetrics,
     BaselineAdapterInput,
     BaselineCoverageError,
     BaselineFairnessError,
     BaselineRunResult,
     BaselineRunSpec,
     BaselineRuntime,
+    Stage3ThresholdConfig,
     build_default_baseline_adapters,
     build_default_baseline_runtime,
     check_baseline_fairness,
+    evaluate_stage3_claim_thresholds,
 )
 
 
@@ -24,6 +29,28 @@ def _spec(*, token_budget: int = 4096) -> BaselineRunSpec:
         token_budget=token_budget,
         wall_clock_timeout_seconds=120,
         seed_set=(101, 202, 303, 404, 505),
+    )
+
+
+def _metrics(
+    *,
+    system: str,
+    false_promotion_rate: float,
+    stale_node_fraction: float,
+    false_merge_rate: float,
+    task_success_rate: float,
+) -> AggregateMetrics:
+    return AggregateMetrics(
+        system=system,
+        seed_set=(101, 202, 303, 404, 505),
+        policy_metrics={
+            "false_promotion_rate": false_promotion_rate,
+            "stale_node_fraction": stale_node_fraction,
+            "false_merge_rate": false_merge_rate,
+        },
+        identity_metrics={"false_merge_rate": false_merge_rate},
+        memory_health_metrics={"stale_node_fraction": stale_node_fraction},
+        task_metrics={"task_success_rate": task_success_rate},
     )
 
 
@@ -98,3 +125,153 @@ def test_baseline_runtime_requires_full_matrix_coverage() -> None:
 
     with pytest.raises(BaselineCoverageError):
         runtime.run_all(prompt="coverage", seed=101, run_specs=run_specs)
+
+
+def test_stage3_claim_thresholds_pass_with_fairness_and_required_improvements() -> None:
+    run_specs = {system: _spec() for system in BASELINE_SYSTEMS}
+    aggregate_metrics = {
+        system: _metrics(
+            system=system,
+            false_promotion_rate=0.3,
+            stale_node_fraction=0.4,
+            false_merge_rate=0.2,
+            task_success_rate=0.80,
+        )
+        for system in BASELINE_SYSTEMS
+    }
+    aggregate_metrics[RAW_LOG_BASELINE_SYSTEM] = _metrics(
+        system=RAW_LOG_BASELINE_SYSTEM,
+        false_promotion_rate=0.40,
+        stale_node_fraction=0.50,
+        false_merge_rate=0.30,
+        task_success_rate=0.84,
+    )
+    aggregate_metrics[GOVERNED_SYSTEM] = _metrics(
+        system=GOVERNED_SYSTEM,
+        false_promotion_rate=0.34,  # 15% relative improvement
+        stale_node_fraction=0.42,  # 16% relative improvement
+        false_merge_rate=0.25,  # 16.67% relative improvement
+        task_success_rate=0.82,  # 2pp absolute drop
+    )
+
+    result = evaluate_stage3_claim_thresholds(
+        aggregate_metrics=aggregate_metrics,
+        run_specs=run_specs,
+        threshold_config=Stage3ThresholdConfig(
+            minimum_relative_policy_improvement_percent=10.0,
+            minimum_policy_metrics_improved_count=3,
+            max_task_success_absolute_drop_percent=3.0,
+        ),
+    )
+
+    assert result.required_ablations_present is True
+    assert result.missing_ablations == ()
+    assert result.policy_threshold_passed is True
+    assert result.task_success_non_degradation_passed is True
+    assert result.claim_thresholds_passed is True
+    assert result.policy_metrics_meeting_threshold == (
+        "false_promotion_rate",
+        "stale_node_fraction",
+        "false_merge_rate",
+    )
+    assert result.task_success_absolute_drop_percent == 2.0
+
+
+def test_stage3_claim_thresholds_fail_when_only_two_policy_metrics_improve() -> None:
+    run_specs = {system: _spec() for system in BASELINE_SYSTEMS}
+    aggregate_metrics = {
+        system: _metrics(
+            system=system,
+            false_promotion_rate=0.3,
+            stale_node_fraction=0.4,
+            false_merge_rate=0.2,
+            task_success_rate=0.80,
+        )
+        for system in BASELINE_SYSTEMS
+    }
+    aggregate_metrics[RAW_LOG_BASELINE_SYSTEM] = _metrics(
+        system=RAW_LOG_BASELINE_SYSTEM,
+        false_promotion_rate=0.40,
+        stale_node_fraction=0.50,
+        false_merge_rate=0.30,
+        task_success_rate=0.84,
+    )
+    aggregate_metrics[GOVERNED_SYSTEM] = _metrics(
+        system=GOVERNED_SYSTEM,
+        false_promotion_rate=0.34,  # 15% relative improvement
+        stale_node_fraction=0.45,  # 10% relative improvement
+        false_merge_rate=0.29,  # 3.33% relative improvement (below threshold)
+        task_success_rate=0.82,
+    )
+
+    result = evaluate_stage3_claim_thresholds(
+        aggregate_metrics=aggregate_metrics,
+        run_specs=run_specs,
+    )
+
+    assert result.policy_threshold_passed is False
+    assert result.task_success_non_degradation_passed is True
+    assert result.claim_thresholds_passed is False
+    assert result.policy_metrics_meeting_threshold == (
+        "false_promotion_rate",
+        "stale_node_fraction",
+    )
+
+
+def test_stage3_claim_thresholds_fail_when_task_success_drop_exceeds_limit() -> None:
+    run_specs = {system: _spec() for system in BASELINE_SYSTEMS}
+    aggregate_metrics = {
+        system: _metrics(
+            system=system,
+            false_promotion_rate=0.3,
+            stale_node_fraction=0.4,
+            false_merge_rate=0.2,
+            task_success_rate=0.80,
+        )
+        for system in BASELINE_SYSTEMS
+    }
+    aggregate_metrics[RAW_LOG_BASELINE_SYSTEM] = _metrics(
+        system=RAW_LOG_BASELINE_SYSTEM,
+        false_promotion_rate=0.40,
+        stale_node_fraction=0.50,
+        false_merge_rate=0.30,
+        task_success_rate=0.90,
+    )
+    aggregate_metrics[GOVERNED_SYSTEM] = _metrics(
+        system=GOVERNED_SYSTEM,
+        false_promotion_rate=0.34,
+        stale_node_fraction=0.42,
+        false_merge_rate=0.25,
+        task_success_rate=0.86,  # 4pp absolute drop
+    )
+
+    result = evaluate_stage3_claim_thresholds(
+        aggregate_metrics=aggregate_metrics,
+        run_specs=run_specs,
+    )
+
+    assert result.policy_threshold_passed is True
+    assert result.task_success_absolute_drop_percent == 4.0
+    assert result.task_success_non_degradation_passed is False
+    assert result.claim_thresholds_passed is False
+
+
+def test_stage3_claim_thresholds_enforce_fairness_before_comparison() -> None:
+    run_specs = {system: _spec() for system in BASELINE_SYSTEMS}
+    run_specs["context_window_only"] = _spec(token_budget=2048)
+    aggregate_metrics = {
+        system: _metrics(
+            system=system,
+            false_promotion_rate=0.3,
+            stale_node_fraction=0.4,
+            false_merge_rate=0.2,
+            task_success_rate=0.80,
+        )
+        for system in BASELINE_SYSTEMS
+    }
+
+    with pytest.raises(BaselineFairnessError):
+        evaluate_stage3_claim_thresholds(
+            aggregate_metrics=aggregate_metrics,
+            run_specs=run_specs,
+        )

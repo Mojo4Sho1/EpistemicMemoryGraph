@@ -1,6 +1,6 @@
 # Spec Conformance Checklist
 
-LAST_UPDATED: 2026-03-03
+LAST_UPDATED: 2026-03-04
 
 ## Status Legend
 - `SATISFIED`: implemented and evidenced
@@ -327,9 +327,9 @@ EVIDENCE: `configs/eval_v0q.yaml`; `docs/specs/08_evaluation_and_metrics.md`
 SPEC_MUST_ID: S08-M02
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Include required ablations to isolate governance components.
-STATUS: NOT_STARTED
+STATUS: SATISFIED
 OWNER_TASK_ID: baseline-comparison-claims-v0
-EVIDENCE: NONE
+EVIDENCE: `configs/baselines_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`
 
 SPEC_MUST_ID: S08-M03
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
@@ -369,9 +369,9 @@ EVIDENCE: `configs/eval_v0q.yaml`; `configs/baselines_v0q.yaml`; `src/eval/basel
 SPEC_MUST_ID: S08-M08
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
 MUST_TEXT: Enforce Stage 3 minimum claim thresholds against raw-log baseline.
-STATUS: NOT_STARTED
+STATUS: SATISFIED
 OWNER_TASK_ID: baseline-comparison-claims-v0
-EVIDENCE: `configs/eval_v0q.yaml`
+EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`
 
 SPEC_MUST_ID: S08-M09
 SOURCE_SPEC: `docs/specs/08_evaluation_and_metrics.md`
@@ -441,9 +441,9 @@ EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `s
 SPEC_MUST_ID: S10-M06
 SOURCE_SPEC: `docs/specs/10_checklists_and_dod.md`
 MUST_TEXT: Require baseline-comparison claim thresholds (>=10% relative on >=3 policy metrics and <=3pp task-success drop).
-STATUS: IN_PROGRESS
+STATUS: SATISFIED
 OWNER_TASK_ID: baseline-comparison-claims-v0
-EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `docs/handoff/OVERVIEW_CHECKLIST.md`
+EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`; `docs/handoff/OVERVIEW_CHECKLIST.md`
 
 SPEC_MUST_ID: S10-M07
 SOURCE_SPEC: `docs/specs/10_checklists_and_dod.md`

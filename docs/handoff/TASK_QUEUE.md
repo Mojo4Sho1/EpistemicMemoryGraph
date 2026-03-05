@@ -1,6 +1,6 @@
 # Task Queue
 
-LAST_UPDATED: 2026-03-03
+LAST_UPDATED: 2026-03-04
 QUEUE_PHASE: implementation
 QUEUE_POLICY: Keep one `READY: YES` task at a time; all other staged tasks remain `READY: NO`.
 
@@ -175,7 +175,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: YES
+READY: NO
 
 ## Queue Entry 7
 TASK_ID: long-horizon-study-v0
@@ -201,7 +201,7 @@ VALIDATION_COMMANDS:
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`
-READY: NO
+READY: YES
 
 ## Queue Entry 8
 TASK_ID: dod-evidence-closeout-v0

@@ -1,6 +1,6 @@
 # v0 Overview Checklist
 
-LAST_UPDATED: 2026-03-03
+LAST_UPDATED: 2026-03-04
 PROJECT_PHASE: implementation
 
 ## Status Legend
@@ -76,9 +76,9 @@ PROJECT_PHASE: implementation
 
 ### M10: Run first governance benchmark + end-to-end trials
 - STATUS: IN_PROGRESS
-- OWNER_TASK_ID: governance-stress-suite-v0
+- OWNER_TASK_ID: long-horizon-study-v0
 - EXIT_CRITERIA: reproducible benchmark + long-horizon study artifacts
-- EVIDENCE: `src/eval/stress.py`; `tests/test_eval_artifacts.py`; `tests/smoke/test_eval_artifact_smoke.py`; `configs/eval_v0q.yaml`
+- EVIDENCE: `src/eval/stress.py`; `src/eval/baselines.py`; `tests/test_eval_artifacts.py`; `tests/test_eval_fairness.py`; `tests/smoke/test_eval_artifact_smoke.py`; `configs/eval_v0q.yaml`
 - SOURCE: MASTER_DOC 16.2, 16.4, 15.3(10), 21
 
 ## B. Master Implementation Checklist (MASTER_DOC 20)
@@ -236,10 +236,10 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 20 (Define metrics and logging schema)
 
 - CHECK_ID: C20-EVAL-05
-- STATUS: IN_PROGRESS
+- STATUS: DONE
 - OWNER_TASK_ID: baseline-comparison-claims-v0
 - EXIT_CRITERIA: ablation plan is defined and tied to runnable benchmark workflow.
-- EVIDENCE: `MASTER_DOC.md` section 18; `docs/specs/08_evaluation_and_metrics.md`
+- EVIDENCE: `MASTER_DOC.md` section 18; `docs/specs/08_evaluation_and_metrics.md`; `configs/baselines_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`
 - SOURCE: MASTER_DOC 20 (Define the ablation plan)
 
 ### Research hygiene
@@ -308,24 +308,24 @@ PROJECT_PHASE: implementation
 - SOURCE: MASTER_DOC 21 (stress benchmark reproducibility)
 
 - CHECK_ID: C21-05
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: baseline-comparison-claims-v0
 - EXIT_CRITERIA: governed system improves >=10% relative on >=3 policy metrics vs raw-log baseline.
-- EVIDENCE: NONE
+- EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`
 - SOURCE: MASTER_DOC 21 (baseline improvement threshold)
 
 - CHECK_ID: C21-06
-- STATUS: NOT_STARTED
+- STATUS: DONE
 - OWNER_TASK_ID: baseline-comparison-claims-v0
 - EXIT_CRITERIA: task success drop vs raw-log baseline is <=3 absolute percentage points.
-- EVIDENCE: NONE
+- EVIDENCE: `configs/eval_v0q.yaml`; `src/eval/baselines.py`; `tests/test_eval_fairness.py`
 - SOURCE: MASTER_DOC 21 (task success non-degradation threshold)
 
 - CHECK_ID: C21-07
-- STATUS: NOT_STARTED
+- STATUS: IN_PROGRESS
 - OWNER_TASK_ID: long-horizon-study-v0
 - EXIT_CRITERIA: one task family shows both governance and continuity metric improvement.
-- EVIDENCE: NONE
+- EVIDENCE: `docs/specs/08_evaluation_and_metrics.md`; `configs/eval_v0q.yaml`; `docs/handoff/NEXT_TASK.md`
 - SOURCE: MASTER_DOC 21 (interpretable long-horizon benefit)
 
 - CHECK_ID: C21-08

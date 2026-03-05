@@ -1,30 +1,28 @@
 # Next Task
 
-TASK_ID: baseline-comparison-claims-v0
-TASK_TITLE: Execute baseline comparison and Stage 3 claim-threshold computation
-OBJECTIVE: Run fairness-locked Stage 3 baseline comparison and compute/report required v0.1q claim thresholds against raw-log baseline.
+TASK_ID: long-horizon-study-v0
+TASK_TITLE: Run end-to-end long-horizon study and verify interpretable benefit
+OBJECTIVE: Execute deterministic Stage 4 long-horizon task-family study and update governance+continuity improvement evidence.
 OWNER_CHECK_IDS:
-- C20-EVAL-05
-- C21-05
-- C21-06
+- C21-07
 SPEC_MUST_IDS:
-- S08-M02
-- S08-M08
+- S08-M09
+- S10-M07
 IN_SCOPE:
-- Implement Stage 3 comparison workflow interfaces under `src/eval/`.
-- Compute threshold checks for relative governance improvements and non-degradation task success constraints.
-- Keep fairness parity checks active before Stage 3 comparisons.
-- Extend deterministic tests in `tests/test_eval_fairness.py` and `tests/test_eval_artifacts.py` as needed.
-- Update `scripts/` scaffolds only if needed for deterministic Stage 3 entrypoints.
+- Implement/extend Stage 4 long-horizon workflow interfaces under `src/eval/`.
+- Run deterministic long-horizon task-family comparisons over required systems.
+- Compute paired governance and continuity deltas within the same task family.
+- Update checklist/spec evidence rows for Stage 4 readiness claims.
+- Extend deterministic tests in `tests/test_eval_artifacts.py` and related eval tests as needed.
 OUT_OF_SCOPE:
-- Stage 4 long-horizon study execution and claim updates.
-- Policy/state-machine/scoring threshold changes.
-- Any edits to frozen `configs/*.yaml`.
+- Changes to frozen policy/state-machine/scoring thresholds.
+- Changes to frozen `configs/*.yaml` baselines.
+- New Stage 1-3 contracts except minimal wiring needed by Stage 4 execution.
 TARGET_FILES:
 - `src/eval/`
 - `scripts/`
-- `tests/test_eval_fairness.py`
 - `tests/test_eval_artifacts.py`
+- `tests/test_eval_fairness.py`
 - `tests/TEST_INDEX.md`
 - `scripts/SCRIPTS_INDEX.md`
 - `docs/handoff/CURRENT_STATUS.md`
@@ -41,10 +39,10 @@ PREREQUISITES:
 - Read `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` entries listed in `SPEC_MUST_IDS`.
 - Preserve fixed gate order and single-task scope.
 IMPLEMENTATION_SUBTASKS:
-1. Implement deterministic Stage 3 comparison runner interfaces for baseline outcome aggregation.
-2. Enforce fairness parity checks before threshold computation.
-3. Compute and emit Stage 3 claim-threshold outcomes versus raw-log baseline.
-4. Add deterministic unit coverage for fairness-locked comparison and threshold evaluation.
+1. Implement deterministic Stage 4 long-horizon comparison workflow over required systems.
+2. Compute paired governance and continuity improvement outcomes within task families.
+3. Emit/validate Stage 4 artifact outputs required for interpretable-benefit evidence.
+4. Add deterministic unit coverage for Stage 4 long-horizon contracts and outcomes.
 5. Confirm `tests/TEST_INDEX.md` and `scripts/SCRIPTS_INDEX.md` remain accurate (or update if mapped surfaces change).
 6. Update `OWNER_CHECK_IDS` and `SPEC_MUST_IDS` evidence/state rows in handoff checklists.
 7. Run quality gates in fixed order and capture outcomes.
@@ -56,18 +54,17 @@ QUALITY_GATES:
 4) Spec conformance check
 5) Documentation + handoff updates
 ACCEPTANCE_CRITERIA:
-- [ ] Stage 3 comparison workflow executes deterministically across required baseline systems.
-- [ ] Fairness parity is checked before Stage 3 threshold calculations.
-- [ ] Relative governance-improvement and task-success non-degradation thresholds are computed.
+- [ ] Stage 4 long-horizon workflow executes deterministically for at least one task family.
+- [ ] At least one task family shows both governance and continuity improvement.
 - [ ] `docs/handoff/OVERVIEW_CHECKLIST.md` rows in `OWNER_CHECK_IDS` are updated with current evidence/state.
 - [ ] `docs/handoff/SPEC_CONFORMANCE_CHECKLIST.md` rows in `SPEC_MUST_IDS` are updated with current evidence/state.
-- [ ] `conda run -n emg python -m pytest -q tests/test_eval_fairness.py tests/test_eval_artifacts.py` passes.
+- [ ] `conda run -n emg python -m pytest -q tests/test_eval_artifacts.py tests/test_eval_fairness.py` passes.
 - [ ] `conda run -n emg python -m pytest -q` passes.
 - [ ] `conda run -n emg python -m mypy src tests` passes.
 - [ ] `conda run -n emg python -m ruff check src tests` passes.
 - [ ] Handoff docs are updated and task IDs remain continuous.
 VALIDATION_COMMANDS:
-- `conda run -n emg python -m pytest -q tests/test_eval_fairness.py tests/test_eval_artifacts.py`
+- `conda run -n emg python -m pytest -q tests/test_eval_artifacts.py tests/test_eval_fairness.py`
 - `conda run -n emg python -m pytest -q`
 - `conda run -n emg python -m mypy src tests`
 - `conda run -n emg python -m ruff check src tests`

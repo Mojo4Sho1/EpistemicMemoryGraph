@@ -7,6 +7,9 @@ from src.eval.artifacts import (
 )
 from src.eval.baselines import (
     BASELINE_SYSTEMS,
+    GOVERNED_SYSTEM,
+    RAW_LOG_BASELINE_SYSTEM,
+    REQUIRED_ABLATION_SYSTEMS,
     BaselineAdapter,
     BaselineAdapterInput,
     BaselineCoverageError,
@@ -14,8 +17,11 @@ from src.eval.baselines import (
     BaselineRunResult,
     BaselineRuntime,
     DeterministicBaselineAdapter,
+    Stage3ClaimResult,
+    Stage3ThresholdConfig,
     build_default_baseline_adapters,
     build_default_baseline_runtime,
+    evaluate_stage3_claim_thresholds,
 )
 from src.eval.fairness import BaselineRunSpec, FairnessCheckResult, check_baseline_fairness
 from src.eval.schemas import (
@@ -42,6 +48,9 @@ from src.eval.stress import (
 __all__ = [
     "AggregateMetrics",
     "BASELINE_SYSTEMS",
+    "GOVERNED_SYSTEM",
+    "RAW_LOG_BASELINE_SYSTEM",
+    "REQUIRED_ABLATION_SYSTEMS",
     "BaselineAdapter",
     "BaselineAdapterInput",
     "BaselineCoverageError",
@@ -62,12 +71,15 @@ __all__ = [
     "STAGE2_REQUIRED_ARTIFACT_FILES",
     "STAGE2_REQUIRED_FAILURE_MODES",
     "ScenarioResult",
+    "Stage3ClaimResult",
+    "Stage3ThresholdConfig",
     "TransitionEvent",
     "build_default_governance_stress_bundle",
     "build_run_directory_name",
     "build_default_baseline_adapters",
     "build_default_baseline_runtime",
     "build_uniform_stage2_bundles",
+    "evaluate_stage3_claim_thresholds",
     "check_baseline_fairness",
     "stable_hash",
     "utc_now_iso",
